@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://readerfeeder.co),
+    'url' => env('APP_URL', 'http://readerfeeder.co'),
 
     /*
     |--------------------------------------------------------------------------
