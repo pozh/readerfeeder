@@ -1,9 +1,31 @@
+// // Variables
+// @import "variables";
 
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+// // Bootstrap
+@import "bootstrap";
 
-// Variables
+
 @import "variables";
+@import "mixins";
 
-// Bootstrap
-@import "~bootstrap-sass/assets/stylesheets/bootstrap";
+@import "components/base";
+@import "components/global";
+@import "components/header";
+@import "components/intro";
+@import "components/footer";
+@import "components/button";
+@import "components/subsribe-form";
+@import "components/accordion";
+@import "components/tabs";
+@import "components/portfolio";
+@import "components/post";
+@import "components/progress-bar";
+
+@import "utilities";
+
+
+// Vendor plugin modification
+@import "plugin/bootstrap";
+@import "plugin/slick";
+
+
