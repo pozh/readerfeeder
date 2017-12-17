@@ -1,16 +1,15 @@
 // // Variables
-// @import "variables";
+@import "variables";
 
 // // Bootstrap
 @import "bootstrap";
 
-
-@import "variables";
 @import "mixins";
 
 @import "components/base";
 @import "components/global";
 @import "components/header";
+@import "components/hero";
 @import "components/intro";
 @import "components/footer";
 @import "components/button";
@@ -27,5 +26,3 @@
 // Vendor plugin modification
 @import "plugin/bootstrap";
 @import "plugin/slick";
-
-

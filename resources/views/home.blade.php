@@ -5,9 +5,9 @@
 <section class="u-py-100 u-h-100vh u-flex-center" style="background:url(/assets/images/bgread.jpg) no-repeat; background-size:cover; background-position: top right;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-5 u-mt-80">
+            <div class="col-lg-5">
                 <h1 class="display-4 u-fw-600 text-white">
-                    Present Your Awesome Product
+                    RSS feed delivery service for Kindle owners.
                 </h1>
                 <p class="u-fs-22 text-white u-lh-1_8 py-4">
                     Present your amazing product with clean and beautify design.
@@ -19,7 +19,7 @@
                     Learn more
                 </a>
             </div>
-            <div class="col-lg-6 u-mt-80">
+            <div class="col-lg-6">
             </div>
         </div>
     </div>

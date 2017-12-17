@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title')</title>
     <meta name="description" content="@yield('description')">
-    <link rel="icon" href="/assets/img/favicon/144x144.png">
+    <link rel="icon" href="/assets/images/favicon.png">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,700">
     <link rel="stylesheet" type="text/css" href="/assets/css/app.css">
 </head>
 
@@ -17,12 +18,8 @@
         <nav class="navbar navbar-expand-lg">
 
             <a class="navbar-brand" href="index.html">
-                <span class="logo-default">
-                    <img src="assets/img/logo-default.png" alt="">
-                </span>
-                <span class="logo-inverse">
-                    <img src="assets/img/logo-inverse.png" alt="">
-                </span>
+                <span class="logo-default"><img src="assets/images/logo.png" alt=""></span>
+                <span class="logo-inverse"><img src="assets/images/logo-inverse.png" alt=""></span>
             </a>
 
             <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
@@ -32,32 +29,12 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#" data-scrollto="top">HOME</a>
-                    </li>
+                    <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Subscriptions</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pricing</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">FAQ</a></li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="about">about</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="features">FEATURES</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="keynote">keynote</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="pricing">pricing</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="config">config</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="reviews">REVIEWS</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#" data-scrollto="faq">FAQ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-sm btn-rounded btn-green u-w-110" href="" >Download</a>
+                        <a class="nav-link btn btn-sm btn-rounded btn-primary u-w-110" href="" >Sign in</a>
                     </li>
                 </ul>
             </div>
@@ -72,7 +49,7 @@
         <div class="container">
         <div class="row">
             <div class="col-lg-4 mb-5 mb-lg-0">
-                <img src="assets/img/logo-inverse.png" alt="">
+                <img src="assets/images/logo-inverse.png" alt="">
                 <p class="u-my-40">
                     Nam liber tempor cum soluta nobis eleifend they option congue is nihil
                     imper per tem por legere is  me velit doming vulputate.
@@ -117,7 +94,7 @@
                 </ul>
                 <ul class="list-inline social social-rounded social-white mt-4">
                     <li class="list-inline-item">
-                        <a href=""><i class="fa fa-facebook"></i></a>
+                        <a href=""><i class="a fa-facebook"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href=""><i class="fa fa-twitter"></i></a>
