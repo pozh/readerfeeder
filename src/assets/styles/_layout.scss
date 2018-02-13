@@ -1,6 +1,11 @@
 .Nav {
   background: $light;
-  padding-top: 15px;
+  //padding-top: 15px;
+
+  &.white {
+    background: $white;
+    //padding-bottom: 15px;
+  }
 
   .navbar-brand img {
     height: 40px;
@@ -8,6 +13,11 @@
 }
 
 
+.PageHeader {
+  background: $light;
+  padding: 50px 0;
+  border-bottom: 1px solid $gray-300;
+}
 
 
 .Footer {

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
 import { Header, Footer } from './parts/Layout';
 
@@ -71,7 +71,7 @@ const Hero = () => (
             Kindle e-reader, wirelessly, on schedule.
           </h4>
           <div className="Hero-actions">
-            <a className="btn btn-lg btn-round btn-primary" href="/app.html">Get Started</a>
+            <Link className="btn btn-lg btn-round btn-primary" to="/browse">See Selected Feeds</Link>
           </div>
         </Col>
         <Col md="5">
