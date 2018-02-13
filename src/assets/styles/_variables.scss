@@ -1,0 +1,44 @@
+// COLORS
+//#ee413f;
+$white:                             #fff;
+$gray-100:                          #f8f9fa;
+$gray-200:                          #e9ecef;
+$gray-300:                          #dee2e6;
+$gray-400:                          #ced4da;
+$gray-500:                          #adb5bd;
+$gray-600:                          #6c757d;
+$gray-700:                          #495057;
+$gray-800:                          #343a40;
+$gray-900:                          #212529;
+$black:                             #000;
+
+$light:                             #f8f7f4;
+$primary:                           #ED6F67;
+$color-facebook:                    #3b5998;
+$color-twitter:                     #55acee;
+$color-google:                      #dd4b39;
+
+// GENERAL
+$line-height-base:                  1.4;
+$headings-font-weight:              400;
+$font-size-base:                    1rem; // Assumes the browser default, typically 1rem = `16px`
+
+
+// NAVBAR
+$navbar-padding-y:                  0;
+$navbar-brand-height:               4rem;
+$nav-link-padding-y:                1.9rem;
+$navbar-light-color:                rgba($black, .35);
+$navbar-light-hover-color:          rgba($black, .55);
+$navbar-light-active-color:         $primary;
+$navbar-light-disabled-color:       rgba($black, .3);
+
+
+// INPUTS
+$input-btn-padding-y:               .525rem;
+$input-btn-padding-x:               1.5rem;
+$input-btn-padding-x-lg:            2rem;
+
+
+// HEADINGS
+$headings-color:                    $gray-600;
