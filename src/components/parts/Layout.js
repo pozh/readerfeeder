@@ -63,6 +63,19 @@ export const PageCaption = props => {
 };
 
 
+// TODO: rewrite ir remove Gravater component
+export const Gravatar = props => {
+  const { hash, size } = props;
+  const imgSrc = `http://1.gravatar.com/avatar/${hash}?s=${size}`;
+
+  return (
+    <div className={props.className}>
+      <img alt="" src={imgSrc} className="avatar" height={size} width={size} />
+    </div>
+  );
+};
+
+
 export const Footer = () => (
   <footer className="Footer">
     <Navbar className="Footer-nav" expand="xs">
