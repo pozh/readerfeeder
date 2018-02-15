@@ -1,0 +1,105 @@
+@import "../variables";
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+
+
+.Feeds {
+
+  &-order {
+    line-height: 1em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+
+      & + li {
+        margin-left: 15px;
+      }
+    }
+
+    a{
+      text-decoration: none;
+      padding-bottom: 3px;
+      border-bottom: 3px solid transparent;
+      color: $black;
+      font-size: 1.3rem;
+
+      &.active {
+        border-color: $primary;
+      }
+
+      &:active, &:hover {
+        text-decoration: none;
+        border-color: $primary;
+      }
+    }
+  }
+
+  &-list {
+    padding: 4rem 0 0 0;
+    column-count: 3;
+  }
+
+  &-section {
+    break-inside: avoid;
+    margin-bottom:75px;
+
+    &-feeds {
+      padding: 20px 0 0 0;
+    }
+  }
+}
+
+
+.Feed {
+  background:#f8f8f5;
+  border-radius: 2px;
+  padding:6px 10px;
+  margin-right:10px;
+  break-inside: avoid-column;
+
+  & + & { margin-top:15px; }
+
+  &-delivery {
+    font-size: 13px;
+  }
+
+  &-subscribed {
+    background: $green;
+    color: $white;
+    box-shadow:0 3px 11px rgba(0,0,0,.1);
+
+    .Feed-name {
+      color:$white;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  &-name {
+    color:$gray-800;
+    font-weight: bold;
+    margin:0;
+
+    &:hover {
+      color:$black;
+    }
+  }
+
+  &-actions {
+  }
+
+  &-action {
+    font-size:0.8rem;
+
+    & + & { margin-left:10px;  }
+
+    &:hover {
+      color:#D53E2B;
+    }
+  }
+}
