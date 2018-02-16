@@ -1,5 +1,5 @@
 import React from 'react';
-import {Header, PageCaption, Footer} from './parts/Layout';
+import {Header, PageCaption, Footer} from './Layout';
 
 export const AboutPage = props => (
   <div>

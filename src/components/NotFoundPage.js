@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Header, PageCaption, Footer} from './parts/Layout';
+import {Header, PageCaption, Footer} from './Layout';
 import { Container, Row, Col } from 'reactstrap';
 
 

@@ -25,7 +25,7 @@ export class Header extends React.Component {
     return (
       <Navbar className={"Nav "+this.addClassName} color="faded" light expand="lg">
         <Container>
-          <Link className="navbar-brand" to="/"><img src={require("../../assets/images/logo.png")} alt="" /></Link>
+          <Link className="navbar-brand" to="/"><img src={require("../assets/images/logo.png")} alt="" /></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -80,7 +80,7 @@ export const Footer = () => (
   <footer className="Footer">
     <Navbar className="Footer-nav" expand="xs">
       <Container>
-        <Link className="navbar-brand" to="/"><img src={require("../../assets/images/logo-footer.png")} alt="" /></Link>
+        <Link className="navbar-brand" to="/"><img src={require("../assets/images/logo-footer.png")} alt="" /></Link>
         <Nav navbar>
           <NavItem><Link className="nav-link" to="/about">About Us</Link></NavItem>
           <NavItem><Link className="nav-link" to="/pricing">Pricing</Link></NavItem>

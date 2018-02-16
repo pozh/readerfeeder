@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
-import {Header, PageCaption, Footer} from './parts/Layout';
-import FeedList from "./parts/FeedList";
+import {Header, PageCaption, Footer} from './Layout';
+import FeedList from "./FeedList/FeedList";
 
 import './../assets/styles/components/browse.scss';
 

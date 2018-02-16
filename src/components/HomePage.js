@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
-import { Header, Footer } from './parts/Layout';
+import { Header, Footer } from './Layout';
 
 
 export const HomePage = () => (
