@@ -4,15 +4,14 @@ import {Header, PageCaption, Footer} from './Layout';
 import { Container, Row, Col } from 'reactstrap';
 
 
-const NotFoundPage = props => (
+export const NotFoundPage = props => (
   <div>
     <Header className="white" />
-    <PageCaption caption="Not Found" extra="" />
+    <PageCaption caption="404. Not Found" extra="" />
 
     <Container className="pt-5">
-      <h1>404</h1>
-      <h2 className="mb-4">Sorry! Page Not Found</h2>
-      <p>The link you have followed is broken, or the page has been removed.</p>
+      <h2 className="mt-4 mb-4">Sorry! The link you followed here is no longer working.</h2>
+      <p>Most likely, the page has been removed or never existed.</p>
       <Link to="/" className="btn btn-round btn-primary mt-5">Return to Home</Link>
     </Container>
 

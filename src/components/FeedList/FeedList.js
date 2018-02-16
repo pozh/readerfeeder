@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container } from 'reactstrap';
 import SortCtrl from "./SortCtrl";
@@ -39,12 +40,14 @@ class FeedList extends Component {
           <div className="Feeds-list">
               { categories.map((category, cIndex) => (
                 <div className="Feeds-section" key={cIndex}>
-                  <h4 className="h5">{ category.title }</h4>
+                  <h4 className="h5">
+                    <Link to={ "/feeds/" + category.slug }>{ category.title }</Link>
+                  </h4>
                   <div className="Feeds-feeds">
                     {
                       feeds.filter(feed => feed.category == category.id).map((feed, fIndex) => (
                         <div className="Feed" key={fIndex}>
-                          <a href="/newspaper/fast-company" className="Feed-name">{ feed.title }</a>
+                          <Link to={ "/feed/" + feed.slug } className="Feed-name">{ feed.title }</Link>
                           <div className="Feed-delivery">Delivery: daily</div>
                           <div className="Feed-actions">
                             <a href="javascript:" className="Feed-action">Send last issue</a>

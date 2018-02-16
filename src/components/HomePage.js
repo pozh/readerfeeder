@@ -18,7 +18,7 @@ export const HomePage = () => (
               Kindle e-reader, wirelessly, on schedule.
             </h4>
             <div className="Hero-actions">
-              <Link className="btn btn-lg btn-round btn-primary" to="/browse">Selected Feeds</Link>
+              <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Selected Feeds</Link>
             </div>
           </Col>
           <Col md="5">

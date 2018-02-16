@@ -13,8 +13,13 @@ render((
     <div>
       <Route exact path="/" component={HomePage} />
       <Route exact path="/about" component={AboutPage} />
-      <Route exact path="/browse" component={BrowsePage} />
-      <Route path="/feed" component={NotFoundPage} />
+      <Route exact path="/feeds" component={BrowsePage} />
+
+      {/* this is for /feeds/category-slug */}
+      <Route path="/feeds/:slug" component={NotFoundPage} />
+
+      {/* this is for individual feed page */}
+      <Route path="/feed/:slug" component={NotFoundPage} />
     </div>
   </Router>
 ), document.getElementById('app'));
