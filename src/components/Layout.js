@@ -78,10 +78,10 @@ export const Gravatar = props => {
 
 export const Footer = () => (
   <footer className="Footer">
-    <Navbar className="Footer-nav" expand="xs">
+    <Navbar className="Footer-nav navbar-expand">
       <Container>
         <Link className="navbar-brand" to="/"><img src={require("../assets/images/logo-footer.png")} alt="" /></Link>
-        <Nav navbar>
+        <Nav navbar className="in">
           <NavItem><Link className="nav-link" to="/about">About Us</Link></NavItem>
           <NavItem><Link className="nav-link" to="/pricing">Pricing</Link></NavItem>
           <NavItem><Link className="nav-link" to="/terms">Terms of Use</Link></NavItem>

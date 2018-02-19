@@ -23,11 +23,15 @@
 .Footer {
   background: $white;
   font-size: .9rem;
-  padding: 60px 0 50px 0;
+  padding: 30px 0 50px 0;
+  margin-top: 80px;
+  border-top: 1px solid $gray-300;
 
   .navbar-brand img {
     height: 30px;
   }
+
+  &-nav .container { padding-left: 15px; }
 
 
   &-copyright {
