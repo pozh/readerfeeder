@@ -17,7 +17,8 @@ export class App extends Component {
           <Route exact path="/" component={HomePage}/>
           <Route exact path="/about" component={AboutPage}/>
           <Route exact path="/feeds" component={BrowsePage}/>
-          <Route path="/feeds/:slug" component={NotFoundPage}/>
+          <Route path="/feeds/:order(popular|recent|my)" component={BrowsePage}/>
+          <Route path="/feeds/category/:slug" component={BrowsePage}/>
           <Route path="/feed/:slug" component={FeedPage}/>
         </div>
       </Router>

@@ -4,13 +4,18 @@ import axios from 'axios';
 import Storage from "./../../utils/Storage";
 import { Container } from 'reactstrap';
 import SortCtrl from "./SortCtrl";
-
+import FeedCard from "./FeedCard";
 
 class FeedList extends Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     feeds: [],
-    categories: []
+    categories: [],
+    order: ''
   };
 
   getFeedsData() {
@@ -42,34 +47,40 @@ class FeedList extends Component {
   render () {
     let categories = this.state.categories;
     let feeds = this.state.feeds;
+    let order = this.props.match.params.order || 'categories';
 
     return (
       <section className="Feeds pt-5">
         <Container>
-
-          <SortCtrl/>
-
+          <SortCtrl order={order} />
           <div className="Feeds-list">
-              { categories.map((category, cIndex) => (
-                <div className="Feeds-section" key={cIndex}>
-                  <h4 className="h5">
-                    <Link to={ "/feeds/" + category.slug }>{ category.title }</Link>
-                  </h4>
-                  <div className="Feeds-feeds">
-                    {
-                      feeds.filter(feed => feed.category == category.id).map((feed, fIndex) => (
-                        <div className="Feed" key={fIndex}>
-                          <Link to={ "/feed/" + feed.slug } className="Feed-name">{ feed.title }</Link>
-                          <div className="Feed-delivery">Delivery: daily</div>
-                          <div className="Feed-actions">
-                            <a href="javascript:" className="Feed-action">Send last issue</a>
-                            <a href="javascript:" className="Feed-action">Subscribe</a>
-                          </div>
-                        </div>
-                    )) }
-                  </div>
+
+            {order === 'categories' && categories.map((category, cIndex) => (
+              <div className="Feeds-section" key={cIndex}>
+                <h4 className="h5">
+                  <Link to={ "/feeds/category/" + category.slug }>{ category.title }</Link>
+                </h4>
+                <div className="Feeds-feeds">
+                  {feeds.filter(feed => feed.category == category.id).map((feed, fIndex) =>
+                      <FeedCard feed={feed} key={fIndex}/>
+                  )}
                 </div>
-              )) }
+              </div>
+            ))}
+
+            {order === 'popular' && (
+              <div className="Feeds-feeds">
+                {feeds.sort((a, b) => {return b.subscribers - a.subscribers;})
+                  .map((feed, idx) => <FeedCard feed={feed} idx={idx+1} key={idx}/>)}
+              </div>
+            )}
+
+            {order === 'recent' && (
+              <div className="Feeds-feeds">
+                {feeds.sort((a, b) => {return b.id - a.id;})
+                  .map((feed, idx) => <FeedCard feed={feed} idx={idx+1} key={idx}/>)}
+              </div>
+            )}
             </div>
         </Container>
       </section>

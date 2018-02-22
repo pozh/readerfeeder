@@ -23,7 +23,6 @@ export class FeedPage extends Component {
       );
   };
 
-
   componentDidMount() {
     this.getData();
   };
@@ -39,12 +38,21 @@ export class FeedPage extends Component {
         <PageCaption caption={feed.title} extra="" />
         <Container className="mt-5">
           <Row>
-            <Col sm="8">
-              <div className="mb-5">{feed.description}</div>
+            <Col sm="9">
+              {feed.description && (
+                <div className="mb-5">{feed.description}</div>
+              )}
+              <div className="mb-5">
+                <h3>Sources:</h3>
+                <ul>
+                  {feed.sources && feed.sources.map((source) => <li>{source.url}</li>)}
+                </ul>
+              </div>
               <FeedToc toc={items} />
             </Col>
             <Col>
-              <p> </p>
+              <p><a href="#" className="btn btn-lg btn-block btn-primary">Subscribe</a></p>
+              <p><a href="#" className="btn btn-lg btn-block btn-secondary">Send current issue</a></p>
             </Col>
           </Row>
         </Container>

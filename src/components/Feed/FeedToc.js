@@ -5,11 +5,20 @@ const FeedToc = props => {
   const toc = props.toc;
   return (
     <div>
-      {toc ? <h3>Read in current issue:</h3> : ""}
-      {toc ? toc.items.map((item, key) => <TocItem item={item} key={key}/>) : <h3>NO TOC</h3>}
+      {
+
+        toc && (
+          <div>
+            <h3>In current issue:</h3>
+            <ul>
+              {toc.items.map((item, key) => <TocItem item={item} key={key}/>)}
+            </ul>
+          </div>
+        )
+      }
     </div>
   );
-};
+}
 
 export default FeedToc;
 
