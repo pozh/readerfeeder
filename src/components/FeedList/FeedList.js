@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Storage from "./../../utils/Storage";
 import { Container } from 'reactstrap';
 import SortCtrl from "./SortCtrl";
 
@@ -12,25 +13,36 @@ class FeedList extends Component {
     categories: []
   };
 
-  getData() {
-    axios.all([
-      axios.get('http://localhost:3000/categories'),
-      axios.get('http://localhost:3000/feeds')
-    ])
-      .then(axios.spread((gotCategories, gotFeeds) => this.setState({
-          feeds: gotFeeds.data,
-          categories: gotCategories.data
-        })
-      ));
+  getFeedsData() {
+    if (Storage.isEmpty) {
+      axios.all([
+        axios.get('http://localhost:3000/categories'),
+        axios.get('http://localhost:3000/feeds')
+      ])
+        .then(axios.spread((gotCategories, gotFeeds) => {
+          Storage.feeds = gotFeeds.data;
+          Storage.categories = gotCategories.data;
+          this.setState({
+            feeds: gotFeeds.data,
+            categories: gotCategories.data
+          });
+        }));
+    } else {
+      this.setState({
+        feeds: Storage.feeds,
+        categories: Storage.categories
+      });
+    }
   }
 
   componentDidMount() {
-    this.getData();
+    this.getFeedsData();
   };
 
   render () {
-    const categories  = this.state.categories;
-    const feeds  = this.state.feeds;
+    let categories = this.state.categories;
+    let feeds = this.state.feeds;
+
     return (
       <section className="Feeds pt-5">
         <Container>
