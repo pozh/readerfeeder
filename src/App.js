@@ -15,10 +15,11 @@ export class App extends Component {
       <Router>
         <div>
           <Route exact path="/" component={HomePage}/>
+          <Route exact path="/login" component={LoginPage}/>
           <Route exact path="/about" component={AboutPage}/>
           <Route exact path="/feeds" component={BrowsePage}/>
           <Route path="/feeds/:order(popular|recent|my)" component={BrowsePage}/>
-          <Route path="/feeds/category/:slug" component={BrowsePage}/>
+          <Route path="/feeds/category/:category" component={BrowsePage}/>
           <Route path="/feed/:slug" component={FeedPage}/>
         </div>
       </Router>

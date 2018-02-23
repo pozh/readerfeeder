@@ -35,7 +35,7 @@ export class FeedPage extends Component {
     return (
       <div>
         <Header className="white"/>
-        <PageCaption caption={feed.title} extra="" />
+        <PageCaption>{feed.title}</PageCaption>
         <Container className="mt-5">
           <Row>
             <Col sm="9">

@@ -48,6 +48,8 @@ class FeedList extends Component {
     let categories = this.state.categories;
     let feeds = this.state.feeds;
     let order = this.props.match.params.order || 'categories';
+    let categorySlug = this.props.match.params.category;
+    let category = categorySlug ? Storage.categoryBySlug(categorySlug) : null;
 
     return (
       <section className="Feeds pt-5">
@@ -55,18 +57,27 @@ class FeedList extends Component {
           <SortCtrl order={order} />
           <div className="Feeds-list">
 
-            {order === 'categories' && categories.map((category, cIndex) => (
+            {/* Feeds by category*/}
+            {(!categorySlug && order === 'categories') && categories.map((category, cIndex) => (
               <div className="Feeds-section" key={cIndex}>
-                <h4 className="h5">
+                <h4 className="title">
                   <Link to={ "/feeds/category/" + category.slug }>{ category.title }</Link>
                 </h4>
                 <div className="Feeds-feeds">
-                  {feeds.filter(feed => feed.category == category.id).map((feed, fIndex) =>
+                  {feeds.filter(feed => feed.category === category.id).map((feed, fIndex) =>
                       <FeedCard feed={feed} key={fIndex}/>
                   )}
                 </div>
               </div>
             ))}
+
+            {/* Selected Category Feeds */}
+            {category && (
+              <div className="Feeds-feeds">
+                {feeds.filter(feed => feed.category === category.id)
+                  .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
+              </div>
+            )}
 
             {order === 'popular' && (
               <div className="Feeds-feeds">

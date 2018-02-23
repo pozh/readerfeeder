@@ -45,13 +45,12 @@ export class Header extends React.Component {
 
 
 export const PageCaption = props => {
-  const caption = props.caption;
   return (
     <section className="PageHeader">
       <Container>
         <Row>
           <Col>
-            <h1 className="h3 my-0">{caption}</h1>
+            <h1 className="h3 my-0">{props.children}</h1>
           </Col>
           {/*<Col className="pt-1 text-right">*/}
             {/*<Link className="btn btn-outline-primary btn-round" to="/new-list.html">New List</Link>*/}

@@ -46,6 +46,19 @@
     break-inside: avoid;
     margin-bottom:75px;
 
+    .title {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+
+      a {
+        color: #212529;
+        &:hover {
+          text-decoration: none;
+          color: $primary;
+        }
+      }
+    }
+
     &-feeds {
       padding: 20px 0 0 0;
     }
@@ -57,7 +70,6 @@
   background:#f8f8f5;
   border-radius: 2px;
   padding:6px 10px;
-  margin-right:10px;
   break-inside: avoid-column;
 
   & + & { margin-top:15px; }
