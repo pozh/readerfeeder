@@ -1,0 +1,16 @@
+.Login {
+
+  height: 99vh;
+  display: flex;
+  justify-content: center;
+
+  &-logo img {
+    width: 180px;
+  }
+
+  &-dialog {
+    max-width: 25em;
+  }
+
+  .btn-circle + .btn-circle { margin-left: 8px; }
+}
