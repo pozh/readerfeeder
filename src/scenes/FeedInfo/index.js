@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
-import {Header, PageCaption, Footer} from './Layout';
-import FeedToc from './Feed/FeedToc';
+import { Footer } from './../components/Footer';
+import { Header } from './../components/Header';
+import { PageCaption } from './../components/PageCaption';
+import FeedToc from './components/FeedToc';
 
 
-export class FeedPage extends Component {
+export class FeedInfo extends Component {
 
   state = {
     feed: {}
@@ -51,8 +53,8 @@ export class FeedPage extends Component {
               <FeedToc toc={items} />
             </Col>
             <Col>
-              <p><a href="#" className="btn btn-lg btn-block btn-primary">Subscribe</a></p>
-              <p><a href="#" className="btn btn-lg btn-block btn-secondary">Send current issue</a></p>
+              <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
+              <p><Link to="#" className="btn btn-lg btn-block btn-secondary">Send current issue</Link></p>
             </Col>
           </Row>
         </Container>
@@ -61,4 +63,4 @@ export class FeedPage extends Component {
   )};
 }
 
-export default FeedPage;
+export default FeedInfo;
