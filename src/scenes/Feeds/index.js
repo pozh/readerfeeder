@@ -1,12 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Header, PageCaption, Footer} from './Layout';
-import FeedList from "./FeedList/FeedList";
-import Storage from "../utils/Storage";
+import { Footer } from './../components/Footer';
+import { Header } from './../components/Header';
+import { PageCaption } from './../components/PageCaption';
 
-import './../assets/styles/components/browse.scss';
+import FeedList from "./components/FeedList";
+import Storage from "../../utils/Storage";
 
-export const BrowsePage = props => {
+import './styles.scss';
+
+export const FeedsPage = props => {
   const categorySlug = props.match.params.category;
   return (
     <div>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {Header, PageCaption, Footer} from './Layout';
-import { Container, Row, Col } from 'reactstrap';
+import { Footer } from './../components/Footer';
+import { Header } from './../components/Header';
+import { PageCaption } from './../components/PageCaption';
+import { Container } from 'reactstrap';
 
 
 export const NotFoundPage = props => (

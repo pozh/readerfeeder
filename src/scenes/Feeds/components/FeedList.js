@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Storage from "./../../utils/Storage";
+import Storage from "../../../utils/Storage";
 import { Container } from 'reactstrap';
 import SortCtrl from "./SortCtrl";
 import FeedCard from "./FeedCard";

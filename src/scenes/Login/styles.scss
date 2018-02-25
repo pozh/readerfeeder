@@ -1,5 +1,8 @@
-.Login {
+@import "../../assets/styles/variables";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
 
+.Login {
   height: 99vh;
   display: flex;
   justify-content: center;
