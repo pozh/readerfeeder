@@ -5,7 +5,7 @@ import { Header } from './../components/Header';
 import { PageCaption } from './../components/PageCaption';
 
 import FeedList from "./components/FeedList";
-import Storage from "../../utils/Storage";
+import AppState from "../../utils/AppState";
 
 import './styles.scss';
 
@@ -16,7 +16,7 @@ export const FeedsPage = props => {
       <Header className="white" />
       <PageCaption>
         Browse Feeds
-        {categorySlug && ' → ' + Storage.categoryBySlug(categorySlug).title}
+        {categorySlug && ' → ' + AppState.categoryBySlug(categorySlug).title}
       </PageCaption>
       <FeedList { ...props } />
       <Footer/>

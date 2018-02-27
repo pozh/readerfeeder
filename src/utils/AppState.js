@@ -1,6 +1,6 @@
 let instance = null;
 
-class TheStorage {
+class TheAppState {
 
   constructor() {
     if (!instance) instance = this;
@@ -24,4 +24,5 @@ class TheStorage {
   }
 }
 
-export default Storage = new TheStorage();
+const AppState = new TheAppState();
+export default AppState;
