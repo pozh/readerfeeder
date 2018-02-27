@@ -1,52 +1,98 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
+import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {apiEndPoints as api} from "../../../constants";
 import './styles.scss';
 
 
-export const SignupPage = props => {
-  return (
-    <section className="Signup">
-      <div className="Signup-wrapper align-self-center">
+export class SignupPage extends Component {
 
-        <p className="text-center">
-          <Link className="Signup-logo" to="/"><img src={require("assets/images/logo.png")} alt="" /></Link>
-        </p>
+  constructor(props) {
+    super(props);
 
-        <div className="card card-dialog mx-auto mt-4 Login-dialog">
-          <Form className="card-body">
+    this.state = {
+      errors: {},
+      user: {
+        email: '',
+        password: '',
+        passwordcopy: ''
+      }
+    };
 
-            <h3 className="h5 text-center mt-3">Create Account</h3>
-            <p className="text-center">Enter your email address and password below.</p>
+    this.processForm = this.processForm.bind(this);
+    this.changeUser = this.changeUser.bind(this);
+  }
 
-            <hr className="mt-4"/>
+  processForm(event) {
+    event.preventDefault();
 
-            <FormGroup><Input type="email" name="email" placeholder="Email" /></FormGroup>
-            <FormGroup><Input type="password" name="password" placeholder="Password" /></FormGroup>
-            <FormGroup><Input type="password" name="password2" placeholder="Repeat Password" /></FormGroup>
+    if (!this.state.user.password) {
+      NotificationManager.error('No password provided!');
+      return;
+    }
+    if (this.state.user.password !== this.state.user.passwordcopy) {
+      NotificationManager.error('Passwords do not match!');
+      return;
+    }
 
-            <div className="row m-t-20">
-              <div className="col text-right">
-                <a href="/app.html" className="btn btn-round btn-primary">REGISTER</a>
-              </div>
-              <div className="col text-right hidden">
-                <button type="button" className="btn btn-circle btn-facebook">
-                  <img src={require('assets/images/ico_facebook.png')} alt=""/>
-                </button>
-                <button type="button" className="btn btn-circle btn-google">
-                  <img src={require('assets/images/ico_google.png')} alt=""/>
-                </button>
-              </div>
+    axios.post(api.signup, {
+      email: this.state.user.email,
+      password: this.state.user.password
+    })
+      .then( res => {console.log(res);})
+      .catch(error => {
+        NotificationManager.error('Error! please try with another email');
+        console.log(error);
+      });
+  }
+
+  changeUser(event) {
+    const field = event.target.name;
+    const user = this.state.user;
+    user[field] = event.target.value;
+    this.setState({user});
+  }
+
+  componentWillMount(){
+    document.getElementById('body').className='BodySignup';
+  }
+
+  componentWillUnmount(){
+    let elems = document.querySelectorAll(".BodySignup");
+    [].forEach.call(elems, (el) => { el.classList.remove("BodySignup"); });
+  }
+
+
+  render () {
+    return (
+      <section className="Signup">
+        <div className="Signup-dialog">
+          <Form className="Signup-form" onSubmit={this.processForm} action={api.signup}>
+
+            <Link className="Signup-logo" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
+            <p className="Signup-greeting">Create Account</p>
+            <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
+
+            <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email"/></FormGroup>
+            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password"/></FormGroup>
+            <FormGroup><Input type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)"/></FormGroup>
+
+            <div className="m-t-20">
+              <button type="submit" className="btn btn-primary">REGISTER</button>
             </div>
 
+            <p className="mt-4">
+              Already have an account? <strong><Link to="/login" className="">Login</Link></strong>
+            </p>
           </Form>
         </div>
+        <NotificationContainer/>
+      </section>
+    );
+  }
 
-        <p className="mt-4 text-center">
-            Already have an account? <strong><Link to="/login" className="">Login here</Link></strong>
-        </p>
-
-      </div>
-    </section>
-  );
 }
+
+export default SignupPage;
