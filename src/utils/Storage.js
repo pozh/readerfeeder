@@ -13,8 +13,9 @@ class TheStorage {
     return this.feeds.length === 0;
   }
 
-  feedIdFromSlug(slug) {
-    return this.feeds.filter(feed => feed.slug === slug);
+  feedBySlug(slug) {
+    let res = this.feeds.filter(feed => feed.slug === slug);
+    return res.length > 0 ? res[0] : null;
   }
 
   categoryBySlug(slug) {
