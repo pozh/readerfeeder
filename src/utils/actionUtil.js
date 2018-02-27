@@ -1,6 +1,4 @@
 import cookie from 'react-cookie';
-import AppConstant from '../constants/app';
-
-export const setToken = token => cookie.save(AppConstant.TOKEN, token, {path: '/'});
-export const getToken = () => cookie.load(AppConstant.TOKEN);
-export const clearToken = () => cookie.remove(AppConstant.TOKEN, {path: '/'});
+export const setToken = token => cookie.save('token', token, {path: '/'});
+export const getToken = () => cookie.load('token');
+export const clearToken = () => cookie.remove('token', {path: '/'});
