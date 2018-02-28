@@ -6,6 +6,8 @@ class TheAppState {
     if (!instance) instance = this;
     this.feeds = [];
     this.categories = [];
+    this.isAuthenticated = false;
+    this.token = null;
     return instance;
   }
 
