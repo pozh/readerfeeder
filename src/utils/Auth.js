@@ -9,7 +9,7 @@ export default class Auth {
 
   static isAuthenticated = () => {
     const cookies = new Cookies();
-    return cookies.get('token');
+    return typeof cookies.get('token') !== 'undefined';
   };
 
   static deauthenticate = () => {
