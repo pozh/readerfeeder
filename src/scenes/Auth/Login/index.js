@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import './styles.scss';
-import {apiEndPoints as api} from "../../../constants";
-
+import { constants } from '../../../constants';
+import AppState from 'utils/AppState';
+import Auth from 'utils/Auth';
 
 export class LoginPage extends Component {
 
@@ -15,7 +17,8 @@ export class LoginPage extends Component {
       errors: {},
       user: {
         email: '',
-        password: ''
+        password: '',
+        redirect: null
       }
     };
 
@@ -25,10 +28,17 @@ export class LoginPage extends Component {
 
   processForm(event) {
     event.preventDefault();
-    NotificationManager.info('Info message');
-    console.log('name:', this.state.user.name);
-    console.log('email:', this.state.user.email);
-    console.log('password:', this.state.user.password);
+    axios.post(constants.API_LOGIN, {
+      email: this.state.user.email,
+      password: this.state.user.password
+    })
+      .then( res => {
+        Auth.authenticate(res.data.token);
+        this.setState(() => ({redirect: '/user'}));
+      })
+      .catch(error => {
+        NotificationManager.error('Error! please retry');
+      });
   }
 
   changeUser(event) {
@@ -48,10 +58,12 @@ export class LoginPage extends Component {
   }
 
   render () {
-    return (
+    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
+    else if (Auth.isAuthenticated()) return <Redirect to='/user'/>;
+    else return (
       <section className="Login">
         <div className="Login-dialog">
-          <Form className="Login-form" onSubmit={this.processForm} action={api.login}>
+          <Form className="Login-form" onSubmit={this.processForm}>
 
             <Link className="Login-logo" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
             <p className="Login-greeting">Welcome back!</p>
