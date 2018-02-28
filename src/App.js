@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { HomePage } from './scenes/Home';
-import { LoginPage } from './scenes/Auth/Login';
-import { SignupPage } from './scenes/Auth/Signup';
-import { UserPage } from './scenes/User';
-import { FeedInfo } from './scenes/FeedInfo';
-import { FeedsPage } from './scenes/Feeds';
+import HomePage from './scenes/Home';
+import LoginPage from './scenes/Auth/Login';
+import SignupPage from './scenes/Auth/Signup';
+import UserPage from './scenes/User';
+import FeedInfo from './scenes/FeedInfo';
+import FeedsPage from './scenes/Feeds';
 // import { NotFoundPage } from "./scenes/NotFound";
 
 
@@ -27,17 +27,4 @@ export class App extends Component {
       </Router>
     );
   }
-
-
-  requireAuth(nextState, replace) {
-    const token = window.sessionStorage.token;
-    if (!token) {
-      replace('/login');
-    }
-  }
-
-  logout(nextState, replace) {
-    delete window.sessionStorage.token;
-  }
-
 }

@@ -18,7 +18,7 @@ const FeedToc = props => {
       }
     </div>
   );
-}
+};
 
 export default FeedToc;
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'reactstrap';
-import { Footer } from './../components/Footer';
-import { Header } from './../components/Header';
-import { Hero } from './components/Hero';
+import Footer from './../components/Footer';
+import Header from './../components/Header';
+import Hero from './components/Hero';
 import './styles.scss';
 
 

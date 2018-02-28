@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 
-
 export const Footer = () => (
   <footer className="Footer">
     <Navbar className="Footer-nav navbar-expand">

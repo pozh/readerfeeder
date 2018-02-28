@@ -18,3 +18,5 @@ export const PageCaption = props => {
     </section>
   );
 };
+
+export default PageCaption;

@@ -7,7 +7,7 @@ import constants from "../../../constants";
 import './styles.scss';
 
 
-export class SignupPage extends Component {
+export default class SignupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -78,9 +78,9 @@ export class SignupPage extends Component {
             <p className="Signup-greeting">Create Account</p>
             <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
 
-            <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email"/></FormGroup>
-            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password"/></FormGroup>
-            <FormGroup><Input type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)"/></FormGroup>
+            <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email" autoComplete="on"/></FormGroup>
+            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password" autoComplete="off"/></FormGroup>
+            <FormGroup><Input type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)" autoComplete="off"/></FormGroup>
 
             <div className="m-t-20">
               <button type="submit" className="btn btn-primary">REGISTER</button>
@@ -97,5 +97,3 @@ export class SignupPage extends Component {
   }
 
 }
-
-export default SignupPage;

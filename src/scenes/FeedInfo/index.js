@@ -2,18 +2,17 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Row, Col } from 'reactstrap';
-import { Footer } from './../components/Footer';
-import { Header } from './../components/Header';
-import { PageCaption } from './../components/PageCaption';
+import Footer from './../components/Footer';
+import Header from './../components/Header';
+import PageCaption from './../components/PageCaption';
 import FeedToc from './components/FeedToc';
 
 
-export class FeedInfo extends Component {
+export default class FeedInfo extends Component {
 
   state = {
     feed: {}
   };
-
 
   getData() {
     axios.get('http://localhost:3000/feeds', {params: {slug: this.props.match.params.slug}})
@@ -62,5 +61,3 @@ export class FeedInfo extends Component {
       </div>
   )};
 }
-
-export default FeedInfo;

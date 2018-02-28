@@ -8,7 +8,7 @@ import { constants } from '../../../constants';
 import AppState from 'utils/AppState';
 import Auth from 'utils/Auth';
 
-export class LoginPage extends Component {
+export default class LoginPage extends Component {
 
   constructor(props) {
     super(props);
@@ -63,14 +63,14 @@ export class LoginPage extends Component {
     else return (
       <section className="Login">
         <div className="Login-dialog">
-          <Form className="Login-form" onSubmit={this.processForm}>
+          <Form className="Login-form" onSubmit={this.processForm} autoComplete="on">
 
             <Link className="Login-logo" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
             <p className="Login-greeting">Welcome back!</p>
             <p className="Login-cta">Sign in to continue to ReaderFeeder.</p>
 
             <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email"/></FormGroup>
-            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password"/></FormGroup>
+            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password" autoComplete="off"/></FormGroup>
             <FormGroup check className="mb-4 hidden">
               <Label check>
                 <Input type="checkbox"/>{' '}
@@ -104,5 +104,3 @@ export class LoginPage extends Component {
     );
   }
 }
-
-export default LoginPage;
