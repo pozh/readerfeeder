@@ -1,6 +1,6 @@
 let instance = null;
 
-class TheAppState {
+export default new class{
 
   constructor() {
     if (!instance) instance = this;
@@ -24,7 +24,4 @@ class TheAppState {
     let res = this.categories.filter(obj => obj.slug === slug);
     return res.length > 0 ? res[0] : null;
   }
-}
-
-const AppState = new TheAppState();
-export default AppState;
+};
