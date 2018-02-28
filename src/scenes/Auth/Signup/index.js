@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import {apiEndPoints as api} from "../../../constants";
+import constants from "../../../constants";
 import './styles.scss';
 
 
@@ -37,11 +37,14 @@ export class SignupPage extends Component {
       return;
     }
 
-    axios.post(api.signup, {
+    axios.post(constants.API_SIGNUP, {
       email: this.state.user.email,
       password: this.state.user.password
     })
-      .then( res => {console.log(res);})
+      .then( res => {
+        setToken(res.data.token);
+        replace('/dashboard');
+      })
       .catch(error => {
         NotificationManager.error('Error! please try with another email');
         console.log(error);
@@ -69,7 +72,7 @@ export class SignupPage extends Component {
     return (
       <section className="Signup">
         <div className="Signup-dialog">
-          <Form className="Signup-form" onSubmit={this.processForm} action={api.signup}>
+          <Form className="Signup-form" onSubmit={this.processForm}>
 
             <Link className="Signup-logo" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
             <p className="Signup-greeting">Create Account</p>
