@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Storage from "../../../utils/Storage";
+import AppState from '../../../utils/AppState';
 import { Container } from 'reactstrap';
-import SortCtrl from "./SortCtrl";
-import FeedCard from "./FeedCard";
+import SortCtrl from './SortCtrl';
+import FeedCard from './FeedCard';
 
 class FeedList extends Component {
 
@@ -19,14 +19,14 @@ class FeedList extends Component {
   };
 
   getFeedsData() {
-    if (Storage.isEmpty) {
+    if (AppState.isEmpty) {
       axios.all([
         axios.get('http://localhost:3000/categories'),
         axios.get('http://localhost:3000/feeds')
       ])
         .then(axios.spread((gotCategories, gotFeeds) => {
-          Storage.feeds = gotFeeds.data;
-          Storage.categories = gotCategories.data;
+          AppState.feeds = gotFeeds.data;
+          AppState.categories = gotCategories.data;
           this.setState({
             feeds: gotFeeds.data,
             categories: gotCategories.data
@@ -34,8 +34,8 @@ class FeedList extends Component {
         }));
     } else {
       this.setState({
-        feeds: Storage.feeds,
-        categories: Storage.categories
+        feeds: AppState.feeds,
+        categories: AppState.categories
       });
     }
   }
@@ -49,7 +49,7 @@ class FeedList extends Component {
     let feeds = this.state.feeds;
     let order = this.props.match.params.order || 'categories';
     let categorySlug = this.props.match.params.category;
-    let category = categorySlug ? Storage.categoryBySlug(categorySlug) : null;
+    let category = categorySlug ? AppState.categoryBySlug(categorySlug) : null;
 
     return (
       <section className="Feeds pt-5">
