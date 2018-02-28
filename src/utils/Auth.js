@@ -1,9 +1,8 @@
-import cookie from 'react-cookie';
+import Cookies from 'universal-cookie';
 
-class Auth {
-  static authenticate = token => cookie.save('token', token, {path: '/'});
-  static isAuthenticated = () => (cookie.load('token') !== null);
-  static deauthenticate = () => cookie.remove('token', {path: '/'});
-  static getToken = () => cookie.load('token');
+export default class Auth {
+  static authenticate = token => { const cookies = new Cookies();  cookies.set('token', token, {path: '/'}); };
+  static isAuthenticated = () => { const cookies = new Cookies(); return cookies.get('token'); };
+  static deauthenticate = () => { const cookies = new Cookies(); cookies.remove('token'); };
+  static getToken = () => { const cookies = new Cookies(); return cookies.get('token'); };
 }
-export default Auth;
