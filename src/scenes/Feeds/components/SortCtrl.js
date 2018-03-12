@@ -8,7 +8,6 @@ const SortCtrl = props => {
       <li><Link className={order==='categories' ? 'active' : ''} to="/feeds">Categories</Link></li>
       <li><Link className={order==='popular' ? 'active' : ''} to="/feeds/popular">Most popular</Link></li>
       <li><Link className={order==='recent' ? 'active' : ''} to="/feeds/recent">Most recent</Link></li>
-      <li><Link className={order==='my' ? 'active' : ''} to="/feeds/my">My Subscriptions</Link></li>
     </ul>
   );
 }
