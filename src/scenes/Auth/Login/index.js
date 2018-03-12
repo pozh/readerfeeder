@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import './styles.scss';
-import { constants } from '../../../constants';
+import {constants} from '../../../constants';
 import AppState from 'utils/AppState';
 import Auth from 'utils/Auth';
 
@@ -28,6 +28,7 @@ export default class LoginPage extends Component {
 
   processForm(event) {
     event.preventDefault();
+    console.log(constants.API_LOGIN);
     axios.post(constants.API_LOGIN, {
       email: this.state.user.email,
       password: this.state.user.password
@@ -37,6 +38,7 @@ export default class LoginPage extends Component {
         this.setState(() => ({redirect: '/user'}));
       })
       .catch(error => {
+        console.log(error);
         NotificationManager.error('Error! please retry');
       });
   }
