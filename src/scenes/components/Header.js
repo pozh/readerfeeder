@@ -24,7 +24,8 @@ export default class Header extends React.Component {
   logout(event) {
     event.preventDefault();
     Auth.deauthenticate();
-    window.location.reload();
+    this.forceUpdate();
+    // window.location.reload();
   }
 
   render() {
