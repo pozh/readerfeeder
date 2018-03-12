@@ -13,7 +13,7 @@ export const Hero = props => (
             Kindle e-reader, wirelessly, on schedule.
           </h4>
           <div className="Hero-actions">
-            <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Selected Feeds</Link>
+            <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Browse Feeds</Link>
           </div>
         </Col>
         <Col md="5">

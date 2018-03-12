@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Navbar, Nav, NavItem, NavLink } from 'reactstrap';
+import './styles.scss';
+
 
 export const Footer = () => (
   <footer className="Footer">

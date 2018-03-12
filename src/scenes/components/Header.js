@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Navbar, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
 import Auth from 'utils/Auth';
+import './styles.scss';
 
 
 export default class Header extends React.Component {
@@ -34,6 +35,7 @@ export default class Header extends React.Component {
           <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt="" /></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
+
             {!Auth.isAuthenticated() && (
               <Nav className="ml-auto" navbar>
                 <NavItem>
@@ -44,14 +46,17 @@ export default class Header extends React.Component {
                 </NavItem>
               </Nav>
             )}
+
             {Auth.isAuthenticated() && (
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link className="btn btn-round btn-primary" to="/user">Dashboard</Link>
-                </NavItem>
-                {/*<NavItem>*/}
-                  {/*<Link className="btn btn-link" onClick={this.logout} to="#">Log Out</Link>*/}
-                {/*</NavItem>*/}
+              <Nav className="mr-auto" navbar>
+                <NavItem><Link className="nav-link" to="/feeds">Browse Feeds</Link></NavItem>
+                <NavItem><Link className="nav-link" to="/user/subscriptions">My Subscriptions</Link></NavItem>
+              </Nav>
+            )}
+
+            {Auth.isAuthenticated() && (
+              <Nav navbar>
+                <NavItem><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></NavItem>
               </Nav>
             )}
 

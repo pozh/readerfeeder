@@ -5,19 +5,6 @@
 // Globals
 // -------------------------------------------------------------------
 
-
-// Navbar
-.Nav {
-  .navbar-brand img {
-    height: 40px;
-  }
-  &.navbar-bordered {
-    border-bottom: 1px solid $gray-300;
-    box-shadow: 0 2px 7px #f3f3f3;
-  }
-}
-
-
 // Buttons
 .btn-round {
   border-radius: $spacer * 3;
@@ -51,35 +38,6 @@
 // Helpers
 img { max-width: 100%; }
 .hidden { display: none; }
-
-
-// PageHeader
-.PageHeader {
-  background: $light;
-  padding: 50px 0;
-  border-bottom: 1px solid $gray-300;
-}
-
-
-// Footer
-.Footer {
-  background: $white;
-  font-size: .9rem;
-  padding: 30px 0 50px 0;
-  margin-top: 80px;
-  border-top: 1px solid $gray-300;
-
-  .navbar-brand img {
-    height: 30px;
-  }
-
-  &-nav .container { padding-left: 15px; }
-
-  &-copyright {
-    text-align: center;
-    margin: 1rem 0 0 0;
-  }
-}
 
 
 // Modal dialog card, login, etc.

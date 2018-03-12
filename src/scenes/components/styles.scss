@@ -1,0 +1,52 @@
+@import "../../assets/styles/variables";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+
+
+
+// Top Navbar
+.Nav {
+  border-bottom: 1px solid $gray-200;
+  //box-shadow: 0 2px 7px #f3f3f3;
+
+  .navbar-brand img {
+    height: 40px;
+  }
+}
+
+
+// PageHeader
+.PageCaption {
+  padding: 50px 0;
+  //border-top: 1px solid $gray-300;
+
+
+  &__h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #444444;
+    text-align: center;
+  }
+}
+
+
+
+// Footer
+.Footer {
+  background: $white;
+  font-size: .9rem;
+  padding: 30px 0 50px 0;
+  margin-top: 80px;
+  border-top: 1px solid $gray-300;
+
+  .navbar-brand img {
+    height: 30px;
+  }
+
+  &-nav .container { padding-left: 15px; }
+
+  &-copyright {
+    text-align: center;
+    margin: 1rem 0 0 0;
+  }
+}
