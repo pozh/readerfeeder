@@ -22,7 +22,8 @@ export class App extends Component {
           <Route exact path="/feeds" component={FeedsPage}/>
           <Route exact path="/user" component={UserPage}/>
           <Route exact path="/settings" component={SettingsPage}/>
-          <Route path="/feeds/:order(popular|recent|my)" component={FeedsPage}/>
+          <Route path="/subscriptions" component={FeedsPage}/>
+          <Route path="/feeds/:order(popular|recent)" component={FeedsPage}/>
           <Route path="/feeds/category/:category" component={FeedsPage}/>
           <Route path="/feed/:slug" component={FeedInfo}/>
         </div>

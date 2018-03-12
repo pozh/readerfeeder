@@ -51,7 +51,7 @@ export default class Header extends React.Component {
             {Auth.isAuthenticated() && (
               <Nav className="mr-auto" navbar>
                 <NavItem><Link className="nav-link" to="/feeds">Browse Feeds</Link></NavItem>
-                <NavItem><Link className="nav-link" to="/user/subscriptions">My Subscriptions</Link></NavItem>
+                <NavItem><Link className="nav-link" to="/subscriptions">My Subscriptions</Link></NavItem>
               </Nav>
             )}
 
