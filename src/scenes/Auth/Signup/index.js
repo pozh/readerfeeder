@@ -1,9 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import constants from "../../../constants";
+import { constants } from "../../../constants";
+import Auth from 'utils/Auth';
 import './styles.scss';
 
 
@@ -14,7 +15,9 @@ export default class SignupPage extends Component {
 
     this.state = {
       errors: {},
+      redirect: false,
       user: {
+        name: '',
         email: '',
         password: '',
         passwordcopy: ''
@@ -38,12 +41,13 @@ export default class SignupPage extends Component {
     }
 
     axios.post(constants.API_SIGNUP, {
+      name: this.state.user.name,
       email: this.state.user.email,
       password: this.state.user.password
     })
       .then( res => {
-        setToken(res.data.token);
-        replace('/dashboard');
+        Auth.authenticate(res.data.token);
+        this.setState({redirect: true});
       })
       .catch(error => {
         NotificationManager.error('Error! please try with another email');
@@ -69,7 +73,8 @@ export default class SignupPage extends Component {
 
 
   render () {
-    return (
+    if (this.state.redirect) return <Redirect to='/feeds'/>;
+    else return (
       <section className="Signup">
         <div className="Signup-dialog">
           <Form className="Signup-form" onSubmit={this.processForm}>
@@ -78,6 +83,7 @@ export default class SignupPage extends Component {
             <p className="Signup-greeting">Create Account</p>
             <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
 
+            <FormGroup><Input type="text" onChange={this.changeUser} name="name" placeholder="Name" autoComplete="on"/></FormGroup>
             <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email" autoComplete="on"/></FormGroup>
             <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password" autoComplete="off"/></FormGroup>
             <FormGroup><Input type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)" autoComplete="off"/></FormGroup>
