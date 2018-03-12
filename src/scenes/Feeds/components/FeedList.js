@@ -5,6 +5,8 @@ import AppState from '../../../utils/AppState';
 import { Container } from 'reactstrap';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
+import {constants} from '../../../constants';
+
 
 class FeedList extends Component {
 
@@ -21,8 +23,8 @@ class FeedList extends Component {
   getFeedsData() {
     if (AppState.isEmpty) {
       axios.all([
-        axios.get('http://localhost:3000/categories'),
-        axios.get('http://localhost:3000/feeds')
+        axios.get(constants.API_CATEGORIES),
+        axios.get(constants.API_FEEDS)
       ])
         .then(axios.spread((gotCategories, gotFeeds) => {
           AppState.feeds = gotFeeds.data;
@@ -45,13 +47,18 @@ class FeedList extends Component {
   };
 
   render () {
-    let categories = this.state.categories;
-    let feeds = this.state.feeds;
+    let categories = this.state.categories.data;
+    let feeds = this.state.feeds.data;
     let order = this.props.match.params.order || 'categories';
     let categorySlug = this.props.match.params.category;
     let category = categorySlug ? AppState.categoryBySlug(categorySlug) : null;
-
-    return (
+    if (!categories || !feeds)
+      return (
+        <Container>
+          <h2>Loading...</h2>
+        </Container>
+      );
+    else return (
       <section className="Feeds pt-5">
         <Container>
           <SortCtrl order={order} />
@@ -64,7 +71,7 @@ class FeedList extends Component {
                   <Link to={ "/feeds/category/" + category.slug }>{ category.title }</Link>
                 </h4>
                 <div className="Feeds-feeds">
-                  {feeds.filter(feed => feed.category === category.id).map((feed, fIndex) =>
+                  {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
                       <FeedCard feed={feed} key={fIndex}/>
                   )}
                 </div>
