@@ -5,4 +5,5 @@ export const constants = {
   API_SIGNUP: API_BASE + 'user',
   API_CATEGORIES: API_BASE + 'categories',
   API_FEEDS: API_BASE + 'feeds',
+  API_FEED: API_BASE + 'feed',
 };
