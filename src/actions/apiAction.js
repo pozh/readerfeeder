@@ -1,4 +1,3 @@
-// Import actionType constants
 import * as ActionType from '../constants/actionType';
 
 /**

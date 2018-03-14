@@ -1,29 +1,11 @@
 import {browserHistory} from 'react-router';
 
-/**
- * Import all ActionType as an object.
- */
 import * as ActionType from '../constants/actionType';
-
-/**
- * Import all apiAction as an object.
- */
 import * as apiAction from './apiAction';
-
-/**
- * Import all apiService as an object.
- */
 import * as apiService from '../services/apiService';
-
-/**
- * Import all converter as an object.
- */
 import * as Converter from '../utils/converter';
-
-/**
- * Import flashMessage.
- */
 import * as FlashMessage from './flashMessage';
+
 
 /**
  * Actions that are dispatched from crudAction
@@ -57,11 +39,8 @@ var commonActions = {
 
 /**
  * These are the actions every CRUD in the application uses.
- *
  * Every time an action that requires the API is called, it first Dispatches an "apiRequest" action.
- *
  * ApiService returns a promise which dispatches another action "apiResponse".
- *
  * entity = 'Product', 'Employee', ...
  */
 
