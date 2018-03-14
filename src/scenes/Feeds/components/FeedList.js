@@ -1,12 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
 import axios from 'axios';
 import AppState from '../../../utils/AppState';
 import { Container } from 'reactstrap';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
-import {constants} from '../../../constants';
+import { appConstants as constants } from '../../../constants/app';
 
+
+/**
+ * Import all apiAction and crudAction as an object.
+ */
+import * as apiAction from 'actions/apiAction';
+import * as crudAction from 'actions/crudAction';
+import * as flashMessage  from 'actions/flashMessage';
 
 class FeedList extends Component {
 
@@ -14,12 +24,7 @@ class FeedList extends Component {
     super(props);
   }
 
-  state = {
-    feeds: [],
-    categories: [],
-    order: ''
-  };
-
+  /*
   getFeedsData() {
     if (AppState.isEmpty) {
       axios.all([
@@ -41,24 +46,26 @@ class FeedList extends Component {
       });
     }
   }
+  /**/
 
   componentDidMount() {
-    this.getFeedsData();
+    //this.getFeedsData();
   };
 
   render () {
-    let categories = this.state.categories.data;
-    let feeds = this.state.feeds.data;
-    let order = this.props.match.params.order || 'categories';
-    let categorySlug = this.props.match.params.category;
-    let category = categorySlug ? AppState.categoryBySlug(categorySlug) : null;
-    if (!categories || !feeds)
+    // let categories = this.state.categories.data;
+    // let feeds = this.state.feeds.data;
+    // let order = this.props.match.params.order || 'categories';
+    // let categorySlug = this.props.match.params.category;
+    // let category = categorySlug ? AppState.categoryBySlug(categorySlug) : null;
+    if (true) {
+      console.log(this.props);
       return (
         <Container>
           <h2>Loading...</h2>
         </Container>
       );
-    else return (
+    } else return (
       <section className="Feeds pt-5">
         <Container>
           <SortCtrl order={order} />
@@ -106,4 +113,30 @@ class FeedList extends Component {
   }
 }
 
-export default FeedList;
+
+/**
+ * Map the state to props.
+ */
+function mapStateToProps(state) {
+  return {
+    feeds: state.crud.feeds,
+    apiState: state.api,
+    message: state.flash.message
+  }
+}
+
+
+/**
+ * Map the actions to props.
+ */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction, flashMessage), dispatch)
+  }
+}
+
+/**
+ * Connect the component to the Redux store.
+ */
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedList)

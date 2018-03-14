@@ -14,11 +14,8 @@ export const FeedsPage = props => {
   return (
     <div>
       <Header className="white" />
-      <PageCaption>
-        Browse Feeds
-        {categorySlug && ' → ' + AppState.categoryBySlug(categorySlug).title}
-      </PageCaption>
-      <FeedList { ...props } />
+      <PageCaption>Browse Feeds</PageCaption>
+      <FeedList/>
       <Footer/>
     </div>
   );
