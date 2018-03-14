@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import { constants } from "../../../constants";
+import { appConstants as constants } from '../../../constants/app';
 import Auth from 'utils/Auth';
 import './styles.scss';
 
