@@ -5,11 +5,11 @@ import _ from 'lodash';
 import * as ActionType from '../constants/actionType';
 
 var initialState = {
-    products: [],
-    selectedItem: {
-        product: {},
-    },
-    pagination: {},
+  feeds: [],
+  categories: [],
+  selectedItem: {
+    feed: {},
+  },
 };
 
 /**
