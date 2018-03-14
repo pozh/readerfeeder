@@ -13,10 +13,10 @@ export const CLEAR_LIST = 'CLEAR_LIST';
 export const CLEAR_SELECTED_ITEM = 'CLEAR_SELECTED_ITEM';
 export const FAILURE = 'FAILURE';
 
-export const ADD_PRODUCT = 'ADD_PRODUCT';
-export const EDIT_PRODUCT = 'EDIT_PRODUCT';
-export const DELETE_PRODUCT = 'DELETE_PRODUCT';
-export const CLEAR_PRODUCT_STATE = 'CLEAR_PRODUCT_STATE';
+export const ADD_FEED = 'ADD_FEED';
+export const EDIT_FEED = 'EDIT_FEED';
+export const DELETE_FEED = 'DELETE_FEED';
+export const CLEAR_FEED_STATE = 'CLEAR_FEED_STATE';
 
 export const API_REQUEST = 'API_REQUEST';
 export const API_RESPONSE = 'API_RESPONSE';
