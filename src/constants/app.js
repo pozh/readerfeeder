@@ -1,6 +1,7 @@
 const API_BASE = 'http://localhost:8000/api/';
 
 const appConstant = {
+  API_URL: API_BASE,
   API_LOGIN: API_BASE + 'auth/login',
   API_SIGNUP: API_BASE + 'user',
   API_CATEGORIES: API_BASE + 'categories',

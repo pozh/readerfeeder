@@ -10,7 +10,7 @@ import * as FlashMessage from './flashMessage';
 /**
  * Actions that are dispatched from crudAction
  */
-var commonActions = {
+let commonActions = {
     list: function (entity, data) {
         return {
             type: ActionType.LIST,
@@ -37,11 +37,12 @@ var commonActions = {
 
 };
 
+
 /**
  * These are the actions every CRUD in the application uses.
  * Every time an action that requires the API is called, it first Dispatches an "apiRequest" action.
  * ApiService returns a promise which dispatches another action "apiResponse".
- * entity = 'Product', 'Employee', ...
+ * entity = 'Feed', 'Categories', ...
  */
 
 

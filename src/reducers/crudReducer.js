@@ -1,16 +1,16 @@
-//libraries
 import _ from 'lodash';
-
-// Import constants
 import * as ActionType from '../constants/actionType';
+import { pluralize } from './../utils/converter';
 
-var initialState = {
+
+let initialState = {
   feeds: [],
   categories: [],
   selectedItem: {
     feed: {},
   },
 };
+
 
 /**
  * A reducer takes two arguments, the current state and an action.
@@ -22,7 +22,7 @@ export default function (state, action) {
     switch (action.type) {
         case ActionType.LIST:
             newState = _.cloneDeep(state);
-            newState[action.entity + 's'] = _.cloneDeep(action.data.data);
+            newState[pluralize(action.entity)] = _.cloneDeep(action.data.data);
             return newState;
 
         case ActionType.SELECT_ITEM:
@@ -37,14 +37,14 @@ export default function (state, action) {
 
         case ActionType.DELETE:
             newState = _.cloneDeep(state);
-            let data = newState[action.entity + 's'];
+            let data = newState[pluralize(action.entity)];
             let index = _.indexOf(data, _.find(data, {id: action.id}));
             data.splice(index, 1);
             return newState;
 
         case ActionType.CLEAR_LIST:
             newState = _.cloneDeep(state);
-            newState[action.entity + 's'] = {};
+            newState[pluralize(action.entity)] = {};
             return newState;
 
         case ActionType.CLEAR_SELECTED_ITEM:
