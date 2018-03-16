@@ -1,5 +1,5 @@
 import cookie from 'react-cookie';
-import AppConstant from '../constants/app';
+import AppConstant from '../constants/api';
 
 export const setToken = token => cookie.save(AppConstant.TOKEN, token, {path: '/'});
 export const getToken = () => cookie.load(AppConstant.TOKEN);

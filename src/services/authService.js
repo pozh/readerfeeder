@@ -3,7 +3,7 @@ import axios from 'axios';
  * Import all constants as an object.
  */
 import * as ActionType from '../constants/actionType';
-import AppConstant from '../constants/app';
+import AppConstant from '../constants/api';
 import {clearToken, setToken, getToken} from '../utils/actionUtil';
 
 /**
