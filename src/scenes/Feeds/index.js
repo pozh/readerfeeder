@@ -1,21 +1,28 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import PageCaption from './../components/PageCaption';
-
+import FeedInfo from '../../scenes/FeedInfo';
 import FeedList from "./components/FeedList";
-import AppState from "../../utils/AppState";
 
 import './styles.scss';
 
 export const FeedsPage = props => {
   const categorySlug = props.match.params.category;
+  //const order = props.order;
+  const path = props.match.path;
+
   return (
     <div>
       <Header className="white" />
       <PageCaption>Browse Feeds</PageCaption>
-      <FeedList/>
+      <Switch>
+        <Route path={path} exact component={FeedList}/>
+        <Route path={`${path}/:order(popular|recent)`} component={FeedList}/>
+        <Route path={`${path}/category/:category`} component={FeedList}/>
+        <Route path={`${path}/:slug`} component={FeedInfo}/>
+      </Switch>
       <Footer/>
     </div>
   );
