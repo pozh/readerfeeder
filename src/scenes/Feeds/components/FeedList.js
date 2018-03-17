@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { Container } from 'reactstrap';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
+import _ from 'lodash';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -22,16 +23,20 @@ class FeedList extends Component {
       this.props.actions.fetchAll('feed');
       this.props.actions.fetchAll('category');
     }
-  };
+  }
 
   render () {
     let categories = this.props.categories;
     let feeds = this.props.feeds;
-    let categorySlug = this.props.match.params.category;
-    let order = this.props.match.params.order || 'categories';
-    console.log("Order: " + order + ", categorySlug: " + categorySlug);
 
-    if (!feeds.length > 0 || !categories.length > 0) return (
+    let categorySlug = this.props.match.params.category;
+
+    let order = this.props.match.params.order || 'categories';
+    order = categorySlug ? 'category' : order;
+
+    let category = categorySlug ? _.find(categories, {'slug': categorySlug}) : null;
+
+    if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) return (
       <Container>
         <h2>Loading...</h2>
       </Container>
@@ -45,7 +50,7 @@ class FeedList extends Component {
           <div className="Feeds-list">
 
             {/* Feeds by category, all categories*/}
-            {(!categorySlug && order === 'categories') && categories.map((category, cIndex) => (
+            {(order === 'categories') && categories.map((category, cIndex) => (
               <div className="Feeds-section" key={cIndex}>
                 <h4 className="title">
                   <Link to={ "/feeds/category/" + category.slug }>{ category.title }</Link>
@@ -61,7 +66,7 @@ class FeedList extends Component {
             {/* Selected Category Feeds */}
             {categorySlug && (
               <div className="Feeds-feeds">
-                {feeds.filter(feed => feed.category === category.id)
+                {feeds.filter(feed => feed.category_id === category.id)
                   .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
               </div>
             )}
@@ -92,8 +97,9 @@ class FeedList extends Component {
  */
 function mapStateToProps(state) {
   return {
-    feeds: state.crud.feeds,
-    categories: state.crud.categories,
+    feeds: state.crud.items.feeds,
+    categories: state.crud.items.categories,
+    selectedItem: state.crud.selectedItem,
     apiState: state.api,
     message: state.flash.message
   }
