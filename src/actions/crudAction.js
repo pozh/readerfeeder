@@ -72,6 +72,21 @@ export function fetchById(entity, id) {
   };
 }
 
+export function fetchBySlug(entity, slug) {
+  return function (dispatch) {
+    dispatch(apiAction.apiRequest());
+    return apiService.fetch(Converter.getPathParam(entity, 'byslug', slug)).then((response) => {
+      dispatch(apiAction.apiResponse());
+      dispatch(commonActions.selectItem(entity, response.data));
+    })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, ActionType.FAILURE);
+      });
+  };
+}
+
+
+
 export function storeItem(entity, data) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
