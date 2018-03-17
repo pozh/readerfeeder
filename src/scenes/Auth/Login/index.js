@@ -3,10 +3,11 @@ import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
-import './styles.scss';
-import { appConstants as constants } from '../../../constants/api';
-import AppState from 'utils/AppState';
+import * as constants from '../../../constants/api';
 import Auth from 'utils/Auth';
+
+import './styles.scss';
+
 
 export default class LoginPage extends Component {
 
@@ -35,7 +36,7 @@ export default class LoginPage extends Component {
     })
       .then( res => {
         Auth.authenticate(res.data.token);
-        this.setState(() => ({redirect: '/user'}));
+        this.setState(() => ({redirect: '/feeds'}));
       })
       .catch(error => {
         console.log(error);
