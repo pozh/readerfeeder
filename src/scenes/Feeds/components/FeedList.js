@@ -18,17 +18,18 @@ class FeedList extends Component {
   }
 
   componentWillMount() {
-    this.props.actions.fetchAll('feed');
-    this.props.actions.fetchAll('category');
+    if (!this.props.categories.length > 0) {
+      this.props.actions.fetchAll('feed');
+      this.props.actions.fetchAll('category');
+    }
   };
 
   render () {
     let categories = this.props.categories;
     let feeds = this.props.feeds;
-    let order = 'categories'; // this.props.match.params.order ||
-    let categorySlug = '';
-    // let categorySlug = this.props.match.params.category;
-    console.log(this.props);
+    let categorySlug = this.props.match.params.category;
+    let order = this.props.match.params.order || 'categories';
+    console.log("Order: " + order + ", categorySlug: " + categorySlug);
 
     if (!feeds.length > 0 || !categories.length > 0) return (
       <Container>
@@ -38,10 +39,12 @@ class FeedList extends Component {
     else return (
       <section className="Feeds pt-5">
         <Container>
+
           <SortCtrl order={order} />
+
           <div className="Feeds-list">
 
-            {/* Feeds by category*/}
+            {/* Feeds by category, all categories*/}
             {(!categorySlug && order === 'categories') && categories.map((category, cIndex) => (
               <div className="Feeds-section" key={cIndex}>
                 <h4 className="title">
@@ -55,13 +58,13 @@ class FeedList extends Component {
               </div>
             ))}
 
-            {/*/!* Selected Category Feeds *!/*/}
-            {/*{category && (*/}
-              {/*<div className="Feeds-feeds">*/}
-                {/*{feeds.filter(feed => feed.category === category.id)*/}
-                  {/*.map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}*/}
-              {/*</div>*/}
-            {/*)}*/}
+            {/* Selected Category Feeds */}
+            {categorySlug && (
+              <div className="Feeds-feeds">
+                {feeds.filter(feed => feed.category === category.id)
+                  .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
+              </div>
+            )}
 
             {order === 'popular' && (
               <div className="Feeds-feeds">
