@@ -27,6 +27,22 @@ let commonActions = {
     }
   },
 
+  selectItemId: function (entity, data) {
+    return {
+      type: ActionType.SELECT_ITEM_ID,
+      entity: entity,
+      data: data
+    }
+  },
+
+  selectItemSlug: function (entity, data) {
+    return {
+      type: ActionType.SELECT_ITEM_SLUG,
+      entity: entity,
+      data: data
+    }
+  },
+
   delete: function (entity, id) {
     return {
       type: ActionType.DELETE,
@@ -85,7 +101,15 @@ export function fetchBySlug(entity, slug) {
   };
 }
 
+export function selectItem(entity, data) {
+  return dispatch => dispatch(commonActions.selectItem(entity, data));
+}
 
+export function selectBySlug(entity, slug) {
+  return function (dispatch) {
+    dispatch(commonActions.selectItemSlug(entity, slug));
+  }
+}
 
 export function storeItem(entity, data) {
   return function (dispatch) {
