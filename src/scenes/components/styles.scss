@@ -18,14 +18,23 @@
 // PageHeader
 .PageCaption {
   padding: 50px 0;
+  text-align: center;
+  min-height: 4rem;
   //border-top: 1px solid $gray-300;
 
 
   &__h1 {
+    display: inline-block;
     font-size: 4rem;
     font-weight: bold;
     color: #444444;
     text-align: center;
+
+    small {
+      display: block;
+      font-size: .5em;
+      color: $gray-600;
+    }
   }
 }
 
