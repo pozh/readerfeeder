@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
-import * as constants from '../../../constants/api';
-import Auth from 'utils/Auth';
+import { NotificationManager as nm} from 'react-notifications';
+import * as constants from 'constants/api';
+import * as Auth from 'utils/Auth';
 
 import './styles.scss';
 
@@ -39,8 +39,7 @@ export default class LoginPage extends Component {
         this.setState(() => ({redirect: '/feeds'}));
       })
       .catch(error => {
-        console.log(error);
-        NotificationManager.error('Error! please retry');
+        nm.error('Error! please retry');
       });
   }
 

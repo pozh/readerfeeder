@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import PageCaption from './../components/PageCaption';
-import Auth from 'utils/Auth';
+import * as Auth from 'utils/Auth';
 import './styles.scss';
 
 export const UserPage = props => {
