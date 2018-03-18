@@ -1,44 +1,44 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { Container, Row, Col } from 'reactstrap';
-import Footer from '../../components/Footer';
-import Header from '../../components/Header';
-import PageCaption from '../../components/PageCaption';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Container, Row, Col} from 'reactstrap';
+import PageCaption from './../../components/PageCaption';
 import FeedToc from './FeedToc';
 
+import * as apiAction from 'actions/apiAction';
+import * as crudAction from 'actions/crudAction';
+import * as flashMessage from 'actions/flashMessage';
 
-export default class FeedInfo extends Component {
 
-  state = {
-    feed: {}
+class FeedInfo extends Component {
+
+  componentWillMount() {
+    let feed = this.props.feed;
+    let slug = this.props.match.params.slug;
+
+    if (!feed.length > 0 && feed.slug !== slug) {
+      this.props.actions.fetchBySlug('feed', slug);
+    }
   };
 
-  getData() {
-    axios.get('http://localhost:3000/feeds', {params: {feedInfo: this.props.match.params.feedInfo}})
-      .then((res) => {
-        this.setState({feed: res.data[0]});
-        axios.get('http://localhost:3000/items', {params: {feed_id: res.data[0].id}})
-          .then((res) => this.setState({items: res.data[0]}))
-        }
+  render() {
+
+    const items = [];
+    const feed = this.props.feed;
+    // const items = this.state.items;
+
+    if (!feed || this.props.apiState.isRequesting)
+      return (
+        <main>
+          <Container className="mt-5"></Container>
+        </main>
       );
-  };
-
-  componentDidMount() {
-    this.getData();
-  };
-
-
-  render () {
-    const feed = this.state.feed;
-    const items = this.state.items;
-
-    return (
-      <div>
-        <Header className="white"/>
+    else return (
+      <main>
         <PageCaption>{feed.title}</PageCaption>
-        <Container className="mt-5">
-          <Row>
+        <Container>
+          <Row className="mt-5">
             <Col sm="9">
               {feed.description && (
                 <div className="mb-5">{feed.description}</div>
@@ -46,18 +46,45 @@ export default class FeedInfo extends Component {
               <div className="mb-5">
                 <h3>Sources:</h3>
                 <ul>
-                  {feed.sources && feed.sources.map((source) => <li>{source.url}</li>)}
+                  {feed.sources && feed.sources.map((source, idx) => <li key={idx}>{source.url}</li>)}
                 </ul>
               </div>
-              <FeedToc toc={items} />
+              {/*<FeedToc toc={items} />*/}
             </Col>
-            <Col>
+            <Col sm="3">
               <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
               <p><Link to="#" className="btn btn-lg btn-block btn-secondary">Send current issue</Link></p>
             </Col>
           </Row>
         </Container>
-        <Footer/>
-      </div>
-  )};
+      </main>
+    );
+  };
 }
+
+
+/**
+ * Map the state to props.
+ */
+function mapStateToProps(state) {
+  return {
+    feed: state.crud.selectedItem['feed'],
+    apiState: state.api,
+    message: state.flash.message
+  }
+}
+
+
+/**
+ * Map the actions to props.
+ */
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction, flashMessage), dispatch)
+  }
+}
+
+/**
+ * Connect the component to the Redux store.
+ */
+export default connect(mapStateToProps, mapDispatchToProps)(FeedInfo);
