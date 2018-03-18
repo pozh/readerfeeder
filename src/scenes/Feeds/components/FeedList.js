@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Container } from 'reactstrap';
+import PageCaption from './../../components/PageCaption';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
 import _ from 'lodash';
@@ -42,7 +43,13 @@ class FeedList extends Component {
       </Container>
     );
     else return (
-      <section className="Feeds pt-5">
+      <main>
+        <PageCaption>
+          Browse Feeds
+          {order === 'category' && <small>{category.title}</small>}
+        </PageCaption>
+
+        <section className="Feeds pt-5">
         <Container>
 
           <SortCtrl order={order} />
@@ -53,7 +60,7 @@ class FeedList extends Component {
             {(order === 'categories') && categories.map((category, cIndex) => (
               <div className="Feeds-section" key={cIndex}>
                 <h4 className="title">
-                  <Link to={ "/feeds/category/" + category.slug }>{ category.title }</Link>
+                  <Link to={ "/feeds/" + category.slug }>{ category.title }</Link>
                 </h4>
                 <div className="Feeds-feeds">
                   {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
@@ -86,7 +93,8 @@ class FeedList extends Component {
             )}
             </div>
         </Container>
-      </section>
+        </section>
+      </main>
     );
   }
 }
