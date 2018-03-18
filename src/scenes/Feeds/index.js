@@ -3,14 +3,13 @@ import { Route, Switch, Link } from 'react-router-dom';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import PageCaption from './../components/PageCaption';
-import FeedInfo from '../../scenes/FeedInfo';
+import FeedInfo from './components/FeedInfo';
 import FeedList from "./components/FeedList";
 
 import './styles.scss';
 
 export const FeedsPage = props => {
-  const categorySlug = props.match.params.category;
-  //const order = props.order;
+
   const path = props.match.path;
 
   return (
