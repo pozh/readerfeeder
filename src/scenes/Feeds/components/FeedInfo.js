@@ -31,6 +31,7 @@ class FeedInfo extends Component {
     if (!feed || this.props.apiState.isRequesting)
       return (
         <main>
+          <PageCaption>...</PageCaption>
           <Container className="mt-5"></Container>
         </main>
       );

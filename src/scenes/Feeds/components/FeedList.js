@@ -38,9 +38,14 @@ class FeedList extends Component {
     let category = categorySlug ? _.find(categories, {'slug': categorySlug}) : null;
 
     if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) return (
-      <Container>
-        <h2>Loading...</h2>
-      </Container>
+      <main>
+        <PageCaption>
+          Browse Feeds
+        </PageCaption>
+        <Container>
+          <h2>Loading...</h2>
+        </Container>
+      </main>
     );
     else return (
       <main>
