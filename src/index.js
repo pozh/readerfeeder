@@ -21,6 +21,7 @@ render (
       <div>
         <Route exact path="/" component={HomePage}/>
         <Route path="/feeds" component={FeedsPage}/>
+        <Route path="/feed" component={FeedsPage}/>
         <Route exact path="/login" component={LoginPage}/>
         {/*<Route exact path="/settings" component={SettingsPage}/>*/}
         {/*<Route path="/subscriptions" component={FeedsPage}/>*/}
