@@ -55,5 +55,11 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
 
     // need authentication
     $api->group(['middleware' => 'api.auth'], function ($api) {
+        // Susbcription
+        $api->get('subscription', 'SubController@index');
+        $api->get('subscription/{id}', 'SubController@show');
+        $api->post('subscription', 'SubController@store');
+        $api->put('subscription/{id}', 'SubController@update');
+        $api->delete('subscription/{id}', 'SubController@destroy');
     });
 });

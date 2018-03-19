@@ -50,4 +50,10 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return [];
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Models\Subscription')->get();
+    }
+}
+
 }
