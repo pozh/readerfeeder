@@ -3,16 +3,12 @@ import * as ActionType from '../constants/actionType';
 import * as api from '../constants/api';
 import {clearToken, setToken, getToken} from '../utils/Auth';
 import * as apiAction from '../actions/apiAction';
-
-/**
- * Import flashMessage.
- */
 import * as FlashMessage from '../actions/flashMessage';
 
 export function login({email, password}) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_URL + 'auth/login', {email, password}).then((response) => {
+    axios.post(api.API_ROOT + 'auth/login', {email, password}).then((response) => {
       dispatch({
         type: ActionType.LOG_IN_SUCCESS,
         payload: response.data.token
@@ -20,7 +16,7 @@ export function login({email, password}) {
 
       setToken(response.data.token);
 
-      window.location.href = api.ROOT_URL + 'dashboard';
+      window.location.href = '/';
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
