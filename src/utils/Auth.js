@@ -1,25 +1,21 @@
 import Cookies from 'universal-cookie';
+import { TOKEN } from 'constants/api';
 
-export default class Auth {
+export const setToken = token => {
+  const cookies = new Cookies();
+  cookies.set(TOKEN, token, {path: '/'});
+};
 
-  static authenticate = token => {
-    const cookies = new Cookies();
-    cookies.set('token', token, {path: '/'});
-  };
+export const isAuthenticated = () => {
+  return (typeof getToken() !== 'undefined');
+};
 
-  static isAuthenticated = () => {
-    const cookies = new Cookies();
-    let result = (typeof cookies.get('token') !== 'undefined');
-    return result;
-  };
+export const clearToken = () => {
+  const cookies = new Cookies();
+  cookies.remove(TOKEN);
+};
 
-  static deauthenticate = () => {
-    const cookies = new Cookies();
-    cookies.remove('token');
-  };
-
-  static getToken = () => {
-    const cookies = new Cookies();
-    return cookies.get('token');
-  };
-}
+export const getToken = () => {
+  const cookies = new Cookies();
+  return cookies.get(TOKEN);
+};

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { appConstants as constants } from '../../../constants/api';
-import Auth from 'utils/Auth';
+import * as Auth from 'utils/Auth';
 import './styles.scss';
 
 
@@ -46,7 +46,7 @@ export default class SignupPage extends Component {
       password: this.state.user.password
     })
       .then( res => {
-        Auth.authenticate(res.data.token);
+        Auth.setToken(res.data.token);
         this.setState({redirect: true});
       })
       .catch(error => {

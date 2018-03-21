@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Navbar, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
-import Auth from 'utils/Auth';
+import * as Auth from 'utils/Auth';
 import './styles.scss';
 
 
@@ -23,7 +23,7 @@ export default class Header extends React.Component {
 
   logout(event) {
     event.preventDefault();
-    Auth.deauthenticate();
+    Auth.clearToken();
     this.forceUpdate();
     // window.location.reload();
   }
