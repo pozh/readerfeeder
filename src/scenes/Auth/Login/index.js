@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { NotificationManager as nm} from 'react-notifications';
+import { NotificationManager as nm, NotificationContainer } from 'react-notifications';
 import * as constants from 'constants/api';
 import * as Auth from 'utils/Auth';
 
@@ -35,7 +35,7 @@ export default class LoginPage extends Component {
       password: this.state.user.password
     })
       .then( res => {
-        Auth.authenticate(res.data.token);
+        Auth.setToken(res.data.token);
         this.setState(() => ({redirect: '/feeds'}));
       })
       .catch(error => {

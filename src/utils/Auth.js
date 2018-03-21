@@ -1,7 +1,7 @@
 import Cookies from 'universal-cookie';
 
 
-export const authenticate = token => {
+export const setToken = token => {
   const cookies = new Cookies();
   cookies.set('token', token, {path: '/'});
 };
@@ -12,7 +12,7 @@ export const isAuthenticated = () => {
   return result;
 };
 
-export const deauthenticate = () => {
+export const clearToken = () => {
   const cookies = new Cookies();
   cookies.remove('token');
 };

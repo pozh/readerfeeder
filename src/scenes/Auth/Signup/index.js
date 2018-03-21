@@ -46,7 +46,7 @@ export default class SignupPage extends Component {
       password: this.state.user.password
     })
       .then( res => {
-        Auth.authenticate(res.data.token);
+        Auth.setToken(res.data.token);
         this.setState({redirect: true});
       })
       .catch(error => {
