@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as ActionType from '../constants/actionType';
 import * as api from '../constants/api';
-import {clearToken, setToken, getToken} from '../utils/actionUtil';
+import {clearToken, setToken, getToken} from '../utils/Auth';
 import * as apiAction from '../actions/apiAction';
 
 /**
