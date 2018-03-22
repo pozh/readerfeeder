@@ -1,6 +1,6 @@
 // Import utils
-import * as ApiUtil from '../utils/apiUtil';
-import * as Converter from '../utils/converter';
+import * as ApiUtil from './apiUtil';
+import * as Converter from './converter';
 
 import * as api from '../constants/api';
 

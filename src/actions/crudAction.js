@@ -2,7 +2,7 @@ import {browserHistory} from 'react-router';
 
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
-import * as apiService from '../services/apiService';
+import * as apiService from '../utils/apiService';
 import * as Converter from '../utils/converter';
 import * as FlashMessage from './flashMessage';
 
