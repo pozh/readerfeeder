@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {NotificationContainer, NotificationManager} from 'react-notifications';
 import { appConstants as constants } from '../../../constants/api';
-import * as Auth from 'utils/Auth';
+import * as Auth from 'utils/authUtil';
 import './styles.scss';
 
 

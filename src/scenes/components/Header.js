@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Navbar, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
-import * as Auth from 'utils/Auth';
+import * as Auth from 'utils/authUtil';
 import './styles.scss';
 
 
