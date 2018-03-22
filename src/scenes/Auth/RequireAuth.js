@@ -1,10 +1,19 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import {PropTypes} from 'prop-types';
 import {connect} from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
 
 export default function (ComponentToShow) {
 
   class Authenticate extends Component {
+
+    constructor(props) {
+      super(props);
+      this.state = {
+        redirect: null
+      };
+    }
 
     static contextTypes = {
       router: PropTypes.object.isRequired
@@ -16,18 +25,19 @@ export default function (ComponentToShow) {
 
     componentWillMount() {
       if (!this.props.isAuthenticated) {
-        this.context.router.push('/login');
+        this.setState(() => ({redirect: '/login'}));
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
-        this.context.router.push('/login');
+        this.setState(() => ({redirect: '/login'}));
       }
     }
 
     render() {
-      return <ComponentToShow {...this.props} />;
+      if (this.state.redirect) return <Redirect to={this.state.redirect} />;
+      else return <ComponentToShow {...this.props} />;
     }
   }
 
