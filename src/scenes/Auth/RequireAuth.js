@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 
 
-export default function (ComposedComponent) {
+export default function (ComponentToShow) {
 
   class Authenticate extends Component {
 
@@ -16,19 +16,18 @@ export default function (ComposedComponent) {
 
     componentWillMount() {
       if (!this.props.isAuthenticated) {
-        this.context.router.push('/');
+        this.context.router.push('/login');
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated) {
-        this.context.router.push('/dashboard');
+        this.context.router.push('/login');
       }
     }
 
-
     render() {
-      return <ComposedComponent {...this.props} />;
+      return <ComponentToShow {...this.props} />;
     }
   }
 
