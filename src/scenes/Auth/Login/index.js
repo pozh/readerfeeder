@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import * as auth from 'actions/authAction';
+import {USER_HOME} from 'constants/common';
 
 import * as flashMessage from 'actions/flashMessage';
 import * as authAction from 'actions/authAction';
@@ -51,7 +51,7 @@ class LoginPage extends Component {
 
   render () {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    // TODO else if authenticated then go to subscriptions or dashboard
+    else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
     else return (
       <section className="Login">
         <div className="Login-dialog">
