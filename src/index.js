@@ -6,11 +6,13 @@ import history from './history';
 
 // import SignupPage from './scenes/Auth/Signup';
 // import SettingsPage from './scenes/Settings';
+import { verifyToken } from './actions/authAction';
 
 import 'assets/styles/main.scss';
 
 import store from 'store';
 import App from './App';
+store.dispatch(verifyToken());
 
 render (
   <Provider store={store}>
