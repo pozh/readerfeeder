@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import * as auth from 'actions/authAction';
 
-import * as flashMessage  from 'actions/flashMessage';
+import * as flashMessage from 'actions/flashMessage';
+import * as authAction from 'actions/authAction';
 
 import './styles.scss';
 
@@ -29,7 +30,7 @@ class LoginPage extends Component {
 
   processForm(event) {
     event.preventDefault();
-
+    this.props.actions.login(this.state.user);
   }
 
   changeUser(event) {
@@ -107,7 +108,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, flashMessage), dispatch)
+    actions: bindActionCreators(_.assign({}, authAction, flashMessage), dispatch)
   }
 }
 

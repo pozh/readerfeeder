@@ -1,12 +1,12 @@
 import {browserHistory} from 'react-router';
-
+import axios from 'axios';
 import {setToken, clearToken, getToken} from "../utils/authUtil"
+import * as api from 'constants/api';
+import * as message from 'constants/message';
 
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 import * as FlashMessage from './flashMessage';
-
-import * as message from 'constants/message';
 
 
 /**
