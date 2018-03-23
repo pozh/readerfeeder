@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { NotificationManager as nm, NotificationContainer } from 'react-notifications';
-import * as constants from 'constants/api';
-import * as Auth from 'utils/Auth';
+import * as auth from 'actions/authAction';
+
+import * as flashMessage  from 'actions/flashMessage';
 
 import './styles.scss';
 
 
-export default class LoginPage extends Component {
+class LoginPage extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
-      errors: {},
       user: {
         email: '',
         password: '',
-        redirect: null
-      }
+      },
+      redirect: null
     };
 
     this.processForm = this.processForm.bind(this);
@@ -29,18 +29,7 @@ export default class LoginPage extends Component {
 
   processForm(event) {
     event.preventDefault();
-    console.log(constants.API_LOGIN);
-    axios.post(constants.API_LOGIN, {
-      email: this.state.user.email,
-      password: this.state.user.password
-    })
-      .then( res => {
-        Auth.setToken(res.data.token);
-        this.setState(() => ({redirect: '/feeds'}));
-      })
-      .catch(error => {
-        nm.error('Error! please retry');
-      });
+
   }
 
   changeUser(event) {
@@ -61,7 +50,7 @@ export default class LoginPage extends Component {
 
   render () {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (Auth.isAuthenticated()) return <Redirect to='/user'/>;
+    // TODO else if authenticated then go to subscriptions or dashboard
     else return (
       <section className="Login">
         <div className="Login-dialog">
@@ -101,8 +90,25 @@ export default class LoginPage extends Component {
             </p>
           </Form>
         </div>
-        <NotificationContainer/>
       </section>
     );
   }
 }
+
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+    token: state.auth.token,
+    apiState: state.api,
+    message: state.flash.message
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, flashMessage), dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

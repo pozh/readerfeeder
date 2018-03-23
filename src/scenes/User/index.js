@@ -1,25 +1,21 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import {Route, Switch, Link} from 'react-router-dom';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
-import PageCaption from './../components/PageCaption';
-import * as Auth from 'utils/Auth';
+import RequireAuth from '../Auth/RequireAuth';
+import Subscriptions from './components/Subscriptions';
+
 import './styles.scss';
 
-export const UserPage = props => {
-  if (!Auth.isAuthenticated()) return <Redirect to='/login'/>;
-  else return (
-    <div>
-      <Header className="white" />
-      <PageCaption>
-        User
-      </PageCaption>
-      <div className="container">
-        <h1>User home page</h1>
-      </div>
-      <Footer/>
-    </div>
-  );
-};
+export const UserPage = props => (
+
+  <div>
+    <Header className="white"/>
+    <Switch>
+      <Route path="/subscriptions" component={RequireAuth(Subscriptions)}/>
+    </Switch>
+    <Footer/>
+  </div>
+);
 
 export default UserPage;

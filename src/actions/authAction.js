@@ -1,71 +1,37 @@
 import {browserHistory} from 'react-router';
 
+import {setToken, clearToken, getToken} from "../utils/authUtil"
+
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
-import * as apiService from '../utils/apiService';
-import * as Converter from '../utils/converter';
 import * as FlashMessage from './flashMessage';
+
+import * as message from 'constants/message';
 
 
 /**
- * Actions that are dispatched from crudAction
+ * Actions that are dispatched from authAction
  */
 let authActions = {
-  loginSuccess: function (entity, data) {
+  loginSuccess: function (token) {
     return {
       type: ActionType.LOG_IN_SUCCESS,
-      entity: entity,
-      data: data
+      payload: token
     }
   },
 
-  selectItem: function (entity, data) {
-    return {
-      type: ActionType.SELECT_ITEM,
-      entity: entity,
-      data: data
-    }
+  logout: function () {
+    return {type: ActionType.LOG_OUT}
   },
-
-  selectItemId: function (entity, data) {
-    return {
-      type: ActionType.SELECT_ITEM_ID,
-      entity: entity,
-      data: data
-    }
-  },
-
-  selectItemSlug: function (entity, data) {
-    return {
-      type: ActionType.SELECT_ITEM_SLUG,
-      entity: entity,
-      data: data
-    }
-  },
-
-  delete: function (entity, id) {
-    return {
-      type: ActionType.DELETE,
-      entity: entity,
-      id: id
-    }
-  },
-
 };
-
 
 
 export function login({email, password}) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
     axios.post(api.API_ROOT + 'auth/login', {email, password}).then((response) => {
-      dispatch({
-        type: ActionType.LOG_IN_SUCCESS,
-        payload: response.data.token
-      });
-
+      dispatch(authActions.loginSuccess(response.data.token));
       setToken(response.data.token);
-
       window.location.href = '/';
     })
       .catch((error) => {
@@ -80,19 +46,16 @@ export function verifyToken() {
     const token = getToken();
     // Update application state. User has token and is probably authenticated
     if (token) {
-      dispatch({type: ActionType.LOG_IN_SUCCESS, payload: token});
+      dispatch(authActions.loginSuccess(token));
     }
   };
 }
 
 export function logout(error) {
   return function (dispatch) {
-
-    dispatch({type: ActionType.LOG_OUT});
-
+    dispatch(authActions.logout());
     clearToken();
-
-    window.location.href = api.ROOT_URL;
+    window.location.href = '/';
   };
 }
 
@@ -101,11 +64,8 @@ export function authErrorHandler(dispatch, error, type) {
 
   // NOT AUTHENTICATED ERROR
   if (error.status === 401) {
-    errorMessage = 'You are not authorized to do this. Please login and try again.';
+    errorMessage = message.NOT_AUTHORISED;
   }
 
-  dispatch({
-    type,
-    payload: errorMessage,
-  });
+  dispatch({type, payload: errorMessage});
 }

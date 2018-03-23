@@ -24,13 +24,13 @@ export default function (ComponentToShow) {
     };
 
     componentWillMount() {
-      if (!this.props.isAuthenticated) {
+      if (!this.props.isAuthenticated && !this.state.redirect) {
         this.setState(() => ({redirect: '/login'}));
       }
     }
 
     componentWillUpdate(nextProps) {
-      if (!nextProps.isAuthenticated) {
+      if (!nextProps.isAuthenticated && !this.state.redirect) {
         this.setState(() => ({redirect: '/login'}));
       }
     }
