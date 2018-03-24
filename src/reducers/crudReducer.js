@@ -8,6 +8,10 @@ let initialState = {
     feeds: [],
     categories: [],
   },
+  user: {
+    subscriptions: [],
+  },
+  // For stuff editing purposes inside admin and user cp interfaces
   selectedItem: {
     feed: {},
     category: {},

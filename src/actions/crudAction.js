@@ -5,6 +5,7 @@ import * as apiAction from './apiAction';
 import * as apiService from '../utils/apiService';
 import * as Converter from '../utils/converter';
 import * as FlashMessage from './flashMessage';
+import * as message from 'constants/message';
 
 
 /**
@@ -191,7 +192,7 @@ export function errorHandler(dispatch, error, type) {
 
   // NOT AUTHENTICATED ERROR
   if (error.status === 401) {
-    errorMessage = 'You are not authorized to do this. Please login and try again.';
+    errorMessage = message.NOT_AUTHORISED;
   }
 
   dispatch({

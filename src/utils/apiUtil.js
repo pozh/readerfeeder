@@ -8,9 +8,7 @@ const cookieLoad = cookieName => {
   return cookies.get(cookieName);
 };
 
-
 export function fetch(url, pathParam) {
-
   return axios.get(url + pathParam, {
     headers: {'Authorization': 'Bearer' + ' ' + cookieLoad(TOKEN)}
   });
