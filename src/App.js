@@ -4,6 +4,7 @@ import NotificationCenter from "./helpers/NotificationCenter";
 
 import HomePage from './scenes/Home';
 import LoginPage from './scenes/Auth/Login';
+import SignupPage from './scenes/Auth/Signup';
 import FeedsPage from './scenes/Feeds';
 import UserPage from './scenes/User';
 
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/feeds" component={FeedsPage}/>
         <Route path="/feed" component={FeedsPage}/>
         <Route exact path="/login" component={LoginPage}/>
+        <Route exact path="/signup" component={SignupPage}/>
         <Route component={UserPage}/>
       </Switch>
     </div>

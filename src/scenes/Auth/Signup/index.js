@@ -1,13 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
-import { appConstants as constants } from '../../../constants/api';
-import * as Auth from 'utils/authUtil';
+import {USER_HOME} from 'constants/common';
+
+import * as flashMessage from 'actions/flashMessage';
+import * as authAction from 'actions/authAction';
+
 import './styles.scss';
 
 
-export default class SignupPage extends Component {
+class SignupPage extends Component {
 
   constructor(props) {
     super(props);
@@ -29,29 +33,16 @@ export default class SignupPage extends Component {
 
   processForm(event) {
     event.preventDefault();
+    this.props.actions.signup(this.state.user);
 
-    if (!this.state.user.password) {
-      NotificationManager.error('No password provided!');
-      return;
-    }
-    if (this.state.user.password !== this.state.user.passwordcopy) {
-      NotificationManager.error('Passwords do not match!');
-      return;
-    }
-
-    axios.post(constants.API_SIGNUP, {
-      name: this.state.user.name,
-      email: this.state.user.email,
-      password: this.state.user.password
-    })
-      .then( res => {
-        Auth.setToken(res.data.token);
-        this.setState({redirect: true});
-      })
-      .catch(error => {
-        NotificationManager.error('Error! please try with another email');
-        console.log(error);
-      });
+    // if (!this.state.user.password) {
+    //   NotificationManager.error('No password provided!');
+    //   return;
+    // }
+    // if (this.state.user.password !== this.state.user.passwordcopy) {
+    //   NotificationManager.error('Passwords do not match!');
+    //   return;
+    // }
   }
 
   changeUser(event) {
@@ -70,9 +61,9 @@ export default class SignupPage extends Component {
     [].forEach.call(elems, (el) => { el.classList.remove("BodySignup"); });
   }
 
-
   render () {
-    if (this.state.redirect) return <Redirect to='/feeds'/>;
+    if (this.state.redirect) return <Redirect to={this.state.redirect}/>;
+    else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
     else return (
       <section className="Signup">
         <div className="Signup-dialog">
@@ -99,5 +90,19 @@ export default class SignupPage extends Component {
       </section>
     );
   }
-
 }
+
+
+function mapStateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, authAction, flashMessage), dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignupPage);

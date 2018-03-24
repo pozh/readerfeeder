@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 
-// import SignupPage from './scenes/Auth/Signup';
-// import SettingsPage from './scenes/Settings';
 import { verifyToken } from './actions/authAction';
 
 import 'assets/styles/main.scss';

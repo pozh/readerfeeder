@@ -100,9 +100,6 @@ class LoginPage extends Component {
 function mapStateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
-    token: state.auth.token,
-    apiState: state.api,
-    message: state.flash.message
   }
 }
 
