@@ -2,8 +2,10 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Navbar, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
 import * as Auth from 'utils/authUtil';
+import {logout} from 'actions/authAction';
 import './styles.scss';
 
+import store from './../../store';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -23,9 +25,7 @@ export default class Header extends React.Component {
 
   logout(event) {
     event.preventDefault();
-    Auth.clearToken();
-    this.forceUpdate();
-    // window.location.reload();
+    store.dispatch(logout());
   }
 
   render() {
@@ -36,7 +36,6 @@ export default class Header extends React.Component {
           <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt="" /></Link>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
-
             {!Auth.isAuthenticated() && (
               <Nav className="ml-auto" navbar>
                 <NavItem>
@@ -60,7 +59,6 @@ export default class Header extends React.Component {
                 <NavItem><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></NavItem>
               </Nav>
             )}
-
           </Collapse>
         </Container>
       </Navbar>

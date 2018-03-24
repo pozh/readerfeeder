@@ -55,7 +55,7 @@ export function verifyToken() {
   };
 }
 
-export function logout(error) {
+export function logout() {
   return function (dispatch) {
     dispatch(authActions.logout());
     clearToken();
