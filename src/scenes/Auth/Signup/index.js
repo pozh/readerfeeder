@@ -34,15 +34,6 @@ class SignupPage extends Component {
   processForm(event) {
     event.preventDefault();
     this.props.actions.signup(this.state.user);
-
-    // if (!this.state.user.password) {
-    //   NotificationManager.error('No password provided!');
-    //   return;
-    // }
-    // if (this.state.user.password !== this.state.user.passwordcopy) {
-    //   NotificationManager.error('Passwords do not match!');
-    //   return;
-    // }
   }
 
   changeUser(event) {
