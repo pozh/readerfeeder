@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Form, FormGroup, Label, Input } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 import {USER_HOME} from 'constants/common';
 
 import * as authAction from 'actions/authAction';
@@ -64,9 +64,9 @@ class SignupPage extends Component {
             <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
 
             <FormGroup><Input type="text" onChange={this.changeUser} name="name" placeholder="Name" autoComplete="on"/></FormGroup>
-            <FormGroup><Input type="email" onChange={this.changeUser} name="email" placeholder="Email" autoComplete="on"/></FormGroup>
-            <FormGroup><Input type="password" onChange={this.changeUser} name="password" placeholder="Password" autoComplete="off"/></FormGroup>
-            <FormGroup><Input type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)" autoComplete="off"/></FormGroup>
+            <FormGroup><Input required type="email" onChange={this.changeUser} name="email" placeholder="Email" autoComplete="on"/></FormGroup>
+            <FormGroup><Input required type="password" onChange={this.changeUser} name="password" placeholder="Password" autoComplete="off"/></FormGroup>
+            <FormGroup><Input required type="password" onChange={this.changeUser} name="passwordcopy" placeholder="Password (again)" autoComplete="off"/></FormGroup>
 
             <div className="m-t-20">
               <button type="submit" className="btn btn-primary">REGISTER</button>

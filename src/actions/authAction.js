@@ -53,7 +53,7 @@ export function login({email, password}) {
 }
 
 
-export function signup({name, email, password, passwordCopy}) {
+export function signup({name, email, password, passwordcopy}) {
   return function (dispatch) {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
