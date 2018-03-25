@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
 import {USER_HOME} from 'constants/common';
 
-import * as flashMessage from 'actions/flashMessage';
 import * as authAction from 'actions/authAction';
 
 import './styles.scss';
@@ -105,7 +104,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, authAction, flashMessage), dispatch)
+    actions: bindActionCreators(_.assign({}, authAction), dispatch)
   }
 }
 

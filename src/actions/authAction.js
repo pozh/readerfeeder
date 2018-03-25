@@ -1,5 +1,6 @@
 import {browserHistory} from 'react-router';
 import axios from 'axios';
+import {NotificationManager as notify} from 'react-notifications';
 import {setToken, clearToken, getToken} from "../utils/authUtil"
 
 import * as api from '../constants/api';
@@ -8,7 +9,6 @@ import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
-import * as FlashMessage from './flashMessage';
 
 import history from '../history';
 
@@ -47,7 +47,7 @@ export function login({email, password}) {
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
-        dispatch(FlashMessage.addFlashMessage('error', message.INVALID_LOGIN_DATA));
+        notify.error(message.INVALID_LOGIN_DATA);
       });
   };
 }
@@ -56,13 +56,14 @@ export function login({email, password}) {
 export function signup({name, email, password, passwordCopy}) {
   return function (dispatch) {
     if (!password) {
-      dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_NO_PASSWORD));
+      notify.error(message.SIGNUP_NO_PASSWORD);
       return;
     }
-    if (this.state.user.password !== this.state.user.passwordcopy) {
-      dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_PASSWORD_MATCH));
+    if (password !== passwordcopy) {
+      notify.error(message.SIGNUP_PASSWORD_MATCH);
       return;
     }
+
 
     dispatch(apiAction.apiRequest());
     axios.post(api.API_SIGNUP, {name, email, password}).then((response) => {
@@ -72,7 +73,7 @@ export function signup({name, email, password, passwordCopy}) {
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
-        dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_ERROR));
+        notify.error(message.SIGNUP_ERROR);
       });
   };
 }

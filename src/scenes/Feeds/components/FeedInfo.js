@@ -8,7 +8,6 @@ import FeedToc from './FeedToc';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import * as flashMessage from 'actions/flashMessage';
 
 
 class FeedInfo extends Component {
@@ -70,8 +69,7 @@ class FeedInfo extends Component {
 function mapStateToProps(state) {
   return {
     feed: state.crud.selectedItem['feed'],
-    apiState: state.api,
-    message: state.flash.message
+    apiState: state.api
   }
 }
 
@@ -81,7 +79,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction, flashMessage), dispatch)
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
   }
 }
 

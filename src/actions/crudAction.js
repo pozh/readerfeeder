@@ -1,10 +1,10 @@
 import {browserHistory} from 'react-router';
+import {NotificationManager as notify} from 'react-notifications';
 
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 import * as apiService from '../utils/apiService';
 import * as Converter from '../utils/converter';
-import * as FlashMessage from './flashMessage';
 import * as message from 'constants/message';
 
 
@@ -117,7 +117,7 @@ export function storeItem(entity, data) {
     dispatch(apiAction.apiRequest());
     return apiService.store(entity, data).then((response) => {
       dispatch(apiAction.apiResponse());
-      dispatch(FlashMessage.addFlashMessage('success', entity.charAt(0).toUpperCase() + entity.slice(1) + ' added successfully.'));
+      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' added successfully.');
       browserHistory.goBack();
     })
       .catch((error) => {
@@ -131,7 +131,7 @@ export function updateItem(entity, data, id) {
     dispatch(apiAction.apiRequest());
     return apiService.update(entity, data, id).then((response) => {
       dispatch(apiAction.apiResponse());
-      dispatch(FlashMessage.addFlashMessage('success', entity.charAt(0).toUpperCase() + entity.slice(1) + ' updated successfully.'));
+      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' updated successfully.');
       browserHistory.goBack();
     })
       .catch((error) => {
@@ -145,7 +145,7 @@ export function destroyItem(entity, id, data) {
     dispatch(apiAction.apiRequest());
     return apiService.destroy(entity, id).then((response) => {
       dispatch(apiAction.apiResponse());
-      dispatch(FlashMessage.addFlashMessage('success', entity.charAt(0).toUpperCase() + entity.slice(1) + ' deleted successfully.'));
+      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' deleted successfully.');
       dispatch(fetchAll(entity, data));
     })
       .catch((error) => {

@@ -10,7 +10,6 @@ import _ from 'lodash';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import * as flashMessage  from 'actions/flashMessage';
 
 
 class FeedList extends Component {
@@ -113,18 +112,16 @@ function mapStateToProps(state) {
     feeds: state.crud.items.feeds,
     categories: state.crud.items.categories,
     selectedItem: state.crud.selectedItem,
-    apiState: state.api,
-    message: state.flash.message
+    apiState: state.api
   }
 }
-
 
 /**
  * Map the actions to props.
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction, flashMessage), dispatch)
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
   }
 }
 

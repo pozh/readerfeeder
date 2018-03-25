@@ -8,7 +8,6 @@ import _ from 'lodash';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import * as flashMessage  from 'actions/flashMessage';
 
 
 class Subscriptions extends Component {
@@ -41,8 +40,7 @@ class Subscriptions extends Component {
 function mapStateToProps(state) {
   return {
     subscriptions: state.crud.user.subscriptions,
-    apiState: state.api,
-    message: state.flash.message
+    apiState: state.api
   }
 }
 
@@ -52,7 +50,7 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction, flashMessage), dispatch)
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
   }
 }
 
