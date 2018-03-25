@@ -3,6 +3,9 @@ export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 export const RECEIVE_REFRESH_TOKEN = 'RECEIVE_REFRESH_TOKEN';
 export const LOG_OUT = 'LOG_OUT';
 
+export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+
 export const LIST = 'LIST';
 export const ADD = 'ADD';
 export const UPDATE = 'UPDATE';
