@@ -27,6 +27,13 @@ let authActions = {
   logout: function () {
     return {type: ActionType.LOG_OUT}
   },
+
+  signupSuccess: function (token) {
+    return {
+      type: ActionType.SIGNUP_SUCCESS,
+      payload: token
+    }
+  },
 };
 
 
@@ -44,6 +51,32 @@ export function login({email, password}) {
       });
   };
 }
+
+
+export function signup({name, email, password, passwordCopy}) {
+  return function (dispatch) {
+    if (!password) {
+      dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_NO_PASSWORD));
+      return;
+    }
+    if (this.state.user.password !== this.state.user.passwordcopy) {
+      dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_PASSWORD_MATCH));
+      return;
+    }
+
+    dispatch(apiAction.apiRequest());
+    axios.post(api.API_SIGNUP, {name, email, password}).then((response) => {
+      dispatch(authActions.signupSuccess(response.data.token));
+      setToken(response.data.token);
+      history.push(USER_HOME);
+    })
+      .catch((error) => {
+        authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
+        dispatch(FlashMessage.addFlashMessage('error', message.SIGNUP_ERROR));
+      });
+  };
+}
+
 
 export function verifyToken() {
   return (dispatch) => {

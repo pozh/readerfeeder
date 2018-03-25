@@ -35,6 +35,18 @@ export default function (state , action) {
         token: null,
       });
 
+    case ActionType.SIGNUP_SUCCESS:
+      return _.assign({}, state, {
+        isAuthenticated: true,
+        token: action.payload,
+      });
+
+    case ActionType.SIGNUP_FAILURE:
+      return _.assign({}, state, {
+        isAuthenticated: false,
+        token: null,
+      });
+
     default:
       return state;
   }
