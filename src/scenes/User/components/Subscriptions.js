@@ -27,6 +27,10 @@ class Subscriptions extends Component {
       <main>
         <PageCaption>Subscriptions</PageCaption>
         <Container>
+          {!this.props.subscriptions.length > 0 && <h3 className="text-center">No subscriptions yet</h3>}
+          {this.props.subscriptions.length > 0 && (
+            <p>xxx</p>
+          )}
         </Container>
       </main>
     );
