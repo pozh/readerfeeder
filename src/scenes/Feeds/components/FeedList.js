@@ -1,12 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Container } from 'reactstrap';
+import React, {Component, PropTypes} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import _ from 'lodash';
+import {Container} from 'reactstrap';
 import PageCaption from './../../components/PageCaption';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
-import _ from 'lodash';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -25,7 +25,7 @@ class FeedList extends Component {
     }
   }
 
-  render () {
+  render() {
     let categories = this.props.categories;
     let feeds = this.props.feeds;
 
@@ -54,49 +54,53 @@ class FeedList extends Component {
         </PageCaption>
 
         <section className="Feeds pt-5">
-        <Container>
+          <Container>
 
-          <SortCtrl order={order} />
+            <SortCtrl order={order}/>
 
-          <div className="Feeds-list">
+            <div className="Feeds-list">
 
-            {/* Feeds by category, all categories*/}
-            {(order === 'categories') && categories.map((category, cIndex) => (
-              <div className="Feeds-section" key={cIndex}>
-                <h4 className="title">
-                  <Link to={ "/feeds/" + category.slug }>{ category.title }</Link>
-                </h4>
-                <div className="Feeds-feeds">
-                  {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
+              {/* Feeds by category, all categories*/}
+              {(order === 'categories') && categories.map((category, cIndex) => (
+                <div className="Feeds-section" key={cIndex}>
+                  <h4 className="title">
+                    <Link to={"/feeds/" + category.slug}>{category.title}</Link>
+                  </h4>
+                  <div className="Feeds-feeds">
+                    {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
                       <FeedCard feed={feed} key={fIndex}/>
-                  )}
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
 
-            {/* Selected Category Feeds */}
-            {categorySlug && (
-              <div className="Feeds-feeds">
-                {feeds.filter(feed => feed.category_id === category.id)
-                  .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
-              </div>
-            )}
+              {/* Selected Category Feeds */}
+              {categorySlug && (
+                <div className="Feeds-feeds">
+                  {feeds.filter(feed => feed.category_id === category.id)
+                    .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
+                </div>
+              )}
 
-            {order === 'popular' && (
-              <div className="Feeds-feeds">
-                {feeds.sort((a, b) => {return b.subscribers - a.subscribers;})
-                  .map((feed, idx) => <FeedCard feed={feed} idx={idx+1} key={idx}/>)}
-              </div>
-            )}
+              {order === 'popular' && (
+                <div className="Feeds-feeds">
+                  {feeds.sort((a, b) => {
+                    return b.subscribers - a.subscribers;
+                  })
+                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
+                </div>
+              )}
 
-            {order === 'recent' && (
-              <div className="Feeds-feeds">
-                {feeds.sort((a, b) => {return b.id - a.id;})
-                  .map((feed, idx) => <FeedCard feed={feed} idx={idx+1} key={idx}/>)}
-              </div>
-            )}
+              {order === 'recent' && (
+                <div className="Feeds-feeds">
+                  {feeds.sort((a, b) => {
+                    return b.id - a.id;
+                  })
+                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
+                </div>
+              )}
             </div>
-        </Container>
+          </Container>
         </section>
       </main>
     );
