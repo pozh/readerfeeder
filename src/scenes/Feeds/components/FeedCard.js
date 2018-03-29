@@ -1,21 +1,67 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-const FeedCard = props => {
-  const feed = props.feed;
-  return (
-    <div className="Feed">
-      <Link to={ "/feed/" + feed.slug } className="Feed-name">
-        {props.idx && (<span className="Feed-order">{props.idx}. </span>)}
-        { feed.title }
-      </Link>
-      <div className="Feed-delivery">Delivery: {feed.period}</div>
-      <div className="Feed-actions">
-        <a href="#" className="Feed-action">Send last issue</a>
-        <a href="#" className="Feed-action">Subscribe</a>
+import * as apiAction from 'actions/apiAction';
+import * as crudAction from 'actions/crudAction';
+
+
+class FeedCard extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleSubscribe = this.handleSubscribe.bind(this);
+    this.handleSend = this.handleSend.bind(this);
+  }
+
+  handleSubscribe(event) {
+    event.preventDefault();
+    const feed = this.props.feed;
+    const isSubscribed = (this.props.subscriptions.filter(id => id === feed.id).length > 0);
+    if (isSubscribed) this.props.actions.unsubscribe(this.props.feed.id);
+    else this.props.actions.subscribe(this.props.feed.id);
+  }
+
+  handleSend(event) {
+    event.preventDefault();
+  }
+
+  render() {
+    const feed = this.props.feed;
+    const idx = this.props.idx;
+    const isSubscribed = (this.props.subscriptions.filter(id => id === feed.id).length > 0);
+    const rootClassName = isSubscribed ? 'Feed subscribed' : 'Feed';
+    const subAction = isSubscribed ? 'Unsubscribe' : 'Subscribe';
+    return (
+      <div className={rootClassName}>
+        <Link to={"/feed/" + feed.slug} className="Feed-name">
+          {idx && (<span className="Feed-order">{idx}. </span>)}
+          {feed.title}
+        </Link>
+        {isSubscribed && <span className="Feed-subscribed">Subscribed</span>}
+        <div className="Feed-delivery">Delivery: {feed.period}</div>
+        <div className="Feed-actions">
+          <a href="#" onClick={this.handleSend} className="Feed-action">Send last issue</a>
+          <a href="#" onClick={this.handleSubscribe} className="Feed-action">{subAction}</a>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
-export default FeedCard;
+
+function mapStateToProps(state) {
+  return {
+    apiState: state.api,
+    subscriptions: state.crud.user.subscriptions
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FeedCard)

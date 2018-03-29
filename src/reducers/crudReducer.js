@@ -57,6 +57,21 @@ export default function (state, action) {
       data.splice(index, 1);
       return newState;
 
+    case ActionType.SUBSCRIBE:
+      newState = _.cloneDeep(state);
+      let subs = state.user.subscriptions;
+      subs.push(action.item);
+      newState.user.subscriptions = subs.filter((elem, pos, arr) => {return arr.indexOf(elem) == pos;});
+      return newState;
+
+    case ActionType.UNSUBSCRIBE:
+      newState = _.cloneDeep(state);
+      subs = state.user.subscriptions;
+      const idx = subs.indexOf(action.item);
+      if (idx >= 0) subs.splice(idx, 1);
+      newState.user.subscriptions = subs;
+      return newState;
+
     case ActionType.CLEAR_LIST:
       newState = _.cloneDeep(state);
       newState.items[pluralize(action.entity)] = {};
