@@ -41,8 +41,8 @@ export function login({email, password}) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
     axios.post(api.API_LOGIN, {email, password}).then((response) => {
-      dispatch(authActions.loginSuccess(response.data.token));
       setToken(response.data.token);
+      dispatch(authActions.loginSuccess(response.data.token));
       history.push(USER_HOME);
     })
       .catch((error) => {
