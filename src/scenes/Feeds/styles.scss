@@ -70,7 +70,13 @@
   background:#f8f8f5;
   border-radius: 2px;
   padding:6px 10px;
+  border: 1px solid #f8f8f5;
   break-inside: avoid-column;
+
+  &.subscribed {
+    border-color: $green;
+    position: relative;
+  }
 
   & + & { margin-top:15px; }
 
@@ -80,17 +86,17 @@
   }
 
   &-subscribed {
+    position: absolute;
+    display: block;
+    right: 5px;
+    top: -11px;
     background: $green;
     color: $white;
-    box-shadow:0 3px 11px rgba(0,0,0,.1);
-
-    .Feed-name {
-      color:$white;
-
-      &:hover {
-        color: $white;
-      }
-    }
+    //box-shadow:0 3px 11px rgba(0,0,0,.1);
+    padding: 4px 9px;
+    font-size: 12px;
+    text-transform: uppercase;
+    border-radius: 1rem;
   }
 
   &-order {
