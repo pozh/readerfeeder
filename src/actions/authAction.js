@@ -1,4 +1,3 @@
-import {browserHistory} from 'react-router';
 import axios from 'axios';
 import {NotificationManager as notify} from 'react-notifications';
 import {setToken, clearToken, getToken} from "../utils/authUtil"

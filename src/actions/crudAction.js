@@ -1,4 +1,3 @@
-import {browserHistory} from 'react-router';
 import {NotificationManager as notify} from 'react-notifications';
 
 import * as ActionType from '../constants/actionType';
@@ -6,6 +5,8 @@ import * as apiAction from './apiAction';
 import * as apiService from '../utils/apiService';
 import * as Converter from '../utils/converter';
 import * as message from 'constants/message';
+
+import history from '../history';
 
 
 /**
@@ -118,7 +119,7 @@ export function storeItem(entity, data) {
     return apiService.store(entity, data).then((response) => {
       dispatch(apiAction.apiResponse());
       notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' added successfully.');
-      browserHistory.goBack();
+      history.goBack();
     })
       .catch((error) => {
         errorHandler(dispatch, error.response, ActionType.FAILURE);
@@ -132,7 +133,7 @@ export function updateItem(entity, data, id) {
     return apiService.update(entity, data, id).then((response) => {
       dispatch(apiAction.apiResponse());
       notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' updated successfully.');
-      browserHistory.goBack();
+      history.goBack();
     })
       .catch((error) => {
         errorHandler(dispatch, error.response, ActionType.FAILURE);
