@@ -164,6 +164,20 @@ export function submitForm(entity, data, id) {
   }
 }
 
+export function subscribe(id) {
+  return {
+    type: ActionType.SUBSCRIBE,
+    item: id
+  }
+}
+
+export function unsubscribe(id) {
+  return {
+    type: ActionType.UNSUBSCRIBE,
+    item: id
+  }
+}
+
 export function clearList(entity) {
   return {
     type: ActionType.CLEAR_LIST,

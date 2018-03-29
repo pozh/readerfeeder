@@ -6,6 +6,9 @@ export const LOG_OUT = 'LOG_OUT';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 
+export const SUBSCRIBE = 'SUBSCRIBE';
+export const UNSUBSCRIBE = 'UNSUBSCRIBE';
+
 export const LIST = 'LIST';
 export const ADD = 'ADD';
 export const UPDATE = 'UPDATE';
