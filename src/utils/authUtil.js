@@ -7,10 +7,6 @@ export const setToken = token => {
   cookies.set(TOKEN, token, {path: '/'});
 };
 
-export const isAuthenticated = () => {
-  return (typeof getToken() !== 'undefined');
-};
-
 export const clearToken = () => {
   const cookies = new Cookies();
   cookies.remove(TOKEN);
