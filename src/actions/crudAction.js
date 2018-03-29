@@ -193,6 +193,7 @@ export function errorHandler(dispatch, error, type) {
   // NOT AUTHENTICATED ERROR
   if (error.status === 401) {
     errorMessage = message.NOT_AUTHORISED;
+    type = ActionType.NOT_AUTHORISED;
   }
 
   dispatch({

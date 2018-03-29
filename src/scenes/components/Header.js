@@ -1,13 +1,14 @@
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { Container, Navbar, NavbarToggler, Nav, NavItem, Collapse } from 'reactstrap';
-import * as Auth from 'utils/authUtil';
-import {logout} from 'actions/authAction';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {Link} from 'react-router-dom';
+import {Container, Navbar, NavbarToggler, Nav, NavItem, Collapse} from 'reactstrap';
+import * as authAction from 'actions/authAction';
+
 import './styles.scss';
 
-import store from './../../store';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -25,7 +26,7 @@ export default class Header extends React.Component {
 
   logout(event) {
     event.preventDefault();
-    store.dispatch(logout());
+    this.props.actions.logout();
   }
 
   render() {
@@ -33,10 +34,10 @@ export default class Header extends React.Component {
     return (
       <Navbar className={"Nav " + (isLight && "bg-light")} expand="lg">
         <Container>
-          <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt="" /></Link>
-          <NavbarToggler onClick={this.toggle} />
+          <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
+          <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
-            {!Auth.isAuthenticated() && (
+            {!this.props.isAuthenticated && (
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <Link className="btn btn-link" to="/login/">Log In</Link>
@@ -47,14 +48,14 @@ export default class Header extends React.Component {
               </Nav>
             )}
 
-            {Auth.isAuthenticated() && (
+            {this.props.isAuthenticated && (
               <Nav className="mr-auto" navbar>
                 <NavItem><Link className="nav-link" to="/feeds">Browse Feeds</Link></NavItem>
                 <NavItem><Link className="nav-link" to="/subscriptions">My Subscriptions</Link></NavItem>
               </Nav>
             )}
 
-            {Auth.isAuthenticated() && (
+            {this.props.isAuthenticated && (
               <Nav navbar>
                 <NavItem><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></NavItem>
               </Nav>
@@ -65,3 +66,19 @@ export default class Header extends React.Component {
     );
   }
 }
+
+
+function stateToProps(state) {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  }
+}
+
+function dispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(_.assign({}, authAction), dispatch)
+  }
+}
+
+export default connect(stateToProps, dispatchToProps)(Header)
+

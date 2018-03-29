@@ -46,6 +46,11 @@ export default function (state , action) {
         isAuthenticated: false,
         token: null,
       });
+    case ActionType.NOT_AUTHORISED:
+      return _.assign({}, state, {
+        isAuthenticated: false,
+        token: null,
+      });
 
     default:
       return state;
