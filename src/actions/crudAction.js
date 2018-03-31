@@ -166,9 +166,17 @@ export function submitForm(entity, data, id) {
 }
 
 export function subscribe(id) {
-  return {
-    type: ActionType.SUBSCRIBE,
-    item: id
+  return function (dispatch) {
+    dispatch(apiAction.apiRequest());
+    return apiService.store('subscription', {feed_id: id}).then((response) => {
+      dispatch({
+        type: ActionType.SUBSCRIBE,
+        item: id
+      });
+    })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, ActionType.FAILURE);
+      });
   }
 }
 
