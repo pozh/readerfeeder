@@ -17,7 +17,7 @@ export function fetch(pathParam, data) {
 }
 
 export function store(resourceName, data) {
-  return axios.post(api.API_ROOT + pathParam.toLowerCase(), data, {
+  return axios.post(api.API_ROOT + resourceName.toLowerCase(), data, {
     headers: {'Authorization': 'Bearer' + ' ' + cookieLoad(TOKEN)}
   });
 }
