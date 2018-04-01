@@ -30,7 +30,7 @@ class FeedCard extends Component {
   render() {
     const feed = this.props.feed;
     const idx = this.props.idx;
-    const isSubscribed = (this.props.subscriptions.filter(id => id === feed.id).length > 0);
+    const isSubscribed = (this.props.subscriptions.filter(sub => sub.feed_id === feed.id).length > 0);
     const rootClassName = isSubscribed ? 'Feed subscribed' : 'Feed';
     const subAction = isSubscribed ? 'Unsubscribe' : 'Subscribe';
     return (
