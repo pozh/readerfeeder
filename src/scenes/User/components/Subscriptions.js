@@ -51,7 +51,8 @@ class Subscriptions extends Component {
  */
 function mapStateToProps(state) {
   return {
-    subscriptions: state.crud.user.subscriptions,
+
+    subscriptions: state.crud.items.subscriptions,
     apiState: state.api
   }
 }

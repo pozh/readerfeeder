@@ -116,6 +116,7 @@ function mapStateToProps(state) {
     feeds: state.crud.items.feeds,
     categories: state.crud.items.categories,
     selectedItem: state.crud.selectedItem,
+    subscriptions: state.crud.items.subscriptions,
     apiState: state.api
   }
 }

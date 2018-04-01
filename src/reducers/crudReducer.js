@@ -7,9 +7,9 @@ let initialState = {
   items: {
     feeds: [],
     categories: [],
+    subscriptions: [],
   },
   user: {
-    subscriptions: [],
   },
   // For stuff editing purposes inside admin and user cp interfaces
   selectedItem: {
@@ -39,7 +39,6 @@ export default function (state, action) {
 
     case ActionType.SELECT_ITEM_SLUG:
       newState = _.cloneDeep(state);
-      console.log(newState);
       let items = newState.items[pluralize(action.entity)];
       let item = _.find(items, {'slug': action.data});
       newState.selectedItem[action.entity] = item;
@@ -59,17 +58,17 @@ export default function (state, action) {
 
     case ActionType.SUBSCRIBE:
       newState = _.cloneDeep(state);
-      let subs = state.user.subscriptions;
+      let subs = state.items.subscriptions;
       subs.push(action.item);
-      newState.user.subscriptions = subs.filter((elem, pos, arr) => {return arr.indexOf(elem) == pos;});
+      newState.items.subscriptions = subs.filter((elem, pos, arr) => {return arr.indexOf(elem) == pos;});
       return newState;
 
     case ActionType.UNSUBSCRIBE:
       newState = _.cloneDeep(state);
-      subs = state.user.subscriptions;
+      subs = state.items.subscriptions;
       const idx = subs.indexOf(action.item);
       if (idx >= 0) subs.splice(idx, 1);
-      newState.user.subscriptions = subs;
+      newState.items.subscriptions = subs;
       return newState;
 
     case ActionType.CLEAR_LIST:
