@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 
 
@@ -18,7 +19,7 @@ class AuthController extends BaseController
      */
     public function __construct()
     {
-        //
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -47,4 +48,25 @@ class AuthController extends BaseController
         return $this->response->array(compact('token'));
     }
 
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken()
+    {
+        return $this->response->respondWithToken(auth()->refresh());
+    }
+
+    public function checkToken()
+    {
+        if (!$user = JWTAuth::parseToken()->toUser())
+        {
+            $this->response->errorForbidden(trans('auth.incorrect'));
+        }
+        else
+        {
+            return $this->response->array(compact('token'));
+        }
+    }
 }
