@@ -35,7 +35,10 @@ class Header extends React.Component {
       <Navbar className={"Nav " + (isLight && "bg-light")} expand="lg">
         <Container>
           <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
-          <NavbarToggler onClick={this.toggle}/>
+          <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeMiterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+          </button>
+          {/*<NavbarToggler />*/}
           <Collapse isOpen={this.state.isOpen} navbar>
             {!this.props.isAuthenticated && (
               <Nav className="ml-auto" navbar>
