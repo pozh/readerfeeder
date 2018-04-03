@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 use App\Transformers\SubTransformer;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class SubController extends BaseController
@@ -23,8 +24,12 @@ class SubController extends BaseController
      */
     public function index()
     {
-        $subs =  $this->sub->all(); //paginate(25);
-        return $this->response->collection($subs, new SubTransformer()); // paginator($subs, new SubTransformer());
+        if (!$user = JWTAuth::parseToken()->toUser()) {
+            $this->response->errorForbidden(trans('auth.incorrect'));
+        }
+        $subs = $user->subscriptions();
+//        return $this->response->array(array('data' => array_flatten($subs->toArray())));
+        return $this->response->collection($subs, new SubTransformer());
     }
 
     /**
@@ -51,21 +56,25 @@ class SubController extends BaseController
      */
     public function store(Request $request)
     {
+        if (!$user = JWTAuth::parseToken()->toUser()) {
+            $this->response->errorForbidden(trans('auth.incorrect'));
+        }
+
         $validator = \Validator::make($request->input(), [
-            'user_id' => 'required',
-            'feed_id' => 'required',
+            'feed_id' => 'required'
         ]);
+
         if ($validator->fails()) {
             return $this->errorBadRequest($validator->messages());
         }
 
         $attributes = [
-            'user_id' =>  $request->get('user'),
-            'feed_id' => $request->get('feed'),
+            'user_id' => $user->id,
+            'feed_id' => $request->get('feed_id'),
         ];
-        $this->sub->create($attributes);
+        $newSub = $this->sub->create($attributes);
 
-        return $this->response->created();
+        return $this->response->item($newSub, new SubTransformer);
     }
 
     /**

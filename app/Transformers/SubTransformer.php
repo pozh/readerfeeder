@@ -13,5 +13,6 @@ class SubTransformer extends TransformerAbstract
     public function transform(Subscription $sub)
     {
         return $sub->attributesToArray();
+//        return [$sub->feed_id];
     }
 }
