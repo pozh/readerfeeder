@@ -32,6 +32,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
     // Todo: move into the auth section below once authentication is ready.
     // User
     $api->get('user', 'UserController@index');
+    $api->get('user/me', 'UserController@me');
     $api->get('user/{id}', 'UserController@show');
     $api->post('user', 'UserController@store');
     $api->put('user/{id}', 'UserController@update');

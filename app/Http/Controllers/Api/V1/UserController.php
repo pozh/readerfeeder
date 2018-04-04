@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Transformers\UserTransformer;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 
 class UserController extends BaseController
@@ -25,6 +26,16 @@ class UserController extends BaseController
     {
         $users = $this->user->paginate(25);
         return $this->response->paginator($users, new UserTransformer);
+    }
+
+
+    public function me()
+    {
+        if (!$user = JWTAuth::parseToken()->toUser()) {
+            $this->response->errorForbidden(trans('auth.incorrect'));
+        }
+        return $this->response->item($user, new UserTransformer());
+
     }
 
     /**
