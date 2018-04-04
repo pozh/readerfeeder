@@ -171,7 +171,7 @@ export function subscribe(id) {
     return apiService.store('subscription', {feed_id: id}).then((response) => {
       dispatch({
         type: ActionType.SUBSCRIBE,
-        item: id
+        item: response.data.data
       });
     })
       .catch((error) => {

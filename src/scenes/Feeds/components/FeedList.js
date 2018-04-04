@@ -23,6 +23,9 @@ class FeedList extends Component {
       this.props.actions.fetchAll('feed');
       this.props.actions.fetchAll('category');
     }
+    if (this.props.isAuthenticated && this.props.subscriptions.length === 0) {
+      this.props.actions.fetchAll('subscription');
+    }
   }
 
   render() {
@@ -117,6 +120,7 @@ function mapStateToProps(state) {
     categories: state.crud.items.categories,
     selectedItem: state.crud.selectedItem,
     subscriptions: state.crud.items.subscriptions,
+    isAuthenticated: state.auth.isAuthenticated,
     apiState: state.api
   }
 }

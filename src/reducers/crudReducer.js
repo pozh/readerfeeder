@@ -56,9 +56,9 @@ export default function (state, action) {
 
     case ActionType.SUBSCRIBE:
       newState = _.cloneDeep(state);
-      let subs = state.items.subscriptions;
-      subs.push(action.item);
-      newState.items.subscriptions = subs.filter((elem, pos, arr) => {return arr.indexOf(elem) == pos;});
+      let subs = newState.items.subscriptions;
+      index = _.indexOf(subs, _.find(subs, {feed_id: action.item.feed_id}));
+      if (index < 0) newState.items.subscriptions.push(action.item);
       return newState;
 
     case ActionType.UNSUBSCRIBE:
