@@ -18,6 +18,12 @@ class Header extends React.Component {
     };
   }
 
+  componentWillMount() {
+    if (this.props.isAuthenticated) {
+      this.props.actions.setUser();
+    }
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
