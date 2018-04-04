@@ -2,7 +2,17 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {Link} from 'react-router-dom';
-import {Container, Navbar, NavbarToggler, Nav, NavItem, Collapse} from 'reactstrap';
+import {
+  Container,
+  Navbar,
+  Nav,
+  NavItem,
+  Collapse,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem
+} from 'reactstrap';
 import * as authAction from 'actions/authAction';
 
 import './styles.scss';
@@ -42,7 +52,10 @@ class Header extends React.Component {
         <Container>
           <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false"><path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeMiterlimit="10" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
+              <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeMiterlimit="10"
+                    d="M4 7h22M4 15h22M4 23h22"></path>
+            </svg>
           </button>
           {/*<NavbarToggler />*/}
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -66,7 +79,16 @@ class Header extends React.Component {
 
             {this.props.isAuthenticated && (
               <Nav navbar>
-                <NavItem><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></NavItem>
+                <UncontrolledDropdown nav inNavbar>
+                  <DropdownToggle nav caret>
+                    {this.props.user.first_name}
+                  </DropdownToggle>
+                  <DropdownMenu right>
+                    <DropdownItem><Link className="dropdown-item" to="/user/settings">Settings</Link></DropdownItem>
+                    <DropdownItem divider/>
+                    <DropdownItem><Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link></DropdownItem>
+                  </DropdownMenu>
+                </UncontrolledDropdown>
               </Nav>
             )}
           </Collapse>
@@ -79,7 +101,8 @@ class Header extends React.Component {
 
 function stateToProps(state) {
   return {
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    user: state.auth.user
   }
 }
 
