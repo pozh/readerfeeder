@@ -10,6 +10,12 @@ const cookieLoad = cookieName => {
   return cookies.get(cookieName);
 };
 
+export function getAuthorized(path) {
+  return axios.get(path, {
+    headers: {'Authorization': 'Bearer' + ' ' + cookieLoad(TOKEN)}
+  });
+}
+
 export function fetch(pathParam, data) {
   return axios.get(api.API_ROOT + pathParam.toLowerCase(), {
     headers: {'Authorization': 'Bearer' + ' ' + cookieLoad(TOKEN)}

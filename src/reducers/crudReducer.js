@@ -9,8 +9,6 @@ let initialState = {
     categories: [],
     subscriptions: [],
   },
-  user: {
-  },
   // For stuff editing purposes inside admin and user cp interfaces
   selectedItem: {
     feed: {},
