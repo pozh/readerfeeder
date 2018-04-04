@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {NotificationManager as notify} from 'react-notifications';
 import {setToken, clearToken, getToken} from "../utils/authUtil"
+import {getAuthorized} from "../utils/apiService";
 
 import * as api from '../constants/api';
 import {HOME, USER_HOME} from '../constants/common';
@@ -27,6 +28,13 @@ let authActions = {
     return {type: ActionType.LOG_OUT}
   },
 
+  setUser: function (userData) {
+    return {
+      type: ActionType.SET_USER,
+      payload: userData
+    }
+  },
+
   signupSuccess: function (token) {
     return {
       type: ActionType.SIGNUP_SUCCESS,
@@ -50,7 +58,6 @@ export function login({email, password}) {
       });
   };
 }
-
 
 export function signup({name, email, password, passwordcopy}) {
   return function (dispatch) {
@@ -77,7 +84,6 @@ export function signup({name, email, password, passwordcopy}) {
   };
 }
 
-
 export function verifyToken() {
   return (dispatch) => {
     const token = getToken();
@@ -86,6 +92,18 @@ export function verifyToken() {
       dispatch(authActions.loginSuccess(token));
     }
   };
+}
+
+export function setUser() {
+  return function (dispatch) {
+    dispatch(apiAction.apiRequest());
+    getAuthorized(api.API_ME).then((response) => {
+      dispatch(authActions.setUser(response.data.data));
+    })
+      .catch((error) => {
+        authErrorHandler(dispatch, error.response, ActionType.NOT_AUTHORISED);
+      });
+  }
 }
 
 export function logout() {

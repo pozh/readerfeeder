@@ -8,6 +8,7 @@ import * as ActionType from '../constants/actionType';
 var initialState = {
   token: null,
   isAuthenticated: false,
+  user: {},
 };
 
 /**
@@ -51,7 +52,10 @@ export default function (state , action) {
         isAuthenticated: false,
         token: null,
       });
-
+    case ActionType.SET_USER:
+      return _.assign({}, state, {
+        user: action.payload,
+      });
     default:
       return state;
   }
