@@ -70,7 +70,6 @@ export function signup({name, email, password, passwordcopy}) {
       return;
     }
 
-
     dispatch(apiAction.apiRequest());
     axios.post(api.API_SIGNUP, {name, email, password}).then((response) => {
       dispatch(authActions.signupSuccess(response.data.token));
@@ -115,10 +114,11 @@ export function logout() {
 }
 
 export function authErrorHandler(dispatch, error, type) {
-  let errorMessage = (error.data.message) ? error.data.message : error.data;
+  let errorMessage = '';
+  if (error) errorMessage = (error.data.message) ? error.data.message : error.data;
 
   // NOT AUTHENTICATED ERROR
-  if (error.status === 401) {
+  if (error && error.status === 401) {
     errorMessage = message.NOT_AUTHORISED;
   }
 
