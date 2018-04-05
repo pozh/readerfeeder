@@ -14,6 +14,7 @@ import {
   DropdownItem
 } from 'reactstrap';
 import * as authAction from 'actions/authAction';
+import {isEmpty} from "../../utils/commonUtil";
 
 import './styles.scss';
 
@@ -29,7 +30,7 @@ class Header extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.isAuthenticated) {
+    if (this.props.isAuthenticated && isEmpty(this.props.user)) {
       this.props.actions.setUser();
     }
   }
