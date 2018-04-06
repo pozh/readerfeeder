@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux';
 import {Container, Row, Col} from 'reactstrap';
 import PageCaption from './../../components/PageCaption';
 import FeedToc from './FeedToc';
+import {isEmpty} from "../../../utils/commonUtil";
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -16,7 +17,7 @@ class FeedInfo extends Component {
     let feed = this.props.feed;
     let slug = this.props.match.params.slug;
 
-    if (!feed.length > 0 && feed.slug !== slug) {
+    if (isEmpty(feed) || feed.slug !== slug) {
       this.props.actions.fetchBySlug('feed', slug);
     }
   };
@@ -27,7 +28,7 @@ class FeedInfo extends Component {
     const feed = this.props.feed;
     // const items = this.state.items;
 
-    if (!feed || this.props.apiState.isRequesting)
+    if (!feed || this.props.match.params.slug !== feed.slug)
       return (
         <main>
           <PageCaption>...</PageCaption>
