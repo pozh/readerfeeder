@@ -71,6 +71,11 @@ export default function (state, action) {
       newState.selectedItem[action.entity] = {};
       return newState;
 
+    case ActionType.NOT_AUTHORISED:
+      newState = _.cloneDeep(state);
+      newState.items['subscriptions'] = [];
+      return newState;
+
     default:
       return state;
   }
