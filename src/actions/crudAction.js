@@ -181,9 +181,14 @@ export function subscribe(id) {
 }
 
 export function unsubscribe(id) {
-  return {
-    type: ActionType.UNSUBSCRIBE,
-    item: id
+  return function (dispatch) {
+    dispatch(apiAction.apiRequest('Unsubscribe'));
+    return apiService.destroy('subscription', id).then((response) => {
+      dispatch(commonActions.delete('subscription', id));
+    })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, ActionType.FAILURE);
+      });
   }
 }
 

@@ -18,9 +18,11 @@ class FeedCard extends Component {
   handleSubscribe(event) {
     event.preventDefault();
     const feed = this.props.feed;
-    const isSubscribed = (this.props.subscriptions.filter(id => id === feed.id).length > 0);
-    if (isSubscribed) this.props.actions.unsubscribe(this.props.feed.id);
-    else this.props.actions.subscribe(this.props.feed.id);
+    const feedSubs = this.props.subscriptions.filter(sub => sub.feed_id === feed.id);
+    if (feedSubs.length > 0)
+      this.props.actions.unsubscribe(feedSubs[0].id); // unsubscribe, i.e. destroy the subscription in db by its ID
+    else
+      this.props.actions.subscribe(this.props.feed.id);
   }
 
   handleSend(event) {
