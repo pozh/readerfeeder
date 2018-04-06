@@ -29,15 +29,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
     // refresh jwt token
     $api->post('auth/login/refresh', 'AuthController@refreshToken');
 
-    // Todo: move into the auth section below once authentication is ready.
-    // User
-    $api->get('user', 'UserController@index');
-    $api->get('user/me', 'UserController@me');
-    $api->get('user/{id}', 'UserController@show');
-    $api->post('user', 'UserController@store');
-    $api->put('user/{id}', 'UserController@update');
-    $api->delete('user/{id}', 'UserController@destroy');
-
     // Feed
     $api->get('feed', 'FeedController@index');
     $api->get('feed/{id}', 'FeedController@show');
@@ -57,6 +48,15 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
     // need authentication
     $api->group(['middleware' => 'api.auth'], function ($api) {
         $api->get('auth/check', 'AuthController@checkToken');
+
+        // User
+        $api->get('user', 'UserController@index');
+        $api->get('user/me', 'UserController@me');
+        $api->get('user/{id}', 'UserController@show');
+        $api->post('user', 'UserController@store');
+        $api->put('user/{id}', 'UserController@update');
+        $api->delete('user/{id}', 'UserController@destroy');
+
         // Subscription
         $api->get('subscription', 'SubController@index');
         $api->get('subscription/{id}', 'SubController@show');
