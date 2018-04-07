@@ -2,8 +2,9 @@ import React, { Component, PropTypes } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import DocumentTitle from 'react-document-title';
 import { Form, FormGroup, Input } from 'reactstrap';
-import {USER_HOME} from 'constants/common';
+import {USER_HOME, TITLE_SIGNUP} from 'constants/common';
 
 import * as authAction from 'actions/authAction';
 
@@ -55,6 +56,7 @@ class SignupPage extends Component {
     if (this.state.redirect) return <Redirect to={this.state.redirect}/>;
     else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
     else return (
+      <DocumentTitle title={TITLE_SIGNUP}>
       <section className="Signup">
         <div className="Signup-dialog">
           <Form className="Signup-form" onSubmit={this.processForm}>
@@ -78,6 +80,7 @@ class SignupPage extends Component {
           </Form>
         </div>
       </section>
+      </DocumentTitle>
     );
   }
 }

@@ -1,13 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'reactstrap';
+import {Link} from 'react-router-dom';
+import {Container, Row, Col} from 'reactstrap';
+import DocumentTitle from 'react-document-title';
+
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import Hero from './components/Hero';
+import {TITLE_HOME} from "../../constants/common";
 import './styles.scss';
 
 
 export const HomePage = () => (
+  <DocumentTitle title={TITLE_HOME}>
   <div>
     <Header light/>
     <Hero/>
@@ -16,7 +20,7 @@ export const HomePage = () => (
       <Container>
         <Row className="align-items-center">
           <Col md="5">
-            <img src={require("assets/images/placeholder.png")} />
+            <img src={require("assets/images/placeholder.png")}/>
           </Col>
           <Col md="7" className="px-5">
             <p className="h3">Collect</p>
@@ -25,7 +29,7 @@ export const HomePage = () => (
         </Row>
         <Row className="align-items-center">
           <Col md="5" className="order-12">
-            <img src={require("assets/images/placeholder.png")} />
+            <img src={require("assets/images/placeholder.png")}/>
           </Col>
           <Col md="7" className="px-5">
             <p className="h3">Annotate</p>
@@ -34,7 +38,7 @@ export const HomePage = () => (
         </Row>
         <Row className="align-items-center">
           <Col md="5">
-            <img src={require("assets/images/placeholder.png")} />
+            <img src={require("assets/images/placeholder.png")}/>
           </Col>
           <Col md="7" className="px-5">
             <p className="h3">Organize</p>
@@ -48,7 +52,7 @@ export const HomePage = () => (
       <Container>
         <Row className="align-items-center my-0">
           <Col md="5" className="order-12">
-            <img src={require("assets/images/placeholder.png")} />
+            <img src={require("assets/images/placeholder.png")}/>
           </Col>
           <Col md="7" className="px-5">
             <p className="h3">Share</p>
@@ -58,8 +62,9 @@ export const HomePage = () => (
       </Container>
     </section>
 
-    <Footer />
+    <Footer/>
   </div>
+  </DocumentTitle>
 );
 
 export default HomePage;

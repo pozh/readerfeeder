@@ -1,5 +1,8 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
+import DocumentTitle from 'react-document-title';
+
+import {TITLE_FEEDS} from "../../constants/common";
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import FeedInfo from './components/FeedInfo';
@@ -10,6 +13,7 @@ import './styles.scss';
 export const FeedsPage = props => {
 
   return (
+    <DocumentTitle title={TITLE_FEEDS}>
     <div>
       <Header className="white" />
       <Switch>
@@ -20,6 +24,7 @@ export const FeedsPage = props => {
       </Switch>
       <Footer/>
     </div>
+    </DocumentTitle>
   );
 };
 

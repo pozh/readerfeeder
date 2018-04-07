@@ -4,3 +4,10 @@ export const ORDER_RECENT = 'recent';
 
 export const USER_HOME = '/subscriptions';
 export const HOME = '/';
+
+// Page titles
+export const TITLE_SUFFIX = ' - ReaderFeeder';
+export const TITLE_HOME = 'RSS delivery service for Kindle Paperwhite, Voyage and Oasis' + TITLE_SUFFIX;
+export const TITLE_FEEDS = 'Browse Feeds' + TITLE_SUFFIX;
+export const TITLE_LOGIN = 'Login' + TITLE_SUFFIX;
+export const TITLE_SIGNUP = 'Sign Up' + TITLE_SUFFIX;

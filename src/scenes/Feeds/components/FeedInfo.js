@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import DocumentTitle from 'react-document-title';
+
 import {bindActionCreators} from 'redux';
 import {Container, Row, Col} from 'reactstrap';
 import PageCaption from './../../components/PageCaption';
@@ -9,6 +11,7 @@ import {isEmpty} from "../../../utils/commonUtil";
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
+import {TITLE_SUFFIX} from "../../../constants/common";
 
 
 class FeedInfo extends Component {
@@ -26,6 +29,7 @@ class FeedInfo extends Component {
 
     const items = [];
     const feed = this.props.feed;
+    const pageTitle = feed.title + ' - Kindle subscription' + TITLE_SUFFIX;
     // const items = this.state.items;
 
     if (!feed || this.props.match.params.slug !== feed.slug)
@@ -36,6 +40,7 @@ class FeedInfo extends Component {
         </main>
       );
     else return (
+      <DocumentTitle title={pageTitle}>
       <main>
         <PageCaption>{feed.title}</PageCaption>
         <Container>
@@ -59,6 +64,7 @@ class FeedInfo extends Component {
           </Row>
         </Container>
       </main>
+      </DocumentTitle>
     );
   };
 }
