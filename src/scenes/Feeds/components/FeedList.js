@@ -58,10 +58,11 @@ class FeedList extends Component {
 
         <section className="Feeds pt-5">
           <Container>
-
             <SortCtrl order={order}/>
+          </Container>
 
-            <div className="Feeds-list">
+          <div className="Feeds-list">
+            <Container>
 
               {/* Feeds by category, all categories*/}
               {(order === 'categories') && categories.map((category, cIndex) => (
@@ -102,8 +103,8 @@ class FeedList extends Component {
                     .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
                 </div>
               )}
-            </div>
-          </Container>
+            </Container>
+          </div>
         </section>
       </main>
     );

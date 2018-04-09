@@ -34,18 +34,20 @@ class FeedCard extends Component {
     const idx = this.props.idx;
     const isSubscribed = (this.props.subscriptions.filter(sub => sub.feed_id === feed.id).length > 0);
     const rootClassName = isSubscribed ? 'Feed subscribed' : 'Feed';
-    const subAction = isSubscribed ? 'Unsubscribe' : 'Subscribe';
     return (
       <div className={rootClassName}>
         <Link to={"/feed/" + feed.slug} className="Feed-name">
           {idx && (<span className="Feed-order">{idx}. </span>)}
           {feed.title}
         </Link>
-        {isSubscribed && <span className="Feed-subscribed">Subscribed</span>}
-        <div className="Feed-delivery">Delivery: {feed.period}</div>
-        <div className="Feed-actions">
-          <a href="#" onClick={this.handleSend} className="Feed-action">Send last issue</a>
-          <a href="#" onClick={this.handleSubscribe} className="Feed-action">{subAction}</a>
+        <div className="Feed-functions">
+          <div className="Feed-delivery"><img className="Feed-delivery-icon" src={require("assets/images/ico_delivery.png")} alt=""/>{feed.period}</div>
+
+          <div className="Feed-actions">
+            {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-subscribe">Unsubscribe</a>}
+            {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-unsubscribe">Subscribe</a>}
+            <a href="#" onClick={this.handleSend} className="Feed-action Feed-action-send">Send to Kindle</a>
+          </div>
         </div>
       </div>
     );
