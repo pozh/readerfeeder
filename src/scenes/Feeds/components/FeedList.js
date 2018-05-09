@@ -57,12 +57,10 @@ class FeedList extends Component {
         </PageCaption>
 
         <section className="Feeds pt-5">
-          <Container>
+          <div className="container">
             <SortCtrl order={order}/>
-          </Container>
 
-          <div className="Feeds-list">
-            <Container>
+            <div className="Feeds-list">
 
               {/* Feeds by category, all categories*/}
               {(order === 'categories') && categories.map((category, cIndex) => (
@@ -70,7 +68,7 @@ class FeedList extends Component {
                   <h4 className="title">
                     <Link to={"/feeds/" + category.slug}>{category.title}</Link>
                   </h4>
-                  <div className="Feeds-feeds">
+                  <div className="row Feeds-feeds">
                     {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
                       <FeedCard feed={feed} key={fIndex}/>
                     )}
@@ -80,14 +78,14 @@ class FeedList extends Component {
 
               {/* Selected Category Feeds */}
               {categorySlug && (
-                <div className="Feeds-feeds">
+                <div className="row Feeds-feeds">
                   {feeds.filter(feed => feed.category_id === category.id)
                     .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
                 </div>
               )}
 
               {order === 'popular' && (
-                <div className="Feeds-feeds">
+                <div className="row Feeds-feeds">
                   {feeds.sort((a, b) => {
                     return b.subscribers - a.subscribers;
                   })
@@ -96,14 +94,14 @@ class FeedList extends Component {
               )}
 
               {order === 'recent' && (
-                <div className="Feeds-feeds">
+                <div className="row Feeds-feeds">
                   {feeds.sort((a, b) => {
                     return b.id - a.id;
                   })
                     .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
                 </div>
               )}
-            </Container>
+            </div>
           </div>
         </section>
       </main>

@@ -41,40 +41,35 @@
   }
 
   &-list {
-
-    .container {
-      padding-top: 4rem;
-      column-count: 1;
-
-      @include media-breakpoint-up(md) {
-        column-count: 2;
-      }
-      @include media-breakpoint-up(lg) {
-        column-count: 3;
-      }
-    }
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 
   &-section {
     break-inside: avoid;
-    margin-bottom:75px;
+    margin-bottom:50px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
     .title {
       font-size: 1.8rem;
-      margin-bottom: 20px;
+      margin-bottom: 0px;
+      text-transform: uppercase;
 
       a {
-        color: #212529;
+        color: rgba(0,0,0,.5);
         &:hover {
           text-decoration: none;
           color: $primary;
         }
       }
     }
+  }
 
-    &-feeds {
-      padding: 20px 0 0 0;
-    }
+  &-feeds {
+    padding: 20px 0 0 0;
   }
 }
 
@@ -83,7 +78,8 @@
   background: $white;
   border-radius: 2px;
   padding: 16px 20px;
-  box-shadow: 0 1px 3px $gray-400;
+  margin-bottom: $spacer;
+  box-shadow: 0 3px 9px rgba(0,0,0,.05);
   break-inside: avoid-column;
 
   &.subscribed {
@@ -123,6 +119,7 @@
   &-name {
     color:$black;
     opacity: .8;
+    min-height: 3.7rem;
     font-weight: normal;
     font-size: 22px;
     display: inline-block;
@@ -135,7 +132,7 @@
   }
 
   &-functions {
-    margin-top: 25px;
+    margin-top: 15px;
     border-top: 1px solid $gray-300;
     padding-top: 16px;
     position: relative;

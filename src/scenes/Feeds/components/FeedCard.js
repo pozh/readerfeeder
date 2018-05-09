@@ -35,6 +35,7 @@ class FeedCard extends Component {
     const isSubscribed = (this.props.subscriptions.filter(sub => sub.feed_id === feed.id).length > 0);
     const rootClassName = isSubscribed ? 'Feed subscribed' : 'Feed';
     return (
+      <div className="col-md-6 col-lg-4 ">
       <div className={rootClassName}>
         <Link to={"/feed/" + feed.slug} className="Feed-name">
           {idx && (<span className="Feed-order">{idx}. </span>)}
@@ -49,6 +50,7 @@ class FeedCard extends Component {
             <a href="#" onClick={this.handleSend} className="Feed-action Feed-action-send">Send to Kindle</a>
           </div>
         </div>
+      </div>
       </div>
     );
   }
