@@ -169,6 +169,7 @@ export function subscribe(id) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
     return apiService.store('subscription', {feed_id: id}).then((response) => {
+      dispatch(apiAction.apiResponse());
       dispatch({
         type: ActionType.SUBSCRIBE,
         item: response.data.data
@@ -184,6 +185,7 @@ export function unsubscribe(id) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest('Unsubscribe'));
     return apiService.destroy('subscription', id).then((response) => {
+      dispatch(apiAction.apiResponse());
       dispatch(commonActions.delete('subscription', id));
     })
       .catch((error) => {

@@ -48,6 +48,7 @@ export function login({email, password}) {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
     axios.post(api.API_LOGIN, {email, password}).then((response) => {
+      dispatch(apiAction.apiResponse());
       setToken(response.data.token);
       dispatch(authActions.loginSuccess(response.data.token));
       history.push(USER_HOME);
@@ -72,6 +73,7 @@ export function signup({name, email, password, passwordcopy}) {
 
     dispatch(apiAction.apiRequest());
     axios.post(api.API_SIGNUP, {name, email, password}).then((response) => {
+      dispatch(apiAction.apiResponse());
       dispatch(authActions.signupSuccess(response.data.token));
       setToken(response.data.token);
       history.push(USER_HOME);
@@ -97,6 +99,7 @@ export function setUser() {
   return function (dispatch) {
     dispatch(apiAction.apiRequest());
     getAuthorized(api.API_ME).then((response) => {
+      dispatch(apiAction.apiResponse());
       dispatch(authActions.setUser(response.data.data));
     })
       .catch((error) => {
