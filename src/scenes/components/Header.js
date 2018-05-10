@@ -85,7 +85,7 @@ class Header extends React.Component {
                     {this.props.user.first_name}
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem><Link className="dropdown-item" to="/user/settings">Settings</Link></DropdownItem>
+                    <DropdownItem><Link className="dropdown-item" to="/settings">Settings</Link></DropdownItem>
                     <DropdownItem divider/>
                     <DropdownItem><Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link></DropdownItem>
                   </DropdownMenu>

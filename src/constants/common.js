@@ -11,3 +11,4 @@ export const TITLE_HOME = 'RSS delivery service for Kindle Paperwhite, Voyage an
 export const TITLE_FEEDS = 'Browse Feeds' + TITLE_SUFFIX;
 export const TITLE_LOGIN = 'Login' + TITLE_SUFFIX;
 export const TITLE_SIGNUP = 'Sign Up' + TITLE_SUFFIX;
+export const TITLE_USER_SETTINGS = 'Settings' + TITLE_SUFFIX;
