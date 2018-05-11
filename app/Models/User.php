@@ -55,4 +55,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->hasMany('App\Models\Subscription')->get();
     }
+
+    /**
+     * Get the meta info for the user.
+     */
+    public function meta()
+    {
+        return $this->hasMany('App\Models\Usermeta')->get();
+    }
 }
