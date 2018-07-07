@@ -7,6 +7,7 @@ import Header from './../components/Header';
 import RequireAuth from '../Auth/RequireAuth';
 import Subscriptions from './components/Subscriptions';
 import Settings from './components/Settings';
+import Pro from './components/Pro';
 
 import './styles.scss';
 
@@ -18,6 +19,7 @@ export const UserPage = props => {
       <Switch>
         <Route path="/subscriptions" component={RequireAuth(Subscriptions)}/>
         <Route path="/settings" component={RequireAuth(Settings)}/>
+        <Route path="/pro" component={RequireAuth(Pro)}/>
       </Switch>
       <Footer/>
     </div>

@@ -80,6 +80,7 @@ class Header extends React.Component {
 
             {this.props.isAuthenticated && (
               <Nav navbar>
+                <NavItem><Link className="btn btn-primary Nav-upgrade-btn" to="/pro">Upgrade</Link></NavItem>
                 <UncontrolledDropdown nav inNavbar>
                   <DropdownToggle nav caret>
                     {this.props.user.first_name}
