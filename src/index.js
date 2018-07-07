@@ -6,6 +6,7 @@ import history from './history';
 
 import { verifyToken } from './actions/authAction';
 
+import 'assets/styles/vendor.scss';
 import 'assets/styles/main.scss';
 
 import store from 'store';
