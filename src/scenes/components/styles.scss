@@ -7,10 +7,15 @@
 // Top Navbar
 .Nav {
   border-bottom: 1px solid $gray-200;
+  padding: 2rem 0;
   //box-shadow: 0 2px 7px #f3f3f3;
 
   .navbar-brand img {
     height: 40px;
+  }
+
+  &-upgrade-btn {
+    margin-right: 1rem;
   }
 }
 
@@ -32,8 +37,12 @@
 
     small {
       display: block;
-      font-size: .5em;
-      color: $gray-600;
+      text-transform: uppercase;
+      font-size: 0.25em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      opacity: .45;
+      margin-top: 25px;
     }
   }
 }

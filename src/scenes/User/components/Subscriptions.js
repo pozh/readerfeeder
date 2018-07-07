@@ -46,7 +46,7 @@ class Subscriptions extends Component {
             </div>
           )}
           {subs.length > 0 && (
-            <div className="Feeds-list">
+            <div className="Feeds-list pt-0">
               <div className="row Feeds-feeds">
                 {myFeeds.map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
               </div>

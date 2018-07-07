@@ -15,7 +15,7 @@ $black:                             #000;
 $green: #7CB342;//#90c108;
 $light:                             #F4F4F1;//f8f7f4;
 $primary:                           #ED6F67;
-$secondary:                         #817473;
+$secondary:                         hsl(25,16,82);
 $color-facebook:                    #3b5998;
 $color-twitter:                     #55acee;
 $color-google:                      #dd4b39;
@@ -29,7 +29,7 @@ $font-size-base:                    1rem; // Assumes the browser default, typica
 // NAVBAR
 $navbar-padding-y:                  15px;
 $navbar-brand-height:               4rem;
-$nav-link-padding-y:                1.9rem;
+//$nav-link-padding-y:                1.9rem;
 $navbar-light-color:                rgba($black, .35);
 $navbar-light-hover-color:          rgba($black, .55);
 $navbar-light-active-color:         $primary;
