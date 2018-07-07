@@ -47,7 +47,6 @@ class FeedCard extends Component {
           <div className="Feed-actions">
             {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-subscribe">Unsubscribe</a>}
             {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-unsubscribe">Subscribe</a>}
-            <a href="#" onClick={this.handleSend} className="Feed-action Feed-action-send">Send to Kindle</a>
           </div>
         </div>
       </div>

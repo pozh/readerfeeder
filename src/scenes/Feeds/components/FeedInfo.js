@@ -59,7 +59,6 @@ class FeedInfo extends Component {
             </Col>
             <Col sm="3">
               <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
-              <p><Link to="#" className="btn btn-lg btn-block btn-secondary">Send current issue</Link></p>
             </Col>
           </Row>
         </Container>
