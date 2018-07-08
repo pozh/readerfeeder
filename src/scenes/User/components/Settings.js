@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PageCaption from './../../components/PageCaption';
 import {isEmpty} from "../../../utils/commonUtil";
+import Input from 'arui-feather/input';
+import EmailInput from 'arui-feather/email-input';
 
 import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
@@ -20,45 +22,40 @@ class Settings extends Component {
   }
 
   render() {
-    const user=this.props.user;
+    const user = this.props.user;
     return (
       <main>
         <PageCaption>Settings</PageCaption>
         <div className="container">
-          <div className="row"><div className="col-md-8 offset-md-2">
-            <form method="post" action="" id="settingsform">
-              <div className="form-group">
-                <label>Username</label>
-                <input className="form-control" id="displayname" name="displayname" type="text" value={user.first_name}/>
-              </div>
-              <div className="form-group">
-                <label>Your Kindle's Email Address <sup>*</sup></label>
-                <div className="input-group">
-                  <input name="kindle_email" className="form-control" type="text" value=""/>
+          <div className="row justify-content-center">
+            <div className="col-md-6">
+              <form method="post" action="" id="settingsform">
+                <div className="form-group">
+                  <Input label='Username' width='available' id="displayname" name="displayname"
+                         value={user.first_name}/>
                 </div>
-              </div>
-              <div className="form-row">
-                <div className="col-md-6 form-group">
-                  <label for="inputPassword">New Password</label>
-                  <input name="password" type="password" id="inputPassword" className="form-control" placeholder=""/>
+                <div className="form-group">
+                  <EmailInput label="Kindle e-mail" name="kindle_email" placeholder="Your Kindle's e-mail"
+                              width='available'/>
                 </div>
-                <div className="col-md-6 form-group">
-                  <label for="inputPasswordCopy">Retype Password</label>
-                  <input name="password_copy" type="password" id="inputPasswordCopy" className="form-control" placeholder=""/>
+                <div className="form-group">
+                  <Input label='New password' name="password" type="password" width='available'/>
                 </div>
-              </div>
-              <div className="form-group text-center">
-                <br/>
-                <input type="submit" className="btn btn-lg btn-primary" name="savesettings" value="Save settings"/>
-              </div>
-            </form>
-          </div></div>
+                <div className="form-group">
+                  <Input label='Retype password' name="password_copy" type="password" width='available'/>
+                </div>
+                <div className="form-group text-center">
+                  <br/>
+                  <button className='btn btn-lg btn-primary'>Save settings</button>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </main>
     );
   }
 }
-
 
 
 /**
