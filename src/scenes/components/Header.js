@@ -74,7 +74,6 @@ class Header extends React.Component {
             {this.props.isAuthenticated && (
               <Nav className="mr-auto" navbar>
                 <NavItem><Link className="nav-link" to="/feeds">Browse Feeds</Link></NavItem>
-                <NavItem><Link className="nav-link" to="/subscriptions">My Subscriptions</Link></NavItem>
               </Nav>
             )}
 
@@ -86,6 +85,7 @@ class Header extends React.Component {
                     {this.props.user.first_name}
                   </DropdownToggle>
                   <DropdownMenu right>
+                    <DropdownItem><Link className="dropdown-item" to="/subscriptions">Subscriptions</Link></DropdownItem>
                     <DropdownItem><Link className="dropdown-item" to="/settings">Settings</Link></DropdownItem>
                     <DropdownItem divider/>
                     <DropdownItem><Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link></DropdownItem>
