@@ -13,7 +13,7 @@ const SortCtrl = props => {
     <ul className="Feeds-order">
       <li><Link className={order===c.ORDER_CATEGORIES ? 'active' : ''} to="/feeds">Categories</Link></li>
       <li><Link className={order===c.ORDER_POPULAR ? 'active' : ''} to="/feeds/popular">Most popular</Link></li>
-      <li><Link className={order===c.ORDER_RECENT ? 'active' : ''} to="/feeds/recent">Most recent</Link></li>
+      <li><Link className={order===c.ORDER_RECENT ? 'active' : ''} to="/feeds/recent">Recent</Link></li>
     </ul>
   );
 }
