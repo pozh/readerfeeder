@@ -11,9 +11,11 @@
 |
 */
 
-$app->get('/', function () use ($app) {
-    return $app->version();
-});
+$app->get('/', 'TestController@index');
+
+//$app->get('/', function () use ($app) {
+//    return $app->version();
+//});
 
 //$app->get('/', function () {
 //    return view('dashboard');
@@ -26,6 +28,8 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($api) {
     // login
     $api->post('auth/login', 'AuthController@login');
+    // signup
+    $api->post('user', 'UserController@store');
     // refresh jwt token
     $api->post('auth/login/refresh', 'AuthController@refreshToken');
 
@@ -53,7 +57,6 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\Api\V1'], function ($a
         $api->get('user', 'UserController@index');
         $api->get('user/me', 'UserController@me');
         $api->get('user/{id}', 'UserController@show');
-        $api->post('user', 'UserController@store');
         $api->put('user/{id}', 'UserController@update');
         $api->delete('user/{id}', 'UserController@destroy');
 
