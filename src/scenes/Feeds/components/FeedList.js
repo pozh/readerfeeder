@@ -1,23 +1,18 @@
-import React, {Component, PropTypes} from 'react';
-import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import _ from 'lodash';
-import {Container} from 'reactstrap';
-import PageCaption from './../../components/PageCaption';
-import SortCtrl from './SortCtrl';
-import FeedCard from './FeedCard';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
+import PageCaption from './../../components/PageCaption';
+import SortCtrl from './SortCtrl';
+import FeedCard from './FeedCard';
 
 class FeedList extends Component {
-
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     if (!this.props.categories.length > 0) {
       this.props.actions.fetchAll('feed');
@@ -29,27 +24,29 @@ class FeedList extends Component {
   }
 
   render() {
-    let categories = this.props.categories;
-    let feeds = this.props.feeds;
+    const categories = this.props.categories;
+    const feeds = this.props.feeds;
 
-    let categorySlug = this.props.match.params.category;
+    const categorySlug = this.props.match.params.category;
 
     let order = this.props.match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
-    let category = categorySlug ? _.find(categories, {'slug': categorySlug}) : null;
+    const category = categorySlug ? _.find(categories, { slug: categorySlug }) : null;
 
-    if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) return (
-      <main>
-        <PageCaption>
+    if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
+      return (
+        <main>
+          <PageCaption>
           Browse Feeds
-        </PageCaption>
-        <Container>
-          <h2>Loading...</h2>
-        </Container>
-      </main>
-    );
-    else return (
+          </PageCaption>
+          <div className="container">
+            <h2>Loading...</h2>
+          </div>
+        </main>
+      );
+    }
+    return (
       <main>
         <PageCaption>
           Browse Feeds
@@ -58,19 +55,19 @@ class FeedList extends Component {
 
         <section className="Feeds pt-5">
           <div className="container">
-            <SortCtrl order={order}/>
+            <SortCtrl order={order} />
 
             <div className="Feeds-list">
 
-              {/* Feeds by category, all categories*/}
-              {(order === 'categories') && categories.map((category, cIndex) => (
-                <div className="Feeds-section" key={cIndex}>
+              {/* Feeds by category, all categories */}
+              {(order === 'categories') && categories.map(eachCategory => (
+                <div className="Feeds-section" key={eachCategory.id}>
                   <h4 className="title">
-                    <Link to={"/feeds/" + category.slug}>{category.title}</Link>
+                    <Link to={`/feeds/${eachCategory.slug}`}>{eachCategory.title}</Link>
                   </h4>
                   <div className="row Feeds-feeds">
-                    {feeds.filter(feed => feed.category_id === category.id).map((feed, fIndex) =>
-                      <FeedCard feed={feed} key={fIndex}/>
+                    {feeds.filter(feed => feed.category_id === eachCategory.id).map(feed =>
+                      <FeedCard feed={feed} key={feed.id} />
                     )}
                   </div>
                 </div>
@@ -80,25 +77,21 @@ class FeedList extends Component {
               {categorySlug && (
                 <div className="row Feeds-feeds">
                   {feeds.filter(feed => feed.category_id === category.id)
-                    .map((feed, idx) => <FeedCard feed={feed} key={idx}/>)}
+                    .map(feed => <FeedCard feed={feed} key={feed.id} />)}
                 </div>
               )}
 
               {order === 'popular' && (
                 <div className="row Feeds-feeds">
-                  {feeds.sort((a, b) => {
-                    return b.subscribers - a.subscribers;
-                  })
-                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
+                  {feeds.sort((a, b) => b.subscribers - a.subscribers)
+                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={feed.id} />)}
                 </div>
               )}
 
               {order === 'recent' && (
                 <div className="row Feeds-feeds">
-                  {feeds.sort((a, b) => {
-                    return b.id - a.id;
-                  })
-                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={idx}/>)}
+                  {feeds.sort((a, b) => b.id - a.id)
+                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={feed.id} />)}
                 </div>
               )}
             </div>
@@ -109,10 +102,16 @@ class FeedList extends Component {
   }
 }
 
+FeedList.propTypes = {
+  categories: PropTypes.arrayOf(PropTypes.object),
+  isAuthenticated: PropTypes.bool
+};
 
-/**
- * Map the state to props.
- */
+FeedList.defaultProps = {
+  categories: {},
+  isAuthenticated: false
+};
+
 function mapStateToProps(state) {
   return {
     feeds: state.crud.items.feeds,
@@ -121,20 +120,13 @@ function mapStateToProps(state) {
     subscriptions: state.crud.items.subscriptions,
     isAuthenticated: state.auth.isAuthenticated,
     apiState: state.api
-  }
+  };
 }
 
-/**
- * Map the actions to props.
- */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
-  }
+  };
 }
 
-/**
- * Connect the component to the Redux store.
- */
-
-export default connect(mapStateToProps, mapDispatchToProps)(FeedList)
+export default connect(mapStateToProps, mapDispatchToProps)(FeedList);

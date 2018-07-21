@@ -8,20 +8,18 @@ import SignupPage from './scenes/Auth/Signup';
 import FeedsPage from './scenes/Feeds';
 import UserPage from './scenes/User';
 
-const App = () => {
-  return (
-    <div>
-      <Switch>
-        <Route exact path="/" component={HomePage}/>
-        <Route path="/feeds" component={FeedsPage}/>
-        <Route path="/feed" component={FeedsPage}/>
-        <Route exact path="/login" component={LoginPage}/>
-        <Route exact path="/signup" component={SignupPage}/>
-        <Route component={UserPage}/>
-      </Switch>
-      <NotificationContainer/>
-    </div>
-  );
-};
+const App = () => (
+  <div>
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route path="/feeds" component={FeedsPage} />
+      <Route path="/feed" component={FeedsPage} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/signup" component={SignupPage} />
+      <Route component={UserPage} />
+    </Switch>
+    <NotificationContainer />
+  </div>
+);
 
 export default App;

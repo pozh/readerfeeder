@@ -1,58 +1,56 @@
-import {NotificationManager as notify} from 'react-notifications';
+import { NotificationManager as notify } from 'react-notifications';
 
+import * as message from 'constants/message';
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 import * as apiService from '../utils/apiService';
 import * as Converter from '../utils/converter';
-import * as message from 'constants/message';
-
 import history from '../history';
 
 
 /**
  * Actions that are dispatched from crudAction
  */
-let commonActions = {
-  list: function (entity, data) {
+const commonActions = {
+  list(entity, data) {
     return {
       type: ActionType.LIST,
-      entity: entity,
-      data: data
-    }
+      entity,
+      data
+    };
   },
 
-  selectItem: function (entity, data) {
+  selectItem(entity, data) {
     return {
       type: ActionType.SELECT_ITEM,
-      entity: entity,
-      data: data
-    }
+      entity,
+      data
+    };
   },
 
-  selectItemId: function (entity, data) {
+  selectItemId(entity, data) {
     return {
       type: ActionType.SELECT_ITEM_ID,
-      entity: entity,
-      data: data
-    }
+      entity,
+      data
+    };
   },
 
-  selectItemSlug: function (entity, data) {
+  selectItemSlug(entity, data) {
     return {
       type: ActionType.SELECT_ITEM_SLUG,
-      entity: entity,
-      data: data
-    }
+      entity,
+      data
+    };
   },
 
-  delete: function (entity, id) {
+  delete(entity, id) {
     return {
       type: ActionType.DELETE,
-      entity: entity,
-      id: id
-    }
+      entity,
+      id
+    };
   },
-
 };
 
 
@@ -63,9 +61,8 @@ let commonActions = {
  * entity = 'Feed', 'Categories', ...
  */
 
-
 export function fetchAll(entity, data) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.fetch(entity, data).then((response) => {
       dispatch(apiAction.apiResponse());
@@ -78,7 +75,7 @@ export function fetchAll(entity, data) {
 }
 
 export function fetchById(entity, id) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.fetch(Converter.getPathParam(entity, id)).then((response) => {
       dispatch(apiAction.apiResponse());
@@ -91,7 +88,7 @@ export function fetchById(entity, id) {
 }
 
 export function fetchBySlug(entity, slug) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.fetch(Converter.getPathParam(entity, 'byslug', slug)).then((response) => {
       dispatch(apiAction.apiResponse());
@@ -108,17 +105,17 @@ export function selectItem(entity, data) {
 }
 
 export function selectBySlug(entity, slug) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(commonActions.selectItemSlug(entity, slug));
-  }
+  };
 }
 
 export function storeItem(entity, data) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.store(entity, data).then((response) => {
       dispatch(apiAction.apiResponse());
-      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' added successfully.');
+      notify.info(`${entity.charAt(0).toUpperCase() + entity.slice(1)} added successfully.`);
       history.goBack();
     })
       .catch((error) => {
@@ -128,11 +125,11 @@ export function storeItem(entity, data) {
 }
 
 export function updateItem(entity, data, id) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.update(entity, data, id).then((response) => {
       dispatch(apiAction.apiResponse());
-      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' updated successfully.');
+      notify.info(`${entity.charAt(0).toUpperCase() + entity.slice(1)} updated successfully.`);
       history.goBack();
     })
       .catch((error) => {
@@ -142,11 +139,11 @@ export function updateItem(entity, data, id) {
 }
 
 export function destroyItem(entity, id, data) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.destroy(entity, id).then((response) => {
       dispatch(apiAction.apiResponse());
-      notify.info(entity.charAt(0).toUpperCase() + entity.slice(1) + ' deleted successfully.');
+      notify.info(`${entity.charAt(0).toUpperCase() + entity.slice(1)} deleted successfully.`);
       dispatch(fetchAll(entity, data));
     })
       .catch((error) => {
@@ -156,19 +153,19 @@ export function destroyItem(entity, id, data) {
 }
 
 export function submitForm(entity, data, id) {
-  return function (dispatch) {
+  return dispatch => {
     if (id) {
       dispatch(updateItem(entity, data, id));
     } else {
       dispatch(storeItem(entity, data));
     }
-  }
+  };
 }
 
 export function subscribe(id) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest());
-    return apiService.store('subscription', {feed_id: id}).then((response) => {
+    return apiService.store('subscription', { feed_id: id }).then((response) => {
       dispatch(apiAction.apiResponse());
       dispatch({
         type: ActionType.SUBSCRIBE,
@@ -178,11 +175,11 @@ export function subscribe(id) {
       .catch((error) => {
         errorHandler(dispatch, error.response, ActionType.FAILURE);
       });
-  }
+  };
 }
 
 export function unsubscribe(id) {
-  return function (dispatch) {
+  return dispatch => {
     dispatch(apiAction.apiRequest('Unsubscribe'));
     return apiService.destroy('subscription', id).then((response) => {
       dispatch(apiAction.apiResponse());
@@ -191,30 +188,30 @@ export function unsubscribe(id) {
       .catch((error) => {
         errorHandler(dispatch, error.response, ActionType.FAILURE);
       });
-  }
+  };
 }
 
 export function clearList(entity) {
   return {
     type: ActionType.CLEAR_LIST,
-    entity: entity
-  }
+    entity
+  };
 }
 
 export function updateSelectedItem(entity, key, value) {
   return {
     type: ActionType.UPDATE_SELECTED_ITEM,
-    entity: entity,
-    key: key,
-    value: value
-  }
+    entity,
+    key,
+    value
+  };
 }
 
 export function clearSelectedItem(entity) {
   return {
     type: ActionType.CLEAR_SELECTED_ITEM,
-    entity: entity
-  }
+    entity
+  };
 }
 
 export function errorHandler(dispatch, error, type) {

@@ -4,7 +4,7 @@ import { Container, Navbar, Nav, NavItem, NavLink } from 'reactstrap';
 import './styles.scss';
 
 
-export const Footer = () => (
+const Footer = () => (
   <footer className="Footer">
     <Navbar className="Footer-nav navbar-expand">
       <Container>
