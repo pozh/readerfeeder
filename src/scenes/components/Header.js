@@ -1,7 +1,7 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import {Link} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import {
   Container,
   Navbar,
@@ -10,11 +10,10 @@ import {
   Collapse,
   UncontrolledDropdown,
   DropdownToggle,
-  DropdownMenu,
-  DropdownItem
+  DropdownMenu
 } from 'reactstrap';
 import * as authAction from 'actions/authAction';
-import {isEmpty} from "../../utils/commonUtil";
+import { isEmpty } from '../../utils/commonUtil';
 
 import './styles.scss';
 
@@ -49,16 +48,21 @@ class Header extends React.Component {
   render() {
     const isLight = this.props.light;
     return (
-      <Navbar className={"Nav " + (isLight && "bg-light")} expand="lg">
+      <Navbar className={`Nav ${isLight && 'bg-light'}`} expand="lg">
         <Container>
-          <Link className="navbar-brand" to="/"><img src={require("assets/images/logo.png")} alt=""/></Link>
+          <Link className="navbar-brand" to="/"><img src={require('assets/images/logo.png')} alt="" /></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
-              <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeMiterlimit="10"
-                    d="M4 7h22M4 15h22M4 23h22"></path>
+              <path
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeMiterlimit="10"
+                d="M4 7h22M4 15h22M4 23h22"
+              />
             </svg>
           </button>
-          {/*<NavbarToggler />*/}
+          {/* <NavbarToggler /> */}
           <Collapse isOpen={this.state.isOpen} navbar>
             {!this.props.isAuthenticated && (
               <Nav className="ml-auto" navbar>
@@ -85,10 +89,10 @@ class Header extends React.Component {
                     {this.props.user.first_name}
                   </DropdownToggle>
                   <DropdownMenu right>
-                    <DropdownItem><Link className="dropdown-item" to="/subscriptions">Subscriptions</Link></DropdownItem>
-                    <DropdownItem><Link className="dropdown-item" to="/settings">Settings</Link></DropdownItem>
-                    <DropdownItem divider/>
-                    <DropdownItem><Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link></DropdownItem>
+                    <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
+                    <Link className="dropdown-item" to="/settings">Settings</Link>
+                    <div className="dropdown-divider"> </div>
+                    <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </Nav>
@@ -105,14 +109,14 @@ function stateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
     user: state.auth.user
-  }
+  };
 }
 
 function dispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(_.assign({}, authAction), dispatch)
-  }
+  };
 }
 
-export default connect(stateToProps, dispatchToProps)(Header)
+export default connect(stateToProps, dispatchToProps)(Header);
 
