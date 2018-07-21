@@ -11,10 +11,6 @@ import PageCaption from './../../components/PageCaption';
 import { isEmpty } from '../../../utils/commonUtil';
 
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentWillMount() {
     if (this.props.isAuthenticated && isEmpty(this.props.user)) {
       this.props.actions.setUser();
@@ -67,9 +63,6 @@ class Settings extends Component {
 }
 
 
-/**
- * Map the state to props.
- */
 function mapStateToProps(state) {
   return {
     user: state.auth.user,
@@ -77,18 +70,10 @@ function mapStateToProps(state) {
   };
 }
 
-
-/**
- * Map the actions to props.
- */
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(_.assign({}, authAction, apiAction), dispatch)
   };
 }
-
-/**
- * Connect the component to the Redux store.
- */
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);
