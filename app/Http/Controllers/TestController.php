@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\SDocument;
+use Feeds;
+use View;
 
 class TestController extends Controller
 {
@@ -21,5 +23,16 @@ class TestController extends Controller
         }
         $doc->prepareHtml();
         return $doc->getHtml();
+    }
+
+    public function rss()
+    {
+        $feed = Feeds::make('http://evo-lutio.livejournal.com/data/rss', true);
+        $data = array(
+            'title'     => $feed->get_title(),
+            'permalink' => $feed->get_permalink(),
+            'items'     => $feed->get_items(),
+        );
+        return View::make('feed', $data);
     }
 }

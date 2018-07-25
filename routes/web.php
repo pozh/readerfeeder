@@ -12,7 +12,5 @@
 */
 
 Route::get('/', 'TestController@index');
+Route::get('/rss', 'TestController@rss');
 
-Route::get('/welcome', function () {
-    return view('welcome');
-});
