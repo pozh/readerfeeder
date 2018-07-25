@@ -1,13 +1,5 @@
 <?php
-
 namespace App;
-
-use Log;
-
-use App\Readability;
-use App\Utils;
-use App\Mobi;
-
 
 /**
  * SDocument
@@ -22,7 +14,7 @@ class SDocument
     protected $author = 'SENDtoREADER';
 
     protected $html = null;
-    protected $footer_html = null;        // Custom info printed in the doc's footer. Use it when sending the doc to user.
+    protected $footer_html = null;      // Custom info printed in the doc's footer. Use it when sending the doc to user.
     protected $site_url = null;
     protected $folder_url = null;
 
@@ -35,18 +27,19 @@ class SDocument
 
     protected $user_id = 0;
 
-    protected $type = null;              // variants: single (default), periodical
+    protected $type = null;            // variants: single (default), periodical
     protected $language = 'en-us';
-    protected $navpoints = array();      // an array of arrays - navpoints for TOC. I'll create it while adding new sections (docs) to the set.
+    protected $navpoints = array();    // an array of arrays - navpoints for TOC.
+                                       // I'll create it while adding new sections (docs) to the set.
     protected $links_map = array();
-    protected $toc_html = '';            // HTML contents of the table of contents
-    protected $time = null;              // User local time, to print in the doc's cover
+    protected $toc_html = '';          // HTML contents of the table of contents
+    protected $time = null;            // User local time, to print in the doc's cover
 
-    protected $section_data = null;      // a placeholder for the current section, i.e. section which we are now filling by data
+    protected $section_data = null;    // a placeholder for the current section, i.e. which we are now filling by data
     protected $ncx_navpoints = '';
 
-    protected $navpoint_id = 1;          // incremental. +1 on each new item in the result doc
-    protected $play_order = 1;           // same to navpoint_id, but each section increments the value as well.
+    protected $navpoint_id = 1;        // incremental. +1 on each new item in the result doc
+    protected $play_order = 1;         // same to navpoint_id, but each section increments the value as well.
 
     public $keep_images = true;
     public $send_as_book = true;
@@ -59,22 +52,26 @@ class SDocument
      * @param number $user_id User ID
      * @param string $type single | periodical
      */
-    function __construct($user_id, $type = 'single')
+    public function __construct($user_id, $type = 'single')
     {
         $this->user_id = $user_id;
         $this->type = $type;
 
         // create user personal folder if not exists
         $this->path = env('DATA_PATH') . '/' . $user_id;
-        if (!is_dir($this->path))
+        if (!is_dir($this->path)) {
             mkdir($this->path, env('DATA_ATTR'));
+        }
 
-        // also create folder for documents' HTML files (those we stored in the database previously: sender_history.html field)
-        if (!is_dir($this->path . '/html'))
+        // create folder for documents HTML files
+        if (!is_dir($this->path . '/html')) {
             mkdir($this->path . '/html', env('DATA_ATTR'));
+        }
 
         // periodical: add TOC
-        if ($type == 'periodical') $this->toc_html = Mobi::$toc_html;
+        if ($type == 'periodical') {
+            $this->toc_html = Mobi::$toc_html;
+        }
     }
 
     /**
@@ -82,14 +79,15 @@ class SDocument
      * @param string $title Title associated with HTML
      * @param string $title_suffix Title Suffix
      */
-    function setTitle($title, $title_suffix = '')
+    public function setTitle($title, $title_suffix = '')
     {
         $this->title = stripslashes(mb_substr(strip_tags($title), 0, 255)) . $title_suffix;
-
         $this->filename_base = Utils::makeFilename($title . $title_suffix);
         if (file_exists($this->path . '/' . $this->filename_base . '.mobi')) {
             $n = 1;
-            do $n++; while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
+            do {
+                $n++;
+            } while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
             $this->filename_base .= $n;
         }
     }
@@ -98,7 +96,7 @@ class SDocument
      * Set Periodicals format: true to send as a book, false - to send in native periodical format
      * @param $send_as_book boolean true to send as a book. @default true
      */
-    function setBookFormat($send_as_book = true)
+    public function setBookFormat($send_as_book = true)
     {
         $this->send_as_book = $send_as_book;
     }
@@ -107,7 +105,7 @@ class SDocument
      * Set document author
      * @param string $author Author
      */
-    function setAuthor($author)
+    public function setAuthor($author)
     {
         $this->author = mb_substr(strip_tags($author), 0, 100);
     }
@@ -149,7 +147,7 @@ class SDocument
     {
         $url = trim($url);
         $url = get_magic_quotes_gpc() ? stripslashes($url) : $url;
-        Log::info('URL: ' . $url . ' for user ' . $this->user_id);
+        \Log::info('URL: ' . $url . ' for user ' . $this->user_id);
         $this->url = $url;
 
         // Trick for NY Times and few others
@@ -182,7 +180,7 @@ class SDocument
 
         $matches = array();
         if (!preg_match('/https?:\/\/(www.)?([^\/]+)/', $url, $matches)) {
-            Log::error('Wrong url: ' . $url);
+            \Log::error('Wrong url: ' . $url);
             return false;
         }
         $this->site_url = $matches[0];    // without last /
@@ -239,7 +237,7 @@ class SDocument
         if ($useCurl) $html = Utils::curlGetData($this->url);
 
         if ($html === false) {
-            Log::error('* No sucess with CURL @ ' . $this->url);
+            \Log::error('* No sucess with CURL @ ' . $this->url);
             $opts = array(
                 'http' => array(
                     'method' => "GET",
@@ -252,7 +250,7 @@ class SDocument
             ini_set("user_agent", "Mozilla/3.0\r\nAccept: */*\r\nX-Padding: Foo");
             $html = @file_get_contents($this->url);
             if (!$html) {
-                Log::error("Can' get file contents, gave up");
+                \Log::error("Can' get file contents, gave up");
                 return false;
             }
         }
@@ -303,11 +301,11 @@ class SDocument
                 $content_proportion = strlen($html) / $readabilityLength;
             else
                 $content_proportion = 10000;
-            Log::info('LENGTH', ['$readabilityLength' => $readabilityLength, 'html-length' => strlen($html)]);
-            Log::info('Content proportion: ' . $content_proportion);
+            \Log::info('LENGTH', ['$readabilityLength' => $readabilityLength, 'html-length' => strlen($html)]);
+            \Log::info('Content proportion: ' . $content_proportion);
             if (!$result || ($content_proportion > 700)) {
-                Log::info('* ERROR - Readability returned empty result');
-                Log::info('* Result was: ' . ($result ? 'true' : 'false') . '; Content proportion: ' . $content_proportion);
+                \Log::info('* ERROR - Readability returned empty result');
+                \Log::info('* Result was: ' . ($result ? 'true' : 'false') . '; Content proportion: ' . $content_proportion);
                 return false;
             }
 
@@ -339,17 +337,17 @@ class SDocument
      */
     function prepareHtml($stripTables = true, $stripHead = true, $remap_links = false)
     {
-        Log::info('Prepare HTML');
+        \Log::info('Prepare HTML');
 
         // take care about interlinking between sections
         if ($remap_links && count($this->links_map) > 0) {
             foreach ($this->links_map as $map_to => $map_from) {
                 if (!empty($map_from)) {
-                    Log::info('LINK MAP: from ' . $map_from . ' to ' . $map_to);
+                    \Log::info('LINK MAP: from ' . $map_from . ' to ' . $map_to);
                     $this->html = str_replace($map_from, $map_to, $this->html);
                 }
             }
-            Log::info('LINK MAPPING: DONE');
+            \Log::info('LINK MAPPING: DONE');
         }
 
         // Get rid of double # in links (those containing to internal can contain # too)
@@ -423,7 +421,7 @@ class SDocument
         $mimeExtensions = array('image/gif' => 'gif', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/bmp' => 'bmp');
 
         $temp_filename = "$this->path/$this->filename_base.html";
-        Log::info('html temp file: ' . $temp_filename);
+        \Log::info('html temp file: ' . $temp_filename);
         $this->temp_files = array($temp_filename);    // remember, we'll need to delete temp files (but don't delete .mobi files)
 
         $this->prepareHtml($stripTables, $stripHead, $remap_links);
@@ -468,7 +466,7 @@ class SDocument
                         if (@copy($image_url, $this->path . '/' . $temp_img_name))
                             $this->temp_files[] = $this->path . '/' . $temp_img_name;
                         else
-                            Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
+                            \Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
                         $html = str_replace($src[1], $temp_img_name, $html);
                     }
                 }
@@ -478,7 +476,7 @@ class SDocument
         // Finally write everything to file
         $file = fopen($temp_filename, "wb");
         if (!$file) {
-            Log::error('fopen for the file ' . $temp_filename . ' failed');
+            \Log::error('fopen for the file ' . $temp_filename . ' failed');
             return false;
         }
 
@@ -574,15 +572,14 @@ class SDocument
                 'navpoints' => array());
             $this->play_order += 1;
             return;
-
         } else {
-
             // new navpoint to the current section (it must be created by now!)
-            $navpoint = array(
+            $navpoint = array (
                 'id' => $this->navpoint_id,
                 'playorder' => $this->play_order,
                 'title' => $title,
-                'link' => $navpoint_link);
+                'link' => $navpoint_link
+            );
             $this->section_data['navpoints'][] = $navpoint;
             $this->links_map['#navpoint' . $this->navpoint_id] = $source_url;
 
@@ -656,11 +653,11 @@ class SDocument
         $opf_filename = $this->path . '/' . $this->filename_base . '.opf';
         $opf_file = fopen($opf_filename, 'w');
         if (!$opf_file) {
-            Log::error("Can't open OPF file for writing: " . $opf_filename);
+            \Log::error("Can't open OPF file for writing: " . $opf_filename);
             return false;
         }
         if (!fwrite($opf_file, $opf_text)) {
-            Log::error("Can't write OPF file: " . $opf_filename);
+            \Log::error("Can't write OPF file: " . $opf_filename);
             return false;
         }
         fclose($opf_file);
@@ -671,7 +668,7 @@ class SDocument
             'date' => $date_str));
         $cover_file = fopen($this->path . '/' . $this->filename_base . '_cover.html', 'w');
         if (!$cover_file) {
-            Log::error("Can't write Cover file: " . $this->path . '/' . $this->filename_base . '_cover.html');
+            \Log::error("Can't write Cover file: " . $this->path . '/' . $this->filename_base . '_cover.html');
             return false;
         }
         fwrite($cover_file, $this->cover);
@@ -688,7 +685,7 @@ class SDocument
         );
         $ncx_file = fopen($this->path . '/' . $this->filename_base . '.ncx', 'w');
         if (!$ncx_file) {
-            Log::error("Can't write NCX file: " . $this->path . '/' . $this->filename_base . '.ncx');
+            \Log::error("Can't write NCX file: " . $this->path . '/' . $this->filename_base . '.ncx');
             return false;
         }
         fwrite($ncx_file, $ncx_text);
@@ -698,7 +695,7 @@ class SDocument
         $this->toc_html .= '<div style="page-break-after:always"></div> </body></html>';
         $toc_file = fopen($this->path . '/' . $this->filename_base . '_toc.html', 'w');
         if (!$toc_file) {
-            Log::error("Can't write TOC file: " . $this->path . '/' . $this->filename_base . '_toc.html');
+            \Log::error("Can't write TOC file: " . $this->path . '/' . $this->filename_base . '_toc.html');
             return false;
         }
         fwrite($toc_file, $this->toc_html);
@@ -707,11 +704,11 @@ class SDocument
 
         // Some reporting about the Kindlegen result
         $res_str = implode(PHP_EOL, $res);
-        Log::info($res_str);
+        \Log::info($res_str);
 
         // Check for Kindlegen errors
         if (strpos($res_str, 'rror(prcgen') != false || strpos($res_str, 'rror: ') != false) {
-            Log::error($res_str);
+            \Log::error($res_str);
             return false;
         } else return str_replace('.html', '.mobi', $this->temp_files[0]);
     }
