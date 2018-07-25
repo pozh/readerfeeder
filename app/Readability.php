@@ -1,9 +1,6 @@
 <?php
-
 namespace App;
-
 use Illuminate\Support\Facades\Log;
-use App\JSLikeHTMLElement;             // This class allows us to do JavaScript like assignments to innerHTML
 
 /**
  * Arc90's Readability ported to PHP for FiveFilters.org
@@ -49,7 +46,7 @@ use App\JSLikeHTMLElement;             // This class allows us to do JavaScript 
  */
 class Readability
 {
-    public $version = '1.8.1-laravel';
+    public $version = '1.8.2-laravel';
     public $revertForcedParagraphElements = true;
     public $articleTitle;
     public $articleContent;
@@ -61,10 +58,6 @@ class Readability
     protected $flags = 7;          // 1 | 2 | 4;   // Start with all flags set.
     protected $success = false;    // indicates whether we were able to extract or not
 
-    /**
-     * All of the regular expressions in use within readability.
-     * Defined up here so we don't instantiate them repeatedly in loops.
-     **/
     public $regexps = array(
         'unlikelyCandidates' => '/combx|comment|cikk_ajanlo|author-container|artcl-social-media|community|disqus|extra|header|menu|remark|rss|shoutbox|sidebar|sponsor|ad-break|agegate|pagination|pager|popup|tweet|twitter/i',
         'okMaybeItsACandidate' => '/and|main_center|article|article-topics-container|article-content|story|cont|contentview|contentColumn|content_left|bodyContent|singleContent|body|column|text|main|shadow/i',
@@ -84,16 +77,15 @@ class Readability
     const FLAG_WEIGHT_CLASSES = 2;
     const FLAG_CLEAN_CONDITIONALLY = 4;
 
-
     /**
      * Create instance of Readability
      * @param string $html UTF-8 encoded string
      * @param string $url (optional) URL associated with HTML (used for footnotes)
      */
-    function __construct($html, $url = null)
+    public function __construct($html, $url = null)
     {
-        /* Turn all double br's into p's */
-        /* Note, this is pretty costly as far as processing goes. Maybe optimize later. */
+        // Turn all double br's into p's
+        // Note, this is pretty costly as far as processing goes. Maybe optimize later.
         $html = preg_replace($this->regexps['replaceBrs'], '</p><p>', $html);
         $html = preg_replace($this->regexps['replaceFonts'], '<$1span>', $html);
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");

@@ -1,4 +1,5 @@
 <?php
+
 namespace App;
 
 /**
@@ -9,42 +10,32 @@ class SDocument
 {
     public $url = null;
     public $debug = false;
-
-    protected $title = 'Untitled';
-    protected $author = 'SENDtoREADER';
-
-    protected $html = null;
-    protected $footer_html = null;      // Custom info printed in the doc's footer. Use it when sending the doc to user.
-    protected $site_url = null;
-    protected $folder_url = null;
-
-    protected $encoding = null;
-
-    protected $path = null;
-    protected $temp_files = null;
-    protected $filename_base = null;
-    protected $site_has_rss = false;
-
-    protected $user_id = 0;
-
-    protected $type = null;            // variants: single (default), periodical
-    protected $language = 'en-us';
-    protected $navpoints = array();    // an array of arrays - navpoints for TOC.
-                                       // I'll create it while adding new sections (docs) to the set.
-    protected $links_map = array();
-    protected $toc_html = '';          // HTML contents of the table of contents
-    protected $time = null;            // User local time, to print in the doc's cover
-
-    protected $section_data = null;    // a placeholder for the current section, i.e. which we are now filling by data
-    protected $ncx_navpoints = '';
-
-    protected $navpoint_id = 1;        // incremental. +1 on each new item in the result doc
-    protected $play_order = 1;         // same to navpoint_id, but each section increments the value as well.
-
     public $keep_images = true;
     public $send_as_book = true;
+    public $author = 'ReaderFeeder';
+    public $title = 'Untitled';
 
-    protected $cover = null;
+    private $html = null;
+    private $footer_html = null;
+    private $site_url = null;
+    private $folder_url = null;
+    private $encoding = null;
+    private $path = null;
+    private $temp_files = null;
+    private $filename_base = null;
+    private $site_has_rss = false;
+    private $user_id = 0;
+    private $type = null;
+    private $language = 'en-us';
+    private $navpoints = array();
+    private $links_map = array();
+    private $toc_html = '';
+    private $time = null;
+    private $section_data = null;
+    private $ncx_navpoints = '';
+    private $navpoint_id = 1;      // incremental. +1 on each new item in the result doc
+    private $play_order = 1;       // same to navpoint_id, but each section increments the value as well.
+    private $cover = null;
 
 
     /**
@@ -75,7 +66,17 @@ class SDocument
     }
 
     /**
-     * Set document title
+     * Set document author
+     * @param string $author Author
+     */
+    public function setAuthor($author)
+    {
+        $this->author = mb_substr(strip_tags($author), 0, 100);
+    }
+
+
+    /**
+     * Set document title. Automatically sets the filename_base
      * @param string $title Title associated with HTML
      * @param string $title_suffix Title Suffix
      */
@@ -90,33 +91,6 @@ class SDocument
             } while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
             $this->filename_base .= $n;
         }
-    }
-
-    /**
-     * Set Periodicals format: true to send as a book, false - to send in native periodical format
-     * @param $send_as_book boolean true to send as a book. @default true
-     */
-    public function setBookFormat($send_as_book = true)
-    {
-        $this->send_as_book = $send_as_book;
-    }
-
-    /**
-     * Set document author
-     * @param string $author Author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = mb_substr(strip_tags($author), 0, 100);
-    }
-
-    /**
-     * Get Document title
-     * @return string The title
-     */
-    public function getTitle()
-    {
-        return $this->title;
     }
 
     public function getFilenameBase()
@@ -187,15 +161,6 @@ class SDocument
         $this->author = $matches[2];
         $this->folder_url = substr($url, 0, strrpos($url, '/'));    // without last /
         return true;
-    }
-
-    /**
-     * Set html content for the document
-     * @param string $html HTML source code for the doc
-     */
-    public function setHtml($html)
-    {
-        $this->html = $html;//stripslashes( $html );
     }
 
     /**
@@ -278,7 +243,7 @@ class SDocument
         $html = str_replace('javascript:', '', $html);
 
         // Remove various stuff Kindlegen does not like
-        $html = str_replace(array('&shy;', chr(13), '<img/>', '<img>'), ' ', $html);
+        $html = str_replace(['&shy;', chr(13), '<img />', '<img/>', '<img>'], ' ', $html);
 
         // Remove images from html if we don't need'em
         if (!$this->keep_images) {
@@ -304,11 +269,10 @@ class SDocument
             \Log::info('LENGTH', ['$readabilityLength' => $readabilityLength, 'html-length' => strlen($html)]);
             \Log::info('Content proportion: ' . $content_proportion);
             if (!$result || ($content_proportion > 700)) {
-                \Log::info('* ERROR - Readability returned empty result');
-                \Log::info('* Result was: ' . ($result ? 'true' : 'false') . '; Content proportion: ' . $content_proportion);
+                \Log::error('Readability returned empty result',
+                    ['result' => $result, 'content proportion' => $content_proportion]);
                 return false;
             }
-
             $html = $readability->getContent()->innerHTML;
             $this->setTitle(stripslashes($readability->getTitle()->innerHTML));
         }
@@ -318,7 +282,6 @@ class SDocument
         return true;
     }
 
-
     /**
      * Return the HTML code
      */
@@ -327,12 +290,120 @@ class SDocument
         return $this->html;
     }
 
+    /**
+     * Set html content for the document
+     * @param string $html HTML source code for the doc
+     */
+    public function setHtml($html)
+    {
+        $this->html = $html;//stripslashes( $html );
+    }
+
+    /**
+     * Prepare document for conversion
+     * The result of this function is HTML temp file along with all necessary images.
+     * @param $stripTables bool Set TRUE to replace all tables by divs. To prenent content from hidding
+     * @param $stripHead bool
+     * @param bool $remap_links if True, modify all lins in the doc's html to make them internal.
+     *                          For composed documents and maybe periodicals
+     * @return TRUE on success, otherwise FALSE
+     */
+    function writeTempHtml($stripTables = true, $stripHead = true, $remap_links = false)
+    {
+
+        $mimeExtensions = array('image/gif' => 'gif', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/bmp' => 'bmp');
+
+        $temp_filename = "$this->path/$this->filename_base.html";
+        \Log::info('html temp file: ' . $temp_filename);
+        $this->temp_files = array($temp_filename);    // remember, we'll need to delete temp files (but don't delete .mobi files)
+
+        $this->prepareHtml($stripTables, $stripHead, $remap_links);
+
+        // all operations - on a temp copy of html
+        $html = $this->html;
+
+        // find all images to download them to the local temp folder
+        // All images in the html will be replaced by the local copies
+        $images = array();
+        preg_match_all("/< *img [^>]+>/", $html, $images, PREG_PATTERN_ORDER);
+        if (is_array($images[0]) && (count($images[0]) > 0)) {
+            foreach ($images[0] as $img_number => $img) {
+                $src = array();
+                if (preg_match('/ src *= *["\']([^"\']+)["\']/', $img, $src)) {    // returns an array containing 2 elements - full entry and the src from ()
+                    $image_url = $src[1];
+                    $image_url = str_replace(' ', '%20', $image_url);
+                    $rand_str = base_convert(rand(10e7, 10e10), 10, 36);
+                    $temp_img_name = time() . $rand_str;
+                    //$temp_img_name = sanitize_file_name( $rand_str . substr($src[1], strrpos($src[1], '/')+1) );
+                    //$temp_img_name = str_replace( array('|',';',',','!','@','#','$','(',')','<','>','%','/','\\','"','\'','`','~','{','}','[',']','=','+','&','^','‘','’', '?'), '', $temp_img_name );
+
+                    // get extension
+                    if (stripos($image_url, '.jpg') > 0) $temp_img_name .= '.jpg';
+                    elseif (stripos($image_url, '.jpeg') > 0) $temp_img_name .= '.jpeg';
+                    elseif (stripos($image_url, '.gif') > 0) $temp_img_name .= '.gif';
+                    elseif (stripos($image_url, '.png') > 0) $temp_img_name .= '.png';
+                    elseif (stripos($image_url, '.svg') > 0) $temp_img_name .= '.svg';
+                    else {
+                        // There is no extension in the image filename i.e. it's php/asp/other script-based.
+                        // So we have to use alternate way to find out what kind of image we have here.
+                        $imgSize = @getimagesize($image_url);
+                        if (is_array($imgSize)) {
+                            $temp_img_name .= '.' . $mimeExtensions[$imgSize['mime']];
+                        } else {
+                            $temp_img_name = '';
+                        }
+                    }
+
+                    // now download the image to my server.
+                    if (strlen($temp_img_name) > 0) {
+                        if (@copy($image_url, $this->path . '/' . $temp_img_name))
+                            $this->temp_files[] = $this->path . '/' . $temp_img_name;
+                        else
+                            \Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
+                        $html = str_replace($src[1], $temp_img_name, $html);
+                    }
+                }
+            }
+        } //is_array($images...
+
+        // Finally write everything to file
+        $file = fopen($temp_filename, "wb");
+        if (!$file) {
+            \Log::error('fopen for the file ' . $temp_filename . ' failed');
+            return false;
+        }
+
+        // fwrite( $file, "\xEF\xBB\xBF" );
+        fwrite($file, <<<EOT
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>' . $this->title . '</title>
+    <meta name="author" content="' . $this->author . '" />
+    <style type="text/css">
+        .aligncenter { text-align: center; }
+        img.aligncenter { display:block; margin-left:auto; margin-right:auto; }
+        img.alignleft{ float:left; margin:5px 15px 0 0; }
+        img.alignright{ float:right; margin:5px 0 0 15px; }
+    </style>
+</head>
+<body>
+EOT
+        );
+        fwrite($file, $html);
+        if ($this->footer_html) {
+            fwrite($file, $this->footer_html);
+        }
+        fclose($file);
+        return true;
+    }
 
     /**
      * Prepare document for conversion
      * The result of this function is "ideal" HTML
-     * @param Boolean Set TRUE to replace all tables by divs. To prenent content from hidding
-     * @param bool $remap_links if True, modify all lins in the doc's html to make them internal.
+     * @param $stripTables bool TRUE to replace all tables by divs. To prenent content from hidding
+     * @param $stripHead bool
+     * @param $remap_links bool If True, modify all links in the doc's html to make them internal.
      *                          For composed documents and maybe periodicals
      */
     function prepareHtml($stripTables = true, $stripHead = true, $remap_links = false)
@@ -408,142 +479,6 @@ class SDocument
     }
 
     /**
-     * Prepare document for conversion
-     * The result of this function is HTML temp file along with all necessary images.
-     * @param Boolean Set TRUE to replace all tables by divs. To prenent content from hidding
-     * @param bool $remap_links if True, modify all lins in the doc's html to make them internal.
-     *                          For composed documents and maybe periodicals
-     * @return TRUE on success, otherwise FALSE
-     */
-    function writeTempHtml($stripTables = true, $stripHead = true, $remap_links = false)
-    {
-
-        $mimeExtensions = array('image/gif' => 'gif', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/bmp' => 'bmp');
-
-        $temp_filename = "$this->path/$this->filename_base.html";
-        \Log::info('html temp file: ' . $temp_filename);
-        $this->temp_files = array($temp_filename);    // remember, we'll need to delete temp files (but don't delete .mobi files)
-
-        $this->prepareHtml($stripTables, $stripHead, $remap_links);
-
-        // all operations - on a temp copy of html
-        $html = $this->html;
-
-        // find all images to download them to the local temp folder
-        // All images in the html will be replaced by the local copies
-        $images = array();
-        preg_match_all("/< *img [^>]+>/", $html, $images, PREG_PATTERN_ORDER);
-        if (is_array($images[0]) && (count($images[0]) > 0)) {
-            foreach ($images[0] as $img_number => $img) {
-                $src = array();
-                if (preg_match('/ src *= *["\']([^"\']+)["\']/', $img, $src)) {    // returns an array containing 2 elements - full entry and the src from ()
-                    $image_url = $src[1];
-                    $image_url = str_replace(' ', '%20', $image_url);
-                    $rand_str = base_convert(rand(10e7, 10e10), 10, 36);
-                    $temp_img_name = time() . $rand_str;
-                    //$temp_img_name = sanitize_file_name( $rand_str . substr($src[1], strrpos($src[1], '/')+1) );
-                    //$temp_img_name = str_replace( array('|',';',',','!','@','#','$','(',')','<','>','%','/','\\','"','\'','`','~','{','}','[',']','=','+','&','^','‘','’', '?'), '', $temp_img_name );
-
-                    // get extension
-                    if (stripos($image_url, '.jpg') > 0) $temp_img_name .= '.jpg';
-                    elseif (stripos($image_url, '.jpeg') > 0) $temp_img_name .= '.jpeg';
-                    elseif (stripos($image_url, '.gif') > 0) $temp_img_name .= '.gif';
-                    elseif (stripos($image_url, '.png') > 0) $temp_img_name .= '.png';
-                    elseif (stripos($image_url, '.svg') > 0) $temp_img_name .= '.svg';
-                    else {
-                        // There is no extension in the image filename i.e. it's php/asp/other script-based.
-                        // So we have to use alternate way to find out what kind of image we have here.
-                        $imgSize = @getimagesize($image_url);
-                        if (is_array($imgSize)) {
-                            $temp_img_name .= '.' . $mimeExtensions[$imgSize['mime']];
-                        } else {
-                            $temp_img_name = '';
-                        }
-                    }
-
-                    // now download the image to my server.
-                    if (strlen($temp_img_name) > 0) {
-                        if (@copy($image_url, $this->path . '/' . $temp_img_name))
-                            $this->temp_files[] = $this->path . '/' . $temp_img_name;
-                        else
-                            \Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
-                        $html = str_replace($src[1], $temp_img_name, $html);
-                    }
-                }
-            }
-        } //is_array($images...
-
-        // Finally write everything to file
-        $file = fopen($temp_filename, "wb");
-        if (!$file) {
-            \Log::error('fopen for the file ' . $temp_filename . ' failed');
-            return false;
-        }
-
-        //TODO Somewhen in the future switch to the time estimation used in periodicals.
-        $user_time = $this->time;
-        if ($this->time == null) {
-            $user_timezone = get_user_meta($this->user_id, 'timezone', true);
-            if (!$user_timezone)
-                $user_timezone = SENDER_USER_TIMEZONE;
-            $user_time = (time() - date('Z')) + ($user_timezone * 3600);
-        }
-
-        //fwrite( $file, "\xEF\xBB\xBF" );
-        fwrite($file, '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html>
-						<head>
-							<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-							<title>' . $this->title . '</title>
-							<meta name="author" content="' . $this->author . '" />
-							<style>
-								.aligncenter { text-align: center; }
-								img.aligncenter { display:block; margin-left:auto; margin-right:auto; }
-								img.alignleft{ float:left; margin:5px 15px 0 0; }
-								img.alignright{ float:right; margin:5px 0 0 15px; }
-							</style>
-						</head>
-						<body>');
-        fwrite($file, $html);
-        if ($this->footer_html)
-            fwrite($file, $this->footer_html);
-        fclose($file);
-        return true;
-    }
-
-    /**
-     * finalize, i.e. move section items into section (into the table of content and into html)
-     * add new items to to opf: items & spineitems
-     */
-    function finalizeTOCSection()
-    {
-        $navpoints = '';
-        $toc_items = '';
-        if (!empty($this->section_data['navpoints'])) {
-            foreach ($this->section_data['navpoints'] as $navpoint) {
-                // !navpoints for NCX
-                $navpoints .= sprintfn(PHP_EOL . Mobi::$navpoint_tpl, array(
-                    'id' => str_pad((int)$navpoint['id'], 3, "0", STR_PAD_LEFT),
-                    'playorder' => $navpoint['playorder'],
-                    'title' => $navpoint['title'],
-                    'link' => $navpoint['link']));
-                $toc_items .= sprintf('<li><a href="%s">%s</a></li>' . PHP_EOL, $navpoint['link'], $navpoint['title']);
-            }
-        }
-
-        // add section to ncx
-        $this->ncx_navpoints .= sprintfn(Mobi::$navsection_tpl, array(
-            'id' => str_pad($this->section_data['id'], 3, "0", STR_PAD_LEFT),
-            'playorder' => $this->section_data['playorder'],
-            'title' => $this->section_data['title'],
-            'link' => $this->section_data['link'],
-            'navpoints' => $navpoints));
-
-        // Add new entry to the TOC (the file filename_toc.html will be created somewhere else)
-        $this->toc_html .= sprintf('<h4>%s</h4> <ul>%s</ul>', $this->section_data['title'], $toc_items);
-    }
-
-
-    /**
      * Add html content to the end of the doc in "set" mode (Periodicals, etc.)
      * And add nav point to the table of contents at the same time.
      * @param string $title Entry title
@@ -574,7 +509,7 @@ class SDocument
             return;
         } else {
             // new navpoint to the current section (it must be created by now!)
-            $navpoint = array (
+            $navpoint = array(
                 'id' => $this->navpoint_id,
                 'playorder' => $this->play_order,
                 'title' => $title,
@@ -595,6 +530,37 @@ class SDocument
         }
     }
 
+    /**
+     * finalize, i.e. move section items into section (into the table of content and into html)
+     * add new items to to opf: items & spineitems
+     */
+    function finalizeTOCSection()
+    {
+        $navpoints = '';
+        $toc_items = '';
+        if (!empty($this->section_data['navpoints'])) {
+            foreach ($this->section_data['navpoints'] as $navpoint) {
+                // !navpoints for NCX
+                $navpoints .= Utils::sprintfn(PHP_EOL . Mobi::$navpoint_tpl, array(
+                    'id' => str_pad((int)$navpoint['id'], 3, "0", STR_PAD_LEFT),
+                    'playorder' => $navpoint['playorder'],
+                    'title' => $navpoint['title'],
+                    'link' => $navpoint['link']));
+                $toc_items .= sprintf('<li><a href="%s">%s</a></li>' . PHP_EOL, $navpoint['link'], $navpoint['title']);
+            }
+        }
+
+        // add section to ncx
+        $this->ncx_navpoints .= Utils::sprintfn(Mobi::$navsection_tpl, array(
+            'id' => str_pad($this->section_data['id'], 3, "0", STR_PAD_LEFT),
+            'playorder' => $this->section_data['playorder'],
+            'title' => $this->section_data['title'],
+            'link' => $this->section_data['link'],
+            'navpoints' => $navpoints));
+
+        // Add new entry to the TOC (the file filename_toc.html will be created somewhere else)
+        $this->toc_html .= sprintf('<h4>%s</h4> <ul>%s</ul>', $this->section_data['title'], $toc_items);
+    }
 
     /**
      * Add html content in the end of existing code
@@ -606,21 +572,17 @@ class SDocument
     }
 
     /**
-     * Write "footer"
-     * @param rss - true if we should mention rss of the source site in the footer
-     * @param time - the timestamp I'd like to use instead of current time.
-     *               Helpful when we add footer during recreation of the previously deleted file, taking timestamp from the DB record.
-     *               By default it's false meaning wea should use current time.
+     * Write footer and close the body and html tags.
+     * @param $footer_html - HTML code to put in the footer; use {source} to insert link to the source
      */
-    function addFooter($rss = true, $time = false)
+    function addFooter($footer_html = '', $add_source = false)
     {
-        if (!$time) $time = time();
-        $this->footer_html .= sprintf('<hr /><p align="center">Sent on %s via <a href="http://readerfeeder.com">ReaderFeeder</a>', date('D, M jS, Y', $time));
-        if ($this->url) $this->footer_html .= sprintf('<br />Source: <a href="%1$s">%1$s</a></p>', $this->url);
-        else $this->footer_html .= '</p>';
+        if (strpos($footer_html, '{source}') > 0 && !empty($this->url)) {
+            $footer_html = str_replace('{source}',
+                '<a href="' . $this->url . '">' . $this->url . '</a>', $footer_html);
+        }
         $this->footer_html .= '</body></html>';
     }
-
 
     /**
      * Convert html file to MOBI using Kindlegen
@@ -639,7 +601,7 @@ class SDocument
         $opf_tpl = ($this->send_as_book) ? Mobi::$opf_tpl_book : Mobi::$opf_tpl;
 
         $the_title = $this->title;
-        $opf_text = sprintfn($opf_tpl, array(
+        $opf_text = Utils::sprintfn($opf_tpl, array(
             'title' => $the_title,
             'filehash' => $file_hash,
             'lang' => $this->language,
@@ -663,7 +625,7 @@ class SDocument
         fclose($opf_file);
 
         // Cover file
-        if (!$this->cover) $this->cover = sprintfn(Mobi::$cover_tpl, array(
+        if (!$this->cover) $this->cover = Utils::sprintfn(Mobi::$cover_tpl, array(
             'title' => $this->title,
             'date' => $date_str));
         $cover_file = fopen($this->path . '/' . $this->filename_base . '_cover.html', 'w');
@@ -676,7 +638,7 @@ class SDocument
 
         // NCX file
         $ncx_tpl = ($this->send_as_book) ? Mobi::$ncx_tpl_book : Mobi::$ncx_tpl;
-        $ncx_text = sprintfn($ncx_tpl, array(
+        $ncx_text = Utils::sprintfn($ncx_tpl, array(
                 'filehash' => $file_hash,
                 'title' => $the_title,
                 'author' => 'ReaderFeeder',

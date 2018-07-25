@@ -1,8 +1,5 @@
 <?php
-
 namespace App;
-
-use App\Mobi;
 
 
 class Utils

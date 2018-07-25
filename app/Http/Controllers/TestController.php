@@ -1,10 +1,10 @@
 <?php
 namespace App\Http\Controllers;
 
-use Laravel\Lumen\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use App\SDocument;
 
-class TestController extends BaseController
+class TestController extends Controller
 {
     public function index()
     {
