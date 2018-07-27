@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Subscription extends Model
 {
+    public const ACTIVE = 'active';
+    public const INACTIVE = 'inactive';
 
     /**
      * The database table used by the model.
