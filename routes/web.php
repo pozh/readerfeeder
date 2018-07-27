@@ -13,4 +13,6 @@
 
 Route::get('/', 'TestController@index');
 Route::get('/rss', 'TestController@rss');
+Route::get('/subs/{feed_id}', 'TestController@subscribers');
+Route::get('/send/{feed_id}', 'TestController@sendfeed');
 
