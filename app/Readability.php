@@ -544,7 +544,7 @@ class Readability
          **/
         if ($topCandidate === null || strtoupper($topCandidate->tagName) == 'BODY') {
             $topCandidate = $this->dom->createElement('div');
-            if ($page instanceof DOMDocument) {
+            if ($page instanceof \DOMDocument) {
                 if (!isset($page->documentElement)) {
                     // we don't have a body either? what a mess! :)
                 } else {
