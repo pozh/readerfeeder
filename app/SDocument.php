@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Illuminate\Support\Facades\Log;
+
 /**
  * SDocument
  * Grab text from the given URL and convert it to .mobi format
@@ -14,6 +16,7 @@ class SDocument
     public $send_as_book = true;
     public $author = 'ReaderFeeder';
     public $title = 'Untitled';
+    public $language = 'en-us';
 
     private $html = null;
     private $footer_html = null;
@@ -26,7 +29,6 @@ class SDocument
     private $site_has_rss = false;
     private $user_id = 0;
     private $type = null;
-    private $language = 'en-us';
     private $navpoints = array();
     private $links_map = array();
     private $toc_html = '';
@@ -121,7 +123,7 @@ class SDocument
     {
         $url = trim($url);
         $url = get_magic_quotes_gpc() ? stripslashes($url) : $url;
-        \Log::info('URL: ' . $url . ' for user ' . $this->user_id);
+        Log::info('URL: ' . $url . ' for user ' . $this->user_id);
         $this->url = $url;
 
         // Trick for NY Times and few others
@@ -154,7 +156,7 @@ class SDocument
 
         $matches = array();
         if (!preg_match('/https?:\/\/(www.)?([^\/]+)/', $url, $matches)) {
-            \Log::error('Wrong url: ' . $url);
+            Log::error('Wrong url: ' . $url);
             return false;
         }
         $this->site_url = $matches[0];    // without last /
@@ -174,8 +176,8 @@ class SDocument
 
     /**
      * Grab html content from the remote host and process it by PHP Readability
-     * @param boolean $use_readability true to process the html by Readability
-     * @param int $flags Readability flags, 7 by default
+     * @param boolean $use_readability true to process the html by Readability @default true
+     * @param int $flags Readability flags @default 7
      * @return boolean True if the text is successfully obtained and processed
      */
     function grabHtml($use_readability = true, $flags = 7)
@@ -202,7 +204,7 @@ class SDocument
         if ($useCurl) $html = Utils::curlGetData($this->url);
 
         if ($html === false) {
-            \Log::error('* No sucess with CURL @ ' . $this->url);
+            Log::error('* No sucess with CURL @ ' . $this->url);
             $opts = array(
                 'http' => array(
                     'method' => "GET",
@@ -215,7 +217,7 @@ class SDocument
             ini_set("user_agent", "Mozilla/3.0\r\nAccept: */*\r\nX-Padding: Foo");
             $html = @file_get_contents($this->url);
             if (!$html) {
-                \Log::error("Can' get file contents, gave up");
+                Log::error("Can' get file contents, gave up");
                 return false;
             }
         }
@@ -266,10 +268,10 @@ class SDocument
                 $content_proportion = strlen($html) / $readabilityLength;
             else
                 $content_proportion = 10000;
-            \Log::info('LENGTH', ['$readabilityLength' => $readabilityLength, 'html-length' => strlen($html)]);
-            \Log::info('Content proportion: ' . $content_proportion);
+            Log::info('LENGTH', ['$readabilityLength' => $readabilityLength, 'html-length' => strlen($html)]);
+            Log::info('Content proportion: ' . $content_proportion);
             if (!$result || ($content_proportion > 700)) {
-                \Log::error('Readability returned empty result',
+                Log::error('Readability returned empty result',
                     ['result' => $result, 'content proportion' => $content_proportion]);
                 return false;
             }
@@ -283,7 +285,7 @@ class SDocument
     }
 
     /**
-     * Return the HTML code
+     * @return Article's HTML code
      */
     function getHtml()
     {
@@ -314,7 +316,7 @@ class SDocument
         $mimeExtensions = array('image/gif' => 'gif', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/bmp' => 'bmp');
 
         $temp_filename = "$this->path/$this->filename_base.html";
-        \Log::info('html temp file: ' . $temp_filename);
+        Log::info('html temp file: ' . $temp_filename);
         $this->temp_files = array($temp_filename);    // remember, we'll need to delete temp files (but don't delete .mobi files)
 
         $this->prepareHtml($stripTables, $stripHead, $remap_links);
@@ -359,7 +361,7 @@ class SDocument
                         if (@copy($image_url, $this->path . '/' . $temp_img_name))
                             $this->temp_files[] = $this->path . '/' . $temp_img_name;
                         else
-                            \Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
+                            Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
                         $html = str_replace($src[1], $temp_img_name, $html);
                     }
                 }
@@ -369,7 +371,7 @@ class SDocument
         // Finally write everything to file
         $file = fopen($temp_filename, "wb");
         if (!$file) {
-            \Log::error('fopen for the file ' . $temp_filename . ' failed');
+            Log::error('fopen for the file ' . $temp_filename . ' failed');
             return false;
         }
 
@@ -408,17 +410,17 @@ EOT
      */
     function prepareHtml($stripTables = true, $stripHead = true, $remap_links = false)
     {
-        \Log::info('Prepare HTML');
+        Log::info('Prepare HTML');
 
         // take care about interlinking between sections
         if ($remap_links && count($this->links_map) > 0) {
             foreach ($this->links_map as $map_to => $map_from) {
                 if (!empty($map_from)) {
-                    \Log::info('LINK MAP: from ' . $map_from . ' to ' . $map_to);
+                    Log::info('LINK MAP: from ' . $map_from . ' to ' . $map_to);
                     $this->html = str_replace($map_from, $map_to, $this->html);
                 }
             }
-            \Log::info('LINK MAPPING: DONE');
+            Log::info('LINK MAPPING: DONE');
         }
 
         // Get rid of double # in links (those containing to internal can contain # too)
@@ -484,7 +486,7 @@ EOT
      * @param string $title Entry title
      * @param string $html Entry HTML code
      * @param string $source_url Source URL address
-     * @param boolean $publish_source true if source url must be published in the doc
+     * @param boolean $publish_source Source url must be published in the doc. @default true
      */
     function addEntry($title, $html = '', $source_url = '', $publish_source = true)
     {
@@ -615,11 +617,11 @@ EOT
         $opf_filename = $this->path . '/' . $this->filename_base . '.opf';
         $opf_file = fopen($opf_filename, 'w');
         if (!$opf_file) {
-            \Log::error("Can't open OPF file for writing: " . $opf_filename);
+            Log::error("Can't open OPF file for writing: " . $opf_filename);
             return false;
         }
         if (!fwrite($opf_file, $opf_text)) {
-            \Log::error("Can't write OPF file: " . $opf_filename);
+            Log::error("Can't write OPF file: " . $opf_filename);
             return false;
         }
         fclose($opf_file);
@@ -630,7 +632,7 @@ EOT
             'date' => $date_str));
         $cover_file = fopen($this->path . '/' . $this->filename_base . '_cover.html', 'w');
         if (!$cover_file) {
-            \Log::error("Can't write Cover file: " . $this->path . '/' . $this->filename_base . '_cover.html');
+            Log::error("Can't write Cover file: " . $this->path . '/' . $this->filename_base . '_cover.html');
             return false;
         }
         fwrite($cover_file, $this->cover);
@@ -647,7 +649,7 @@ EOT
         );
         $ncx_file = fopen($this->path . '/' . $this->filename_base . '.ncx', 'w');
         if (!$ncx_file) {
-            \Log::error("Can't write NCX file: " . $this->path . '/' . $this->filename_base . '.ncx');
+            Log::error("Can't write NCX file: " . $this->path . '/' . $this->filename_base . '.ncx');
             return false;
         }
         fwrite($ncx_file, $ncx_text);
@@ -657,7 +659,7 @@ EOT
         $this->toc_html .= '<div style="page-break-after:always"></div> </body></html>';
         $toc_file = fopen($this->path . '/' . $this->filename_base . '_toc.html', 'w');
         if (!$toc_file) {
-            \Log::error("Can't write TOC file: " . $this->path . '/' . $this->filename_base . '_toc.html');
+            Log::error("Can't write TOC file: " . $this->path . '/' . $this->filename_base . '_toc.html');
             return false;
         }
         fwrite($toc_file, $this->toc_html);
@@ -666,11 +668,11 @@ EOT
 
         // Some reporting about the Kindlegen result
         $res_str = implode(PHP_EOL, $res);
-        \Log::info($res_str);
+        Log::info($res_str);
 
         // Check for Kindlegen errors
         if (strpos($res_str, 'rror(prcgen') != false || strpos($res_str, 'rror: ') != false) {
-            \Log::error($res_str);
+            Log::error($res_str);
             return false;
         } else return str_replace('.html', '.mobi', $this->temp_files[0]);
     }
