@@ -626,7 +626,7 @@ EOT
         }
         fwrite($toc_file, $this->toc_html);
         fclose($toc_file);
-        exec(env('KINDLEGEN') . ' ' . $opf_filename, $res);
+        exec(base_path('/') . env('KINDLEGEN') . ' ' . $opf_filename, $res);
 
         // Log Kindlegen result
         Log::info('Kindlegen report', $res);
