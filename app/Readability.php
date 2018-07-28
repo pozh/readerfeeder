@@ -531,7 +531,6 @@ class Readability
                 $candidates[$c]->tagName,
                 $candidates[$c]->getAttribute('id'),
                 $candidates[$c]->getAttribute('class'));
-            Log::info('Candidate:', ['tag' => $tag_info, 'score' => $readability->value]);
 
             if (!$topCandidate || $readability->value > (int)$topCandidate->getAttribute('readability')) {
                 $topCandidate = $candidates[$c];
@@ -839,8 +838,6 @@ class Readability
         for ($i = $curTagsLength - 1; $i >= 0; $i--) {
             $weight = $this->getClassWeight($tagsList->item($i));
             $contentScore = ($tagsList->item($i)->hasAttribute('readability')) ? (int)$tagsList->item($i)->getAttribute('readability') : 0;
-
-            //Log::info('Cleaning Conditionally ' . $tagsList->item($i)->tagName . ' (' . $tagsList->item($i)->getAttribute('class') . ':' . $tagsList->item($i)->getAttribute('id') . ')' . (($tagsList->item($i)->hasAttribute('readability')) ? (' with score ' . $tagsList->item($i)->getAttribute('readability')) : ''));
 
             if ($weight + $contentScore < 0) {
                 $tagsList->item($i)->parentNode->removeChild($tagsList->item($i));
