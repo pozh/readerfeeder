@@ -118,7 +118,8 @@ class ProcessFeed implements ShouldQueue
                  * Save to DB at the very end of the processing routine, once everything else is done.
                  * */
                 $sent_items_array[] = [
-                    'item_url' => $article_url,
+                    'source_id' => $source->id,
+                    'url' => $article_url,
                     'title' => $article->get_title()
                 ];
 
@@ -155,13 +156,13 @@ class ProcessFeed implements ShouldQueue
             exit(3);
         } else Log::info('Mibi file is ready', ['filename' => $mobi_filename]);
 
-//        $sender = new Sender();
-//        $file_added = $sender->addFile($mobi_filename);
-//        if (!$file_added) {
-//            Log::error($sender->getLastError(), ['feed' => $this->feed->title]);
-//            exit(4);
-//        }
-/*
+        $sender = new Sender();
+        $file_added = $sender->addFile($mobi_filename);
+        if (!$file_added) {
+            Log::error($sender->getLastError(), ['feed' => $this->feed->title]);
+            exit(4);
+        }
+
         $subs = Subscription::where('feed_id', $this->feed->id)->where('status', Subscription::ACTIVE)->get();
         foreach ($subs as $sub) {
             $sender->send($sub->user_id);
@@ -170,8 +171,16 @@ class ProcessFeed implements ShouldQueue
         // Finally, update the 'last_sent' value
         $dt = new DateTime;
         $this->feed->last_sent = $dt->format('m-d-y H:i:s');
-        $this->feed->save();*/
+        $this->feed->save();
 
-        // TODO: save $sent_items_array in DB Items
+        // save articles delivered to subscribers in DB Items
+        foreach ($sent_items_array as $item_sent) {
+            $item = new Item;
+            $item->title = $item_sent['title'];
+            $item->source_id = $item_sent['source_id'];
+            $item->url = $item_sent['url'];
+            $item->save();
+        }
+
     }
 }
