@@ -137,12 +137,12 @@ class Utils
 
         // Wikipedia requires honest user agent information!
         if (strpos($url, 'wikipedia.') !== false)
-            curl_setopt($ch, CURLOPT_USERAGENT, 'User-Agent: ReaderFeeder (+https://readerfeeder.com/)');
+            curl_setopt($ch, CURLOPT_USERAGENT, 'User-Agent: ReaderFeeder (+https://readerfeeder.co/)');
         else
             curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENTS[rand(0, 12)]);
 
-        curl_setopt($ch, CURLOPT_COOKIEJAR, env('COOKIES_PATH') . "/cookie-$date.txt");
-        curl_setopt($ch, CURLOPT_COOKIEFILE, env('COOKIES_PATH') . "/cookie-$date.txt");
+        curl_setopt($ch, CURLOPT_COOKIEJAR, storage_path("data/cookie-$date.txt"));
+        curl_setopt($ch, CURLOPT_COOKIEFILE, storage_path("data/cookie-$date.txt"));
         $data = curl_exec($ch);
         curl_close($ch);
         return $data;
