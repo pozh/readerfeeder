@@ -50,16 +50,11 @@ class SDocument
         $this->user_id = $user_id;
         $this->type = $type;
 
-        // create user personal folder if not exists
-        $this->path = env('DATA_PATH') . '/' . $user_id;
-        if (!is_dir($this->path)) {
-            mkdir($this->path, env('DATA_ATTR'));
-        }
-
-        // create folder for documents HTML files
-        if (!is_dir($this->path . '/html')) {
-            mkdir($this->path . '/html', env('DATA_ATTR'));
-        }
+        // create user personal folders if not exists
+        if (!is_dir(storage_path('data'))) mkdir(storage_path('data'), '0777');
+        $this->path = storage_path('data/' . $user_id);
+        if (!is_dir($this->path)) mkdir($this->path, '0777');
+        if (!is_dir($this->path . '/html')) mkdir($this->path . '/html', '0777');
 
         // periodical: add TOC
         if ($type == 'periodical') {
@@ -74,35 +69,6 @@ class SDocument
     public function setAuthor($author)
     {
         $this->author = mb_substr(strip_tags($author), 0, 100);
-    }
-
-
-    /**
-     * Set document title. Automatically sets the filename_base
-     * @param string $title Title associated with HTML
-     * @param string $title_suffix Title Suffix
-     */
-    public function setTitle($title, $title_suffix = '')
-    {
-        $this->title = stripslashes(mb_substr(strip_tags($title), 0, 255)) . $title_suffix;
-        $this->filename_base = Utils::makeFilename($title . $title_suffix);
-        if (file_exists($this->path . '/' . $this->filename_base . '.mobi')) {
-            $n = 1;
-            do {
-                $n++;
-            } while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
-            $this->filename_base .= $n;
-        }
-    }
-
-    public function getFilenameBase()
-    {
-        return $this->filename_base;
-    }
-
-    public function siteHasRss()
-    {
-        return $this->site_has_rss;
     }
 
     /**
@@ -163,15 +129,6 @@ class SDocument
         $this->author = $matches[2];
         $this->folder_url = substr($url, 0, strrpos($url, '/'));    // without last /
         return true;
-    }
-
-    /**
-     * Set time to use it in the document's cover page, maybe somewhere else.
-     * @param int $time New time
-     */
-    function setTime($time)
-    {
-        $this->time = $time;
     }
 
     /**
@@ -282,6 +239,24 @@ class SDocument
         $html = str_replace(chr(10), ' ', $html);
         $this->setHtml($html);
         return true;
+    }
+
+    /**
+     * Set document title. Automatically sets the filename_base
+     * @param string $title Title associated with HTML
+     * @param string $title_suffix Title Suffix
+     */
+    public function setTitle($title, $title_suffix = '')
+    {
+        $this->title = stripslashes(mb_substr(strip_tags($title), 0, 255)) . $title_suffix;
+        $this->filename_base = Utils::makeFilename($title . $title_suffix);
+        if (file_exists($this->path . '/' . $this->filename_base . '.mobi')) {
+            $n = 1;
+            do {
+                $n++;
+            } while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
+            $this->filename_base .= $n;
+        }
     }
 
     /**
@@ -574,19 +549,6 @@ EOT
     }
 
     /**
-     * Write footer and close the body and html tags.
-     * @param $footer_html - HTML code to put in the footer; use {source} to insert link to the source
-     */
-    function addFooter($footer_html = '', $add_source = false)
-    {
-        if (strpos($footer_html, '{source}') > 0 && !empty($this->url)) {
-            $footer_html = str_replace('{source}',
-                '<a href="' . $this->url . '">' . $this->url . '</a>', $footer_html);
-        }
-        $this->footer_html .= '</body></html>';
-    }
-
-    /**
      * Convert html file to MOBI using Kindlegen
      * @return String containing the filename (incl. path) of the mobi file or False
      */
@@ -608,7 +570,7 @@ EOT
             'filehash' => $file_hash,
             'lang' => $this->language,
             'creator' => ($this->send_as_book) ? 'ReaderFeeder' : $the_title,
-            'publisher' => ($this->send_as_book) ? 'ReaderFeeder.com' : $the_title,
+            'publisher' => ($this->send_as_book) ? 'ReaderFeeder.co' : $the_title,
             'subject' => 'ReaderFeeder',
             'description' => '',
             'date' => $date_str,
@@ -664,15 +626,15 @@ EOT
         }
         fwrite($toc_file, $this->toc_html);
         fclose($toc_file);
-        exec('../kindlegen ' . $opf_filename, $res); // 0's element contans HTML filename
+        exec(env('KINDLEGEN') . ' ' . $opf_filename, $res);
 
-        // Some reporting about the Kindlegen result
-        $res_str = implode(PHP_EOL, $res);
-        Log::info($res_str);
+        // Log Kindlegen result
+        Log::info('Kindlegen report', $res);
 
         // Check for Kindlegen errors
+        $res_str = implode(PHP_EOL, $res);
         if (strpos($res_str, 'rror(prcgen') != false || strpos($res_str, 'rror: ') != false) {
-            Log::error($res_str);
+            Log::error('There was an error in Kindlegen report');
             return false;
         } else return str_replace('.html', '.mobi', $this->temp_files[0]);
     }
@@ -687,9 +649,6 @@ EOT
         @unlink($this->path . '/' . $this->filename_base . '.ncx');
         @unlink($this->path . '/' . $this->filename_base . '_toc.html');
         @unlink($this->path . '/' . $this->filename_base . '_cover.html');
-
-        foreach ($this->temp_files as $delete_it) {
-            @unlink($delete_it);
-        }
+        foreach ($this->temp_files as $temp_file) @unlink($temp_file);
     }
 }
