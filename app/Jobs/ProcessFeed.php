@@ -59,18 +59,12 @@ class ProcessFeed implements ShouldQueue
                 $warnings[] = 'Failed to read RSS at ' . $source->url;
                 continue;
             }
-//            $articles = $feed->get_items(0, $source->count);
-            $articles = $feed->get_items(0, 3);
+            $articles = $feed->get_items(0, $source->count);
             if (!(count($articles) > 0)) {
                 $source_errors++;
                 $warnings[] = 'Empty RSS at' . $source->url;
                 continue;
             }
-//            echo '<b>' . $source->url . '</b><br/>';
-//            foreach ($articles as $article) {
-//                echo $article->get_title() . '<br/>';
-//            }
-//            die();
 
             $lang = $feed->get_language();
             if ($lang && $lang != 'en') $result_doc->language = $lang;
@@ -132,7 +126,7 @@ class ProcessFeed implements ShouldQueue
                 if ($i < count($articles) - 1) {
                     $result_doc->addHtml('<div style="page-break-after:always"></div>');
                 }
-                echo 'item added. Title: ' . $doc->title . '<br>' . PHP_EOL;
+                Log::debug('item added.', ['title' => $doc->title]);
             }
 
             $total_items_added += $items_in_source;
@@ -155,11 +149,11 @@ class ProcessFeed implements ShouldQueue
             exit(2);
         }
         $mobi_filename = $result_doc->saveMobi();
-//        $result_doc->deleteTempFiles();
+        $result_doc->deleteTempFiles();
         if ($mobi_filename === false) {
             Log::error("saveMobi returned false", ['feed' => $this->feed->title]);
             exit(3);
-        }
+        } else Log::info('Mibi file is ready', ['filename' => $mobi_filename]);
 
 //        $sender = new Sender();
 //        $file_added = $sender->addFile($mobi_filename);
