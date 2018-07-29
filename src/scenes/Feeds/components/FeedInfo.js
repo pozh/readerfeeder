@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 
 import { bindActionCreators } from 'redux';
-import { Container, Row, Col } from 'reactstrap';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
@@ -34,7 +33,7 @@ class FeedInfo extends Component {
       return (
         <main>
           <PageCaption>...</PageCaption>
-          <Container className="mt-5" />
+          <div className="container mt-5"> </div>
         </main>
       );
     }
@@ -42,9 +41,9 @@ class FeedInfo extends Component {
       <DocumentTitle title={pageTitle}>
         <main>
           <PageCaption>{feed.title}</PageCaption>
-          <Container>
-            <Row className="mt-5">
-              <Col sm="9">
+          <div className="container">
+            <div className="row mt-5">
+              <div className="col-sm-9">
                 {feed.description && (
                   <div className="mb-5">{feed.description}</div>
                 )}
@@ -56,12 +55,12 @@ class FeedInfo extends Component {
                   </ul>
                 </div>
                 {/* <FeedToc toc={items} /> */}
-              </Col>
-              <Col sm="3">
+              </div>
+              <div className="col-sm-3">
                 <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
-              </Col>
-            </Row>
-          </Container>
+              </div>
+            </div>
+          </div>
         </main>
       </DocumentTitle>
     );

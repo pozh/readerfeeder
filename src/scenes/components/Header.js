@@ -2,16 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
-import {
-  Container,
-  Navbar,
-  Nav,
-  NavItem,
-  Collapse,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu
-} from 'reactstrap';
 import * as authAction from 'actions/authAction';
 import { isEmpty } from '../../utils/commonUtil';
 
@@ -49,7 +39,7 @@ class Header extends React.Component {
     const isLight = this.props.light;
     return (
       <Navbar className={`Nav ${isLight && 'bg-light'}`} expand="lg">
-        <Container>
+        <div className="container">
           <Link className="navbar-brand" to="/"><img src={require('assets/images/logo.png')} alt="" /></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
@@ -98,7 +88,7 @@ class Header extends React.Component {
               </Nav>
             )}
           </Collapse>
-        </Container>
+        </div>
       </Navbar>
     );
   }
@@ -119,4 +109,3 @@ function dispatchToProps(dispatch) {
 }
 
 export default connect(stateToProps, dispatchToProps)(Header);
-

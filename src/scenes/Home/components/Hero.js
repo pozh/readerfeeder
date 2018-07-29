@@ -1,12 +1,11 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from 'reactstrap';
 
 export const Hero = props => (
   <section className="Hero bg-light">
-    <Container>
-      <Row>
-        <Col md="7">
+    <div className="container">
+      <div className="row">
+        <div className="col-md-7">
           <h1 className="Hero-heading">RSS Delivery Service for KINDLE</h1>
           <h4 className="Hero-subheading">
             ReaderFeeder delivers RSS feeds in full-text format to your
@@ -15,12 +14,12 @@ export const Hero = props => (
           <div className="Hero-actions">
             <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Browse Feeds</Link>
           </div>
-        </Col>
-        <Col md="5">
+        </div>
+        <div className="col-md-5">
           <img src={require("assets/images/news.png")} alt="" />
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
+    </div>
   </section>
 );
 
