@@ -6,6 +6,7 @@ import * as authAction from 'actions/authAction';
 import { isEmpty } from '../../utils/commonUtil';
 
 import './styles.scss';
+import logoImg from './../../assets/images/logo.png';
 
 
 class Header extends React.Component {
@@ -38,9 +39,9 @@ class Header extends React.Component {
   render() {
     const isLight = this.props.light;
     return (
-      <Navbar className={`Nav ${isLight && 'bg-light'}`} expand="lg">
+      <nav className={`Nav navbar navbar-expand-lg navbar-light ${isLight && 'bg-light'}`}>
         <div className="container">
-          <Link className="navbar-brand" to="/"><img src={require('assets/images/logo.png')} alt="" /></Link>
+          <Link className="navbar-brand" to="/"><img src={logoImg} alt="" /></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
               <path
@@ -52,44 +53,43 @@ class Header extends React.Component {
               />
             </svg>
           </button>
-          {/* <NavbarToggler /> */}
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <div className={`collapse navbar-collapse ${this.state.isOpen && 'show'}`}>
             {!this.props.isAuthenticated && (
-              <Nav className="ml-auto" navbar>
-                <NavItem>
+              <ul className="navbar-nav ml-auto">
+                <li className="nav-item">
                   <Link className="btn btn-link" to="/login/">Log In</Link>
-                </NavItem>
-                <NavItem>
+                </li>
+                <li className="nav-item">
                   <Link className="btn btn-round btn-primary" to="/signup/">Sign Up</Link>
-                </NavItem>
-              </Nav>
+                </li>
+              </ul>
             )}
 
             {this.props.isAuthenticated && (
-              <Nav className="mr-auto" navbar>
-                <NavItem><Link className="nav-link" to="/feeds">Browse Feeds</Link></NavItem>
-              </Nav>
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item"><Link className="nav-link" to="/feeds">Browse Feeds</Link></li>
+              </ul>
             )}
 
             {this.props.isAuthenticated && (
-              <Nav navbar>
-                <NavItem><Link className="btn btn-primary Nav-upgrade-btn" to="/pro">Upgrade</Link></NavItem>
-                <UncontrolledDropdown nav inNavbar>
-                  <DropdownToggle nav caret>
+              <ul className="navbar-nav">
+                <li className="nav-item"><Link className="btn btn-primary Nav-upgrade-btn" to="/pro">Upgrade</Link></li>
+                <li className="nav-item dropdown">
+                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {this.props.user.first_name}
-                  </DropdownToggle>
-                  <DropdownMenu right>
+                  </a>
+                  <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                     <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
                     <Link className="dropdown-item" to="/settings">Settings</Link>
                     <div className="dropdown-divider"> </div>
                     <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
-                  </DropdownMenu>
-                </UncontrolledDropdown>
-              </Nav>
+                  </div>
+                </li>
+              </ul>
             )}
-          </Collapse>
+          </div>
         </div>
-      </Navbar>
+      </nav>
     );
   }
 }
