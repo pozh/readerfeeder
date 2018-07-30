@@ -1,7 +1,8 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+import heroImg from './../../../assets/images/news.png';
 
-export const Hero = props => (
+const Hero = () => (
   <section className="Hero bg-light">
     <div className="container">
       <div className="row">
@@ -16,7 +17,7 @@ export const Hero = props => (
           </div>
         </div>
         <div className="col-md-5">
-          <img src={require("assets/images/news.png")} alt="" />
+          <img src={heroImg} alt="" />
         </div>
       </div>
     </div>
