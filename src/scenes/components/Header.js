@@ -60,7 +60,7 @@ class Header extends React.Component {
                   <Link className="btn btn-link" to="/login/">Log In</Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="btn btn-round btn-primary" to="/signup/">Sign Up</Link>
+                  <Link className="btn btn-primary" to="/signup/">Sign Up</Link>
                 </li>
               </ul>
             )}

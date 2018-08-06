@@ -13,7 +13,7 @@ const Hero = () => (
             Kindle e-reader, wirelessly, on schedule.
           </h4>
           <div className="Hero-actions">
-            <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Browse Feeds</Link>
+            <Link className="btn btn-lg btn-primary" to="/feeds">Browse Feeds</Link>
           </div>
         </div>
         <div className="col-md-5">
