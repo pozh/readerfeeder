@@ -8,6 +8,7 @@ import Input from 'arui-feather/input';
 import { USER_HOME, TITLE_LOGIN } from 'constants/common';
 
 import * as authAction from 'actions/authAction';
+import SocialAuth from "../components/SocialAuth";
 
 import './styles.scss';
 
@@ -76,20 +77,10 @@ class LoginPage extends Component {
                   width="available"
                 />
               </div>
-              <div className="row mt-4">
-                <div className="col">
-                  <button type="submit" className="btn btn-primary">LOGIN</button>
-                </div>
-                <div className="col text-right hidden">
-                  <button type="button" className="btn btn-circle btn-facebook">
-                    <img src={require('assets/images/ico_facebook.png')} alt="" />
-                  </button>
-                  <button type="button" className="btn btn-circle btn-google">
-                    <img src={require('assets/images/ico_google.png')} alt="" />
-                  </button>
-                </div>
+              <div className="form-group">
+                <button type="submit" className="btn btn-primary">LOGIN</button>
+                <SocialAuth/>
               </div>
-
               <p className="mt-4">
                 <strong><Link to="/reset-password" className="">Forgot Password?</Link></strong>
                 <br />
