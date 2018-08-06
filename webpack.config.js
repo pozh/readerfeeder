@@ -84,6 +84,8 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
+    host: "rf.local",
+    port: 8081,
     proxy: {
       '/api*': "http://localhost:8181"
     }
