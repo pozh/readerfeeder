@@ -10,11 +10,8 @@ use App\Transformers\FeedTransformer;
 
 class FeedController extends BaseController
 {
-    protected $feed;
-
-    public function __construct(Feed $feed)
+    public function __construct()
     {
-        $this->feed = $feed;
     }
 
     /**
@@ -35,13 +32,9 @@ class FeedController extends BaseController
      */
     public function show($id)
     {
-
-        $feed = $this->feed->findOrFail($id);
-        if (! $feed) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($feed, new FeedTransformer);
+        $feed = Feed::findOrFail($id);
+        if (!$feed) abort(404);
+        else return new FeedResource($feed);
     }
 
     /**
@@ -53,18 +46,15 @@ class FeedController extends BaseController
     public function showBySlug($slug)
     {
 
-        $feed = $this->feed->where('slug', $slug)->firstOrFail();
-        if (! $feed) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($feed, new FeedTransformer);
+        $feed = Feed::where('slug', $slug)->firstOrFail();
+        if (!$feed) abort(404);
+        else return new FeedResource($feed);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
@@ -79,7 +69,7 @@ class FeedController extends BaseController
         }
 
         $attributes = [
-            'code' =>  $request->get('code'),
+            'code' => $request->get('code'),
             'name' => $request->get('name'),
             'description' => $request->get('description'),
             'status' => $request->get('status'),
@@ -93,14 +83,14 @@ class FeedController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $feed = $this->feed->findOrFail($id);
-        if (! $feed) {
+        if (!$feed) {
             return $this->response->errorNotFound();
         }
 
@@ -125,17 +115,17 @@ class FeedController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $feed = $this->feed->findOrFail($id);
-        if (! $feed) {
+        if (!$feed) {
             return $this->response->errorNotFound();
         }
 
-        if( !$feed->delete() ) {
+        if (!$feed->delete()) {
             return $this->response->errorInternal();
         }
 
