@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Feed;
+use App\Http\Resources\Feed as FeedResource;
 use App\Transformers\FeedTransformer;
 
 
@@ -23,8 +24,7 @@ class FeedController extends BaseController
      */
     public function index()
     {
-        $feeds =  $this->feed->all(); //paginate(25);
-        return $this->response->collection($feeds, new FeedTransformer()); // paginator($feeds, new FeedTransformer());
+        return FeedResource::collection(Feed::all());
     }
 
     /**

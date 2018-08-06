@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Http\Resources\Category as CategoryResource;
 use App\Transformers\CategoryTransformer;
 
 
@@ -23,8 +24,7 @@ class CategoryController extends BaseController
      */
     public function index()
     {
-        $cats =  $this->cat->all(); //paginate(25);
-        return $this->response->collection($cats, new CategoryTransformer()); // paginator($feeds, new FeedTransformer());
+        return CategoryResource::collection(Category::all());
     }
 
     /**
