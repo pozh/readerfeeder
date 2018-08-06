@@ -1,11 +1,10 @@
-@import "../../../assets/styles/variables";
-@import "../../../../node_modules/bootstrap/scss/functions";
-@import "../../../../node_modules/bootstrap/scss/variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "./../../../assets/styles/variables";
 
 .BodySignup {
-  background: #EFEFEF url(./../../../assets/images/placeholder.png) no-repeat bottom right;
+  background: $gray-200 url(./../../../assets/images/newspaper.png) no-repeat bottom right;
 }
-
 
 .Signup {
   height: 99vh;

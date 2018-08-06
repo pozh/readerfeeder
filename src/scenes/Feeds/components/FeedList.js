@@ -37,9 +37,7 @@ class FeedList extends Component {
     if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
       return (
         <main>
-          <PageCaption>
-          Browse Feeds
-          </PageCaption>
+          <PageCaption>Browse Feeds</PageCaption>
           <div className="container">
             <h2>Loading...</h2>
           </div>
