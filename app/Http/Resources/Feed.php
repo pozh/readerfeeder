@@ -14,6 +14,22 @@ class Feed extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'user_id' => $this->user_id,
+            'last_sent' => $this->last_sent,
+            'status' => $this->status,
+            'period' => $this->period,
+            'schedule_day' => $this->schedule_day,
+            'schedule_time' => $this->schedule_time,
+            'type' => $this->type,
+            'category_id' => $this->category_id,
+            'description' => $this->description,
+            'slug' => $this->slug,
+            'subscribers' => $this->subscribers,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }
