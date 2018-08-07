@@ -60,19 +60,23 @@ export function login({email, password}) {
   };
 }
 
-export function signup({name, email, password, passwordcopy}) {
+export function signup({first_name, email, password, password_confirmation}) {
   return function (dispatch) {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
       return;
     }
-    if (password !== passwordcopy) {
+    if (password.length < 6) {
+      notify.error(message.SIGNUP_SHORT_PASSWORD);
+      return;
+    }
+    if (password !== password_confirmation) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
       return;
     }
 
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_SIGNUP, {name, email, password}).then((response) => {
+    axios.post(api.API_SIGNUP, {first_name, email, password, password_confirmation}).then((response) => {
       dispatch(apiAction.apiResponse());
       dispatch(authActions.signupSuccess(response.data.token));
       setToken(response.data.token);

@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 import Input from 'arui-feather/input';
 import { USER_HOME, TITLE_SIGNUP } from 'constants/common';
+import SocialAuth from "../components/SocialAuth";
 
 import * as authAction from 'actions/authAction';
 
@@ -19,10 +20,10 @@ class SignupPage extends Component {
       errors: {},
       redirect: false,
       user: {
-        name: '',
+        first_name: '',
         email: '',
         password: '',
-        passwordcopy: ''
+        password_confirmation: ''
       }
     };
 
@@ -31,7 +32,6 @@ class SignupPage extends Component {
 
   processForm(event) {
     event.preventDefault();
-    console.log(this.state.user);
     this.props.actions.signup(this.state.user);
   }
 
@@ -64,7 +64,7 @@ class SignupPage extends Component {
                   type="text"
                   width="available"
                   onChange={(val) => {
-                    this.state.user.name = val;
+                    this.state.user.first_name = val;
                   }}
                   label="Name"
                   autoComplete="on"
@@ -97,7 +97,7 @@ class SignupPage extends Component {
                   type="password"
                   width="available"
                   onChange={(val) => {
-                    this.state.user.passwordcopy = val;
+                    this.state.user.password_confirmation = val;
                   }}
                   label="Password (again)"
                   autoComplete="off"
@@ -105,6 +105,7 @@ class SignupPage extends Component {
 
               <div className="mt-4">
                 <button type="submit" className="btn btn-primary">REGISTER</button>
+                <SocialAuth/>
               </div>
 
               <p className="mt-4">
