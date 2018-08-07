@@ -18,16 +18,20 @@ Route::group(['middleware' => 'auth:api'], function($api){
     $api->delete('subscription/{id}', 'SubController@destroy');
 });
 
-Route::get('feed', 'Api\V1\FeedController@index');
-Route::get('feed/{id}', 'Api\V1\FeedController@show');
-Route::get('feed/byslug/{slug}', 'Api\V1\FeedController@showBySlug');
-Route::post('feed', 'Api\V1\FeedController@store');
-Route::put('feed/{id}', 'Api\V1\FeedController@update');
-Route::delete('feed/{id}', 'Api\V1\FeedController@destroy');
+Route::namespace('Api\V1')->group(function () {
+    Route::post('user', 'UserController@store');
 
-Route::get('category', 'Api\V1\CategoryController@index');
-Route::get('category/{id}', 'Api\V1\CategoryController@show');
-Route::get('category/byslug/{slug}', 'Api\V1\CategoryController@showBySlug');
-Route::post('category', 'Api\V1\CategoryController@store');
-Route::put('category/{id}', 'Api\V1\CategoryController@update');
-Route::delete('category/{id}', 'Api\V1\CategoryController@destroy');
+    Route::get('feed', 'FeedController@index');
+    Route::get('feed/{id}', 'FeedController@show');
+    Route::get('feed/byslug/{slug}', 'FeedController@showBySlug');
+    Route::post('feed', 'FeedController@store');
+    Route::put('feed/{id}', 'FeedController@update');
+    Route::delete('feed/{id}', 'FeedController@destroy');
+
+    Route::get('category', 'CategoryController@index');
+    Route::get('category/{id}', 'CategoryController@show');
+    Route::get('category/byslug/{slug}', 'CategoryController@showBySlug');
+    Route::post('category', 'CategoryController@store');
+    Route::put('category/{id}', 'CategoryController@update');
+    Route::delete('category/{id}', 'CategoryController@destroy');
+});
