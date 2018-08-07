@@ -19,7 +19,12 @@ Route::group(['middleware' => 'auth:api'], function($api){
 });
 
 Route::namespace('Api\V1')->group(function () {
-    Route::post('user', 'UserController@store');
+
+    Route::group(['prefix'=> 'auth'],function(){
+        Route::post('/register','Auth\RegisterController@register');
+        Route::post("/login",'Auth\LoginController@login');
+        Route::post('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|');
+    });
 
     Route::get('feed', 'FeedController@index');
     Route::get('feed/{id}', 'FeedController@show');
