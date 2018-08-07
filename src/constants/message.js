@@ -3,4 +3,5 @@ export const NOT_AUTHORISED = 'You are not authorized to do this. Please login a
 export const INVALID_LOGIN_DATA = 'Invalid username or password.';
 export const SIGNUP_ERROR = 'Error! please use different email address';
 export const SIGNUP_NO_PASSWORD = 'No password provided!';
+export const SIGNUP_SHORT_PASSWORD = 'Password must be at least 6 characters long';
 export const SIGNUP_PASSWORD_MATCH = 'Passwords do not match!';
