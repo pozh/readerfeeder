@@ -28,7 +28,6 @@ class UserController extends BaseController
         return $this->response->paginator($users, new UserTransformer);
     }
 
-
     public function me()
     {
         if (!$user = JWTAuth::parseToken()->toUser()) {
@@ -53,33 +52,6 @@ class UserController extends BaseController
         }
 
         return $this->response->item($user, new UserTransformer);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request)
-    {
-        $validator = \Validator::make($request->input(), [
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->errorBadRequest($validator->messages());
-        }
-
-        $attributes = [
-            'first_name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => app('hash')->make($request->get('password')),
-        ];
-        $user = $this->user->create($attributes);
-        $token = \Auth::fromUser($user);
-
-        return $this->response->array(compact('token'));
     }
 
     /**
