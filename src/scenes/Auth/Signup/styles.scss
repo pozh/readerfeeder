@@ -3,7 +3,7 @@
 @import "./../../../assets/styles/variables";
 
 .BodySignup {
-  background: $gray-200 url(./../../../assets/images/newspaper.png) no-repeat bottom right;
+  background: $white url(./../../../assets/images/newspaper.png) no-repeat bottom right;
 }
 
 .Signup {
@@ -16,12 +16,11 @@
   }
 
   &-dialog {
-    //background: $white;
+    background: $gray-200;
     display: flex;
     align-self: center;
     padding: 55px 40px 40px 40px;
-    //box-shadow: 0 14px 30px rgba(0,0,0,.07), 0 3px 6px rgba(0,0,0,.07);
-    //border:1px solid $gray-300;
+    box-shadow: 0 14px 30px rgba(0,0,0,.07), 0 3px 6px rgba(0,0,0,.07);
     width: 29em;
     max-width: 90%;
     border-radius: 5px;
