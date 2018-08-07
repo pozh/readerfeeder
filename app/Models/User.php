@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\ResetPassword as ResetPasswordNotification;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -16,26 +16,29 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name','email','password',
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * The attributes that should be hidden for arrays.
      *
      * @var array
      */
     protected $hidden = [
-        'password',
+        'password', 'remember_token',
     ];
+
+    public function sendPasswordResetNotification($token)
+    {
+        // Your your own implementation.
+        $this->notify(new ResetPasswordNotification($token, $this->getEmailForPasswordReset()));
+    }
 
     public function subscriptions()
     {
         return $this->hasMany('App\Models\Subscription')->get();
     }
 
-    /**
-     * Get the meta info for the user.
-     */
     public function meta()
     {
         return $this->hasMany('App\Models\Usermeta')->get();
