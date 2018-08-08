@@ -2,28 +2,28 @@
 
 use Illuminate\Http\Request;
 
-Route::group(['middleware' => 'auth:api'], function($api){
-    $api->get('auth/check', 'AuthController@checkToken');
-
-    $api->get('user', 'UserController@index');
-    $api->get('user/me', 'UserController@me');
-    $api->get('user/{id}', 'UserController@show');
-    $api->put('user/{id}', 'UserController@update');
-    $api->delete('user/{id}', 'UserController@destroy');
-
-    $api->get('subscription', 'SubController@index');
-    $api->get('subscription/{id}', 'SubController@show');
-    $api->post('subscription', 'SubController@store');
-    $api->put('subscription/{id}', 'SubController@update');
-    $api->delete('subscription/{id}', 'SubController@destroy');
-});
-
 Route::namespace('Api\V1')->group(function () {
 
     Route::group(['prefix'=> 'auth'],function(){
         Route::post('/register','Auth\RegisterController@register');
         Route::post("/login",'Auth\LoginController@login');
         Route::post('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|');
+    });
+
+    Route::group(['middleware' => 'jwt.auth'], function(){
+        Route::get('auth/check', 'AuthController@checkToken');
+
+        Route::get('user', 'UserController@index');
+        Route::get('user/me', 'UserController@me');
+        Route::get('user/{id}', 'UserController@show');
+        Route::put('user/{id}', 'UserController@update');
+        Route::delete('user/{id}', 'UserController@destroy');
+
+        Route::get('subscription', 'SubController@index');
+        Route::get('subscription/{id}', 'SubController@show');
+        Route::post('subscription', 'SubController@store');
+        Route::put('subscription/{id}', 'SubController@update');
+        Route::delete('subscription/{id}', 'SubController@destroy');
     });
 
     Route::get('feed', 'FeedController@index');
