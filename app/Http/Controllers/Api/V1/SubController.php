@@ -4,18 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Subscription;
-use App\Transformers\SubTransformer;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
+use App\Http\Resources\Subscription as SubscriptionResource;
+use Auth;
 
 class SubController extends BaseController
 {
-    protected $sub;
-
-    public function __construct(Subscription $sub)
-    {
-        $this->sub = $sub;
-    }
 
     /**
      * Display a listing of the resource.
@@ -24,40 +17,33 @@ class SubController extends BaseController
      */
     public function index()
     {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
-        }
+        if (!$user = Auth::user()) return response()->json(['user_not_found'], 404);
         $subs = $user->subscriptions();
-//        return $this->response->array(array('data' => array_flatten($subs->toArray())));
-        return $this->response->collection($subs, new SubTransformer());
+        return SubscriptionResource::collection($subs);
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($sub, new SubTransformer);
+        $sub = Subscription::findOrFail($id);
+        if (!$sub) return response()->json(['subscription_not_found'], 404);
+        else return new SubscriptionResource($sub);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
+        if (!$user = Auth::user()) {
+            return response()->errorForbidden(trans('auth.incorrect'));
         }
 
         $validator = \Validator::make($request->input(), [
@@ -80,14 +66,14 @@ class SubController extends BaseController
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
+        if (!$sub) {
             return $this->response->errorNotFound();
         }
 
@@ -107,17 +93,17 @@ class SubController extends BaseController
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
+        if (!$sub) {
             return $this->response->errorNotFound();
         }
 
-        if( !$sub->delete() ) {
+        if (!$sub->delete()) {
             return $this->response->errorInternal();
         }
 
