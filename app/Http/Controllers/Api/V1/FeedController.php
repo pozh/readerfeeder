@@ -10,9 +10,6 @@ use App\Transformers\FeedTransformer;
 
 class FeedController extends BaseController
 {
-    public function __construct()
-    {
-    }
 
     /**
      * Display a listing of the resource.
