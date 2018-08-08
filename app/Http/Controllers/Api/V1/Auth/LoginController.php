@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\V1\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use App\Models\User;
+use Socialite;
 
 class LoginController extends Controller
 {
@@ -18,22 +22,65 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
-
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public function login(Request $request)
     {
-        $this->middleware('guest')->except('logout');
+        $credentials = $request->only('email', 'password');
+
+        try {
+            // attempt to verify the credentials and create a token for the user
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                    "error" => "invalid_credentials",
+                    "message" => "The user credentials were incorrect. "
+                ], 401);
+            }
+        } catch (JWTException $e) {
+            // something went wrong whilst attempting to encode the token
+            return response()->json([
+                "error" => "could_not_create_token",
+                "message" => "Enable to process request."
+            ], 422);
+        }
+
+        // all good so return the token
+        $user = User::where('email', $request->get('email'))->get();
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 200);
+
+    }
+
+    public function socialLogin($social)
+    {
+        if ($social == "facebook" || $social == "google" || $social == "linkedin") {
+            return Socialite::driver($social)->stateless()->redirect();
+        } else {
+            return Socialite::driver($social)->redirect();
+        }
+    }
+
+    public function handleProviderCallback($social)
+    {
+        if ($social == "facebook" || $social == "google" || $social == "linkedin") {
+            $userSocial = Socialite::driver($social)->stateless()->user();
+        } else {
+            $userSocial = Socialite::driver($social)->user();
+        }
+
+        $token = $userSocial->token;
+
+        $user = User::firstOrNew(['email' => $userSocial->getEmail()]);
+
+        if (!$user->id) {
+            $user->fill(["first_name" => $userSocial->getName(), "password" => bcrypt(str_random(6))]);
+            $user->save();
+        }
+
+        return response()->json([
+            'user' => [$user],
+            'userSocial' => $userSocial,
+            'token' => $token,
+        ], 200);
     }
 }
