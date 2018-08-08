@@ -4,19 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Transformers\UserTransformer;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
+use App\Http\Resources\User as UserResource;
+use Auth;
 
 class UserController extends BaseController
 {
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -30,11 +22,8 @@ class UserController extends BaseController
 
     public function me()
     {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
-        }
-        return $this->response->item($user, new UserTransformer());
-
+        if (!$user = Auth::user()) return response()->json(['user_not_found'], 401);
+        else return new UserResource($user);
     }
 
     /**
