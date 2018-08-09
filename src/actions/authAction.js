@@ -1,10 +1,10 @@
 import axios from 'axios';
-import {NotificationManager as notify} from 'react-notifications';
-import {setToken, clearToken, getToken} from "../utils/authUtil"
-import {getAuthorized} from "../utils/apiService";
+import { NotificationManager as notify } from 'react-notifications';
+import { setToken, clearToken, getToken } from '../utils/authUtil';
+import { getAuthorized } from '../utils/apiService';
 
 import * as api from '../constants/api';
-import {HOME, USER_HOME} from '../constants/common';
+import { HOME, USER_HOME } from '../constants/common';
 import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';
@@ -16,38 +16,49 @@ import history from '../history';
 /**
  * Actions that are dispatched from authAction
  */
-let authActions = {
-  loginSuccess: function (token) {
+const authActions = {
+  loginSuccess(token) {
     return {
       type: ActionType.LOG_IN_SUCCESS,
       payload: token
-    }
+    };
   },
 
-  logout: function () {
-    return {type: ActionType.LOG_OUT}
+  logout() {
+    return { type: ActionType.LOG_OUT };
   },
 
-  setUser: function (userData) {
+  setUser(userData) {
     return {
       type: ActionType.SET_USER,
       payload: userData
-    }
+    };
   },
 
-  signupSuccess: function (token) {
+  signupSuccess(token) {
     return {
       type: ActionType.SIGNUP_SUCCESS,
       payload: token
-    }
+    };
   },
 };
 
+export function authErrorHandler(dispatch, error, type) {
+  let errorMessage = '';
+  if (error) errorMessage = (error.data.message) ? error.data.message : error.data;
 
-export function login({email, password}) {
-  return function (dispatch) {
+  // NOT AUTHENTICATED ERROR
+  if (error && error.status === 401) {
+    errorMessage = message.NOT_AUTHORISED;
+  }
+
+  dispatch({ type, payload: errorMessage });
+}
+
+export function login({ email, password }) {
+  return (dispatch) => {
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_LOGIN, {email, password}).then((response) => {
+    axios.post(api.API_LOGIN, { email, password }).then((response) => {
       dispatch(apiAction.apiResponse());
       setToken(response.data.token);
       dispatch(authActions.loginSuccess(response.data.token));
@@ -60,8 +71,8 @@ export function login({email, password}) {
   };
 }
 
-export function signup({first_name, email, password, password_confirmation}) {
-  return function (dispatch) {
+export function signup({ firstName, email, password, passwordConfirmation }) {
+  return (dispatch) => {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
       return;
@@ -70,18 +81,19 @@ export function signup({first_name, email, password, password_confirmation}) {
       notify.error(message.SIGNUP_SHORT_PASSWORD);
       return;
     }
-    if (password !== password_confirmation) {
+    if (password !== passwordConfirmation) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
       return;
     }
 
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_SIGNUP, {first_name, email, password, password_confirmation}).then((response) => {
-      dispatch(apiAction.apiResponse());
-      dispatch(authActions.signupSuccess(response.data.token));
-      setToken(response.data.token);
-      history.push(USER_HOME);
-    })
+    axios.post(api.API_SIGNUP, { firstName, email, password, passwordConfirmation })
+      .then((response) => {
+        dispatch(apiAction.apiResponse());
+        setToken(response.data.token);
+        dispatch(authActions.signupSuccess(response.data.token));
+        history.push(USER_HOME);
+      })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
         notify.error(message.SIGNUP_ERROR);
@@ -100,7 +112,7 @@ export function verifyToken() {
 }
 
 export function setUser() {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(apiAction.apiRequest());
     getAuthorized(api.API_ME).then((response) => {
       dispatch(apiAction.apiResponse());
@@ -109,25 +121,13 @@ export function setUser() {
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.NOT_AUTHORISED);
       });
-  }
+  };
 }
 
 export function logout() {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(authActions.logout());
     clearToken();
     history.push(HOME);
   };
-}
-
-export function authErrorHandler(dispatch, error, type) {
-  let errorMessage = '';
-  if (error) errorMessage = (error.data.message) ? error.data.message : error.data;
-
-  // NOT AUTHENTICATED ERROR
-  if (error && error.status === 401) {
-    errorMessage = message.NOT_AUTHORISED;
-  }
-
-  dispatch({type, payload: errorMessage});
 }
