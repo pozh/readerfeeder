@@ -71,7 +71,7 @@ export function login({ email, password }) {
   };
 }
 
-export function signup({ firstName, email, password, passwordConfirmation }) {
+export function signup({ first_name, email, password, password_confirmation }) {
   return (dispatch) => {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
@@ -81,13 +81,14 @@ export function signup({ firstName, email, password, passwordConfirmation }) {
       notify.error(message.SIGNUP_SHORT_PASSWORD);
       return;
     }
-    if (password !== passwordConfirmation) {
+    if (password !== password_confirmation) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
+      console.log(password, password_confirmation);
       return;
     }
 
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_SIGNUP, { firstName, email, password, passwordConfirmation })
+    axios.post(api.API_SIGNUP, { first_name, email, password, password_confirmation })
       .then((response) => {
         dispatch(apiAction.apiResponse());
         setToken(response.data.token);
