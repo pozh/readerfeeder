@@ -4,7 +4,6 @@
   "description": "",
   "scripts": {
     "start": "webpack-dev-server --hot",
-    "production": "babel-node server",
     "eslint": "eslint .",
     "build": "cross-env NODE_ENV=production webpack --config ./webpack.production.js --progress --profile --colors",
     "surge": "rm -rf dist && npm run build && cp dist/index.html dist/200.html && surge dist"
