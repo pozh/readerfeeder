@@ -16,3 +16,5 @@ Route::get('/rss', 'TestController@rss');
 Route::get('/subs/{feed_id}', 'TestController@subscribers');
 Route::get('/send/{feed_id}', 'TestController@sendfeed');
 
+Route::get('/redirect/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
+
