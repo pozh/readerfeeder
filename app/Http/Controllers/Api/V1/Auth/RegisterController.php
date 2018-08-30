@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Mockery\Exception;
 use Validator;
+use JWTAuth;
 
 class RegisterController extends Controller
 {
@@ -39,8 +40,9 @@ class RegisterController extends Controller
 
         $request->merge(['password' => Hash::make($request->password)]);
         try{
-            User::create($request->all());
-            return response()->json(['status','registered successfully'],200);
+            $user = User::create($request->all());
+            $token = JWTAuth::getToken();
+            return response()->json(['token' => $token],200);
         }
         catch(Exception $e){
             return response()->json([
