@@ -51,6 +51,7 @@ export default function (state , action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
+        user: null
       });
     case ActionType.SET_USER:
       return _.assign({}, state, {
