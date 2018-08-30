@@ -62,7 +62,6 @@ export function login({ email, password }) {
       dispatch(apiAction.apiResponse());
       setToken(response.data.token);
       dispatch(authActions.loginSuccess(response.data.token));
-      history.push(USER_HOME);
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
@@ -93,7 +92,6 @@ export function signup({ first_name, email, password, password_confirmation }) {
         dispatch(apiAction.apiResponse());
         setToken(response.data.token);
         dispatch(authActions.signupSuccess(response.data.token));
-        history.push(USER_HOME);
       })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
