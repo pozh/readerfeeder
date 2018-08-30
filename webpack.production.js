@@ -43,7 +43,6 @@ module.exports = {
     definePlugin,
     uglifyPlugin,
     compressionPlugin,
-    new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})
   ],
   resolve: {
     modules: ['node_modules', path.join(__dirname, 'src')]

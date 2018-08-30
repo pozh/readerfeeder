@@ -30,8 +30,9 @@ module.exports = {
     filename: '[hash].js',
   },
   devtool: 'source-map',
-  plugins: [htmlWebpackPlugin, definePlugin,
-    new webpack.ProvidePlugin({$: "jquery", jQuery: "jquery"})
+  plugins: [
+    htmlWebpackPlugin,
+    definePlugin,
   ],
   resolve: {
     modules: ['node_modules', path.join(__dirname, 'src')]
