@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
 import { isEmpty } from '../../utils/commonUtil';
+import Dropdown from '../components/Dropdown';
 
 import './styles.scss';
 import logoImg from './../../assets/images/logo.png';
@@ -74,17 +75,12 @@ class Header extends React.Component {
             {this.props.isAuthenticated && (
               <ul className="navbar-nav">
                 <li className="nav-item"><Link className="btn btn-primary Nav-upgrade-btn" to="/pro">Upgrade</Link></li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {this.props.user.first_name}
-                  </a>
-                  <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
-                    <Link className="dropdown-item" to="/settings">Settings</Link>
-                    <div className="dropdown-divider"> </div>
-                    <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
-                  </div>
-                </li>
+                <Dropdown caption={this.props.user.first_name}>
+                  <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
+                  <Link className="dropdown-item" to="/settings">Settings</Link>
+                  <div className="dropdown-divider"> </div>
+                  <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
+                </Dropdown>
               </ul>
             )}
           </div>
