@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NotificationManager as notify } from 'react-notifications';
+import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from '../utils/authUtil';
 import { getAuthorized } from '../utils/apiService';
 
@@ -103,9 +104,11 @@ export function signup({ first_name, email, password, password_confirmation }) {
 export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
-    // Update application state. User has token and is probably authenticated
     if (token) {
-      dispatch(authActions.loginSuccess(token));
+      const tokenDecoded = jwt_decode(token);
+      if (tokenDecoded.exp > Math.floor(Date.now() / 1000)) {
+        dispatch(authActions.loginSuccess(token));
+      } else clearToken();
     }
   };
 }
