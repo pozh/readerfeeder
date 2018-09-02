@@ -110,7 +110,7 @@ export function verifyToken() {
   };
 }
 
-export function setUser() {
+export function readUser() {
   return (dispatch) => {
     dispatch(apiAction.apiRequest());
     getAuthorized(api.API_ME).then((response) => {

@@ -13,7 +13,7 @@ import { isEmpty } from '../../../utils/commonUtil';
 class Settings extends Component {
   componentWillMount() {
     if (this.props.isAuthenticated && isEmpty(this.props.user)) {
-      this.props.actions.setUser();
+      this.props.actions.readUser();
     }
   }
 
