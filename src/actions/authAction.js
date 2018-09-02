@@ -100,7 +100,7 @@ export function signup({ first_name, email, password, password_confirmation }) {
   };
 }
 
-export function verifyToken() {
+export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
     // Update application state. User has token and is probably authenticated
