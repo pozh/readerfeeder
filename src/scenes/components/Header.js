@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
-import { isEmpty } from '../../utils/commonUtil';
 import Dropdown from '../components/Dropdown';
 
 import './styles.scss';
@@ -18,12 +17,6 @@ class Header extends React.Component {
     this.state = {
       isOpen: false,
     };
-  }
-
-  componentWillMount() {
-    if (this.props.isAuthenticated && isEmpty(this.props.user)) {
-      this.props.actions.readUser();
-    }
   }
 
   toggle() {
