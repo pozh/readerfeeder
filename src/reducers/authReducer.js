@@ -33,6 +33,7 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
+        user: null,
       });
 
     case ActionType.SIGNUP_SUCCESS:
@@ -45,6 +46,7 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
+        user: null,
       });
     case ActionType.NOT_AUTHORISED:
       return _.assign({}, state, {
