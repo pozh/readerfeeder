@@ -43,7 +43,7 @@ class LoginController extends Controller
         }
 
         // all good so return the token
-        $user = User::where('email', $request->get('email'))->get();
+        $user = User::where('email', $request->get('email'))->first();
         return response()->json([
             'user' => $user,
             'token' => $token,
