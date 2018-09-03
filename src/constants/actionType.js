@@ -2,7 +2,6 @@ export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
 export const RECEIVE_REFRESH_TOKEN = 'RECEIVE_REFRESH_TOKEN';
 export const LOG_OUT = 'LOG_OUT';
-export const SET_USER = 'SET_USER';
 
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';

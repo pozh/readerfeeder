@@ -29,13 +29,6 @@ const authActions = {
     return { type: ActionType.LOG_OUT };
   },
 
-  setUser(userData) {
-    return {
-      type: ActionType.SET_USER,
-      payload: userData
-    };
-  },
-
   signupSuccess(token) {
     return {
       type: ActionType.SIGNUP_SUCCESS,
@@ -62,6 +55,7 @@ export function login({ email, password }) {
     axios.post(api.API_LOGIN, { email, password }).then((response) => {
       dispatch(apiAction.apiResponse());
       dispatch(authActions.loginSuccess(response.data));
+      history.push(HOME);
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
@@ -109,19 +103,6 @@ export function checkAuth() {
         dispatch(authActions.loginSuccess(token));
       } else clearToken();
     }
-  };
-}
-
-export function readUser() {
-  return (dispatch) => {
-    dispatch(apiAction.apiRequest());
-    getAuthorized(api.API_ME).then((response) => {
-      dispatch(apiAction.apiResponse());
-      dispatch(authActions.setUser(response.data.data));
-    })
-      .catch((error) => {
-        authErrorHandler(dispatch, error.response, ActionType.NOT_AUTHORISED);
-      });
   };
 }
 
