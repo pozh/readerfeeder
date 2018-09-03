@@ -5,7 +5,7 @@ import { setToken, clearToken, getToken } from '../utils/authUtil';
 import { getAuthorized } from '../utils/apiService';
 
 import * as api from '../constants/api';
-import { HOME, USER_HOME } from '../constants/common';
+import { HOME } from '../constants/common';
 import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';
@@ -18,10 +18,10 @@ import history from '../history';
  * Actions that are dispatched from authAction
  */
 const authActions = {
-  loginSuccess(token) {
+  loginSuccess(data) {
     return {
       type: ActionType.LOG_IN_SUCCESS,
-      payload: token
+      payload: data
     };
   },
 
@@ -61,8 +61,7 @@ export function login({ email, password }) {
     dispatch(apiAction.apiRequest());
     axios.post(api.API_LOGIN, { email, password }).then((response) => {
       dispatch(apiAction.apiResponse());
-      setToken(response.data.token);
-      dispatch(authActions.loginSuccess(response.data.token));
+      dispatch(authActions.loginSuccess(response.data));
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);

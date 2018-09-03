@@ -5,7 +5,7 @@ import _ from 'lodash';
  */
 import * as ActionType from '../constants/actionType';
 
-var initialState = {
+const initialState = {
   token: null,
   isAuthenticated: false,
   user: {},
@@ -14,14 +14,13 @@ var initialState = {
 /**
  * A reducer takes two arguments, the current state and an action.
  */
-export default function (state , action) {
-  state = state || initialState;
-
+export default function (state = initialState, action) {
   switch (action.type) {
     case ActionType.LOG_IN_SUCCESS:
       return _.assign({}, state, {
         isAuthenticated: true,
-        token: action.payload,
+        token: action.payload.token,
+        user: action.payload.user
       });
 
     case ActionType.LOG_IN_FAILURE:
@@ -52,10 +51,6 @@ export default function (state , action) {
         isAuthenticated: false,
         token: null,
         user: null
-      });
-    case ActionType.SET_USER:
-      return _.assign({}, state, {
-        user: action.payload,
       });
     default:
       return state;
