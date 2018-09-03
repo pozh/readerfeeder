@@ -2,7 +2,6 @@ import axios from 'axios';
 import { NotificationManager as notify } from 'react-notifications';
 import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from '../utils/authUtil';
-import { getAuthorized } from '../utils/apiService';
 
 import * as api from '../constants/api';
 import { HOME } from '../constants/common';
@@ -54,6 +53,9 @@ export function login({ email, password }) {
     dispatch(apiAction.apiRequest());
     axios.post(api.API_LOGIN, { email, password }).then((response) => {
       dispatch(apiAction.apiResponse());
+      axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+      setToken(response.data.token);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
       dispatch(authActions.loginSuccess(response.data));
       history.push(HOME);
     })
@@ -97,10 +99,13 @@ export function signup({ first_name, email, password, password_confirmation }) {
 export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
+    const user = JSON.parse(localStorage.getItem('user'));
     if (token) {
       const tokenDecoded = jwt_decode(token);
       if (tokenDecoded.exp > Math.floor(Date.now() / 1000)) {
-        dispatch(authActions.loginSuccess(token));
+        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+        setToken(token);
+        dispatch(authActions.loginSuccess({ user, token }));
       } else clearToken();
     }
   };
@@ -110,6 +115,7 @@ export function logout() {
   return (dispatch) => {
     dispatch(authActions.logout());
     clearToken();
+    localStorage.removeItem('user');
     history.push(HOME);
   };
 }

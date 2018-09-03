@@ -64,7 +64,7 @@ const commonActions = {
 export function fetchAll(entity, data) {
   return dispatch => {
     dispatch(apiAction.apiRequest());
-    return apiService.fetch(entity, data).then((response) => {
+    return apiService.fetch(entity).then((response) => {
       dispatch(apiAction.apiResponse());
       dispatch(commonActions.list(entity, response.data));
     })
