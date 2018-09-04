@@ -56,6 +56,7 @@ export function login({ email, password }) {
       axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       setToken(response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
+      localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
       dispatch(authActions.loginSuccess(response.data));
       history.push(HOME);
     })

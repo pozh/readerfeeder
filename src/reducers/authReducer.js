@@ -9,6 +9,7 @@ const initialState = {
   token: null,
   isAuthenticated: false,
   user: {},
+  usermeta: {}
 };
 
 /**
@@ -20,6 +21,7 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: true,
         token: action.payload.token,
+        usermeta: action.payload.usermeta,
         user: action.payload.user
       });
 
@@ -33,6 +35,7 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
+        usermeta: null,
         user: null,
       });
 
@@ -51,6 +54,7 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
+        usermeta: null,
         user: null
       });
     default:
