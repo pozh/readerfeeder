@@ -1,23 +1,15 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import PageCaption from './../../components/PageCaption';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
-
 import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
-import {TITLE_PRICING} from "constants/common";
+import { TITLE_PRICING } from 'constants/common';
 
+import PageCaption from '../../components/PageCaption';
 
-class Pro extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+class Pricing extends Component {
   componentWillMount() {
-    // if (this.props.isAuthenticated && isEmpty(this.props.user)) {
-    //   this.props.actions.readUser();
-    // }
   }
 
   render() {
@@ -37,13 +29,13 @@ class Pro extends Component {
                   <div className="pricing-card">
                     <h3 className="pricing-card__header">Free</h3>
                     <h4 className="pricing-card__title">Basic Reader</h4>
-                      <ul className="pricing-card__features">
-                        <li>Ultimate Features</li>
-                        <li>Responsive Ready</li>
-                        <li>Visual Composer Included</li>
-                        <li>24/7 Support System</li>
-                      </ul>
-                      <a href="#" className="btn btn-secondary">Choose Plan</a>
+                    <ul className="pricing-card__features">
+                      <li>Ultimate Features</li>
+                      <li>Responsive Ready</li>
+                      <li>Visual Composer Included</li>
+                      <li>24/7 Support System</li>
+                    </ul>
+                    <a href="#" className="btn btn-secondary">Choose Plan</a>
                   </div>
                 </div>
                 <div className="col-xs-12 col-lg-4">
@@ -51,14 +43,14 @@ class Pro extends Component {
                     <h3 className="pricing-card__header">
                       <span className="currency">$</span>9<span className="period">/month</span>
                     </h3>
-                      <h4 className="pricing-card__title">Power Reader</h4>
-                      <ul className="pricing-card__features">
-                        <li>Ultimate Features</li>
-                        <li>Responsive Ready</li>
-                        <li>Visual Composer Included</li>
-                        <li>24/7 Support System</li>
-                      </ul>
-                      <a href="#" className="btn btn-secondary">Choose Plan</a>
+                    <h4 className="pricing-card__title">Power Reader</h4>
+                    <ul className="pricing-card__features">
+                      <li>Ultimate Features</li>
+                      <li>Responsive Ready</li>
+                      <li>Visual Composer Included</li>
+                      <li>24/7 Support System</li>
+                    </ul>
+                    <a href="#" className="btn btn-secondary">Choose Plan</a>
                   </div>
                 </div>
               </div>
@@ -78,7 +70,7 @@ function mapStateToProps(state) {
   return {
     user: state.auth.user,
     apiState: state.api
-  }
+  };
 }
 
 
@@ -88,15 +80,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(_.assign({}, authAction, apiAction), dispatch)
-  }
+  };
 }
 
 /**
  * Connect the component to the Redux store.
  */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Pro);
-
-
-
+export default connect(mapStateToProps, mapDispatchToProps)(Pricing);
 
