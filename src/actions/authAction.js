@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from '../utils/authUtil';
 
 import * as api from '../constants/api';
-import { HOME } from '../constants/common';
+import { HOME, LOGIN } from '../constants/common';
 import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';
@@ -28,10 +28,10 @@ const authActions = {
     return { type: ActionType.LOG_OUT };
   },
 
-  signupSuccess(token) {
+  signupSuccess(data) {
     return {
       type: ActionType.SIGNUP_SUCCESS,
-      payload: token
+      payload: data
     };
   },
 };
@@ -85,8 +85,11 @@ export function signup({ first_name, email, password, password_confirmation }) {
     axios.post(api.API_SIGNUP, { first_name, email, password, password_confirmation })
       .then((response) => {
         dispatch(apiAction.apiResponse());
-        setToken(response.data.token);
-        dispatch(authActions.signupSuccess(response.data.token));
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        dispatch(authActions.signupSuccess(response.data.user));
+        notify.success(message.SIGNUP_SUCCESS);
+        history.push(LOGIN);
       })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);

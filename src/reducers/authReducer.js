@@ -38,8 +38,7 @@ export default function (state = initialState, action) {
 
     case ActionType.SIGNUP_SUCCESS:
       return _.assign({}, state, {
-        isAuthenticated: true,
-        token: action.payload,
+        user: action.payload,
       });
 
     case ActionType.SIGNUP_FAILURE:
