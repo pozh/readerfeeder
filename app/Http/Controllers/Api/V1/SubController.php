@@ -9,6 +9,10 @@ use Auth;
 
 class SubController extends BaseController
 {
+    private $sub;
+    public function __construct(Subscription $sub){
+        $this->sub = $sub;
+    }
 
     /**
      * Display a listing of the resource.
@@ -43,7 +47,9 @@ class SubController extends BaseController
     public function store(Request $request)
     {
         if (!$user = Auth::user()) {
-            return response()->errorForbidden(trans('auth.incorrect'));
+            return response()->json([
+                'message' => __('auth.notauthorized')
+            ], 403);
         }
 
         $validator = \Validator::make($request->input(), [
@@ -51,7 +57,9 @@ class SubController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->errorBadRequest($validator->messages());
+            return responce()->json([
+                'message' => __('all.invalid')
+            ], 403);
         }
 
         $attributes = [
@@ -60,7 +68,7 @@ class SubController extends BaseController
         ];
         $newSub = $this->sub->create($attributes);
 
-        return $this->response->item($newSub, new SubTransformer);
+        return response()->json($newSub);
     }
 
     /**
@@ -74,7 +82,7 @@ class SubController extends BaseController
     {
         $sub = $this->sub->findOrFail($id);
         if (!$sub) {
-            return $this->response->errorNotFound();
+            return response()->errorNotFound();
         }
 
         $validator = \Validator::make($request->input(), [
@@ -87,7 +95,7 @@ class SubController extends BaseController
         $sub->status = $request->get('status');
         $sub->update();
 
-        return $this->response->noContent();
+        return response()->noContent();
     }
 
     /**
@@ -100,14 +108,14 @@ class SubController extends BaseController
     {
         $sub = $this->sub->findOrFail($id);
         if (!$sub) {
-            return $this->response->errorNotFound();
+            return response()->json(['message' => 'Not found'], 404);
         }
 
         if (!$sub->delete()) {
-            return $this->response->errorInternal();
+            return response()->json(['message' => 'Internal Error'], 401);
         }
 
-        return $this->response->noContent();
+        return response()->json(['message' => 'Deleted'], 204);
     }
 
 }
