@@ -33,20 +33,18 @@ class RegisterController extends Controller
 
         if($validator->fails()){
             return response()->json([
-                "error" => 'validation_error',
                 "message" => $validator->errors(),
             ], 422);
         }
 
         $request->merge(['password' => Hash::make($request->password)]);
-        try{
+        try {
             $user = User::create($request->all());
-            $token = JWTAuth::getToken();
-            return response()->json(['token' => $token],200);
-        }
-        catch(Exception $e){
             return response()->json([
-                "error" => "could_not_register",
+                'user' => $user,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
                 "message" => "Unable to register user"
             ], 400);
         }
