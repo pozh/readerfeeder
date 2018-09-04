@@ -18,7 +18,7 @@ export const UPDATE_SELECTED_ITEM = 'UPDATE_SELECTED_ITEM';
 export const CLEAR_LIST = 'CLEAR_LIST';
 export const CLEAR_SELECTED_ITEM = 'CLEAR_SELECTED_ITEM';
 export const FAILURE = 'FAILURE';
-export const NOT_AUTHORISED = 'NOT_AUTHORISED';
+export const NOT_AUTHORIZED = 'NOT_AUTHORIZED';
 
 export const ADD_FEED = 'ADD_FEED';
 export const EDIT_FEED = 'EDIT_FEED';

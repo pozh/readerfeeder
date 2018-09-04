@@ -1,6 +1,7 @@
 import { NotificationManager as notify } from 'react-notifications';
 
-import * as message from 'constants/message';
+import * as message from '../constants/message';
+import { LOGIN } from '../constants/common';
 import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 import * as apiService from '../utils/apiService';
@@ -51,7 +52,34 @@ const commonActions = {
       id
     };
   },
+
+  notAuthorized() {
+    return {
+      type: ActionType.NOT_AUTHORIZED,
+      payload: message.NOT_AUTHORIZED
+    };
+  },
 };
+
+
+/**
+ * Error handler
+ */
+export function errorHandler(dispatch, response, type) {
+  const errorMessage = (response.data.message) ? response.data.message : response.data;
+
+  // NOT AUTHENTICATED ERROR
+  if (response.status === 401) {
+    notify.error(message.NOT_AUTHORIZED);
+    dispatch(commonActions.notAuthorized());
+    history.push(LOGIN);
+  } else {
+    dispatch({
+      type,
+      payload: errorMessage,
+    });
+  }
+}
 
 
 /**
@@ -61,7 +89,7 @@ const commonActions = {
  * entity = 'Feed', 'Categories', ...
  */
 
-export function fetchAll(entity, data) {
+export function fetchAll(entity) {
   return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.fetch(entity).then((response) => {
@@ -144,7 +172,7 @@ export function destroyItem(entity, id, data) {
     return apiService.destroy(entity, id).then((response) => {
       dispatch(apiAction.apiResponse());
       notify.info(`${entity.charAt(0).toUpperCase() + entity.slice(1)} deleted successfully.`);
-      dispatch(fetchAll(entity, data));
+      dispatch(fetchAll(entity));
     })
       .catch((error) => {
         errorHandler(dispatch, error.response, ActionType.FAILURE);
@@ -169,7 +197,7 @@ export function subscribe(id) {
       dispatch(apiAction.apiResponse());
       dispatch({
         type: ActionType.SUBSCRIBE,
-        item: response.data.data
+        item: response.data
       });
     })
       .catch((error) => {
@@ -212,19 +240,4 @@ export function clearSelectedItem(entity) {
     type: ActionType.CLEAR_SELECTED_ITEM,
     entity
   };
-}
-
-export function errorHandler(dispatch, error, type) {
-  let errorMessage = (error.data.message) ? error.data.message : error.data;
-
-  // NOT AUTHENTICATED ERROR
-  if (error.status === 401) {
-    errorMessage = message.NOT_AUTHORISED;
-    type = ActionType.NOT_AUTHORISED;
-  }
-
-  dispatch({
-    type,
-    payload: errorMessage,
-  });
 }

@@ -48,7 +48,7 @@ export default function (state = initialState, action) {
         token: null,
         user: null,
       });
-    case ActionType.NOT_AUTHORISED:
+    case ActionType.NOT_AUTHORIZED:
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,

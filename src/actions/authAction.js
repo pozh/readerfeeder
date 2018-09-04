@@ -42,7 +42,7 @@ export function authErrorHandler(dispatch, error, type) {
 
   // NOT AUTHENTICATED ERROR
   if (error && error.status === 401) {
-    errorMessage = message.NOT_AUTHORISED;
+    errorMessage = message.NOT_AUTHORIZED;
   }
 
   dispatch({ type, payload: errorMessage });
@@ -78,7 +78,6 @@ export function signup({ first_name, email, password, password_confirmation }) {
     }
     if (password !== password_confirmation) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
-      console.log(password, password_confirmation);
       return;
     }
 

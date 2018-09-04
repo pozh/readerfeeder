@@ -4,6 +4,7 @@ export const ORDER_RECENT = 'recent';
 
 export const USER_HOME = '/subscriptions';
 export const HOME = '/';
+export const LOGIN = '/login';
 
 // Page titles
 export const TITLE_SUFFIX = ' - ReaderFeeder';
