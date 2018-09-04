@@ -20,4 +20,13 @@ class Usermeta extends Model
     protected $fillable = [
         'user_id', 'key', 'value'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'id', 'user_id', 'created_at', 'updated_at'
+    ];
 }

@@ -46,6 +46,7 @@ class LoginController extends Controller
         $user = User::where('email', $request->get('email'))->first();
         return response()->json([
             'user' => $user,
+            'usermeta' => $user->meta(),
             'token' => $token,
         ], 200);
 
