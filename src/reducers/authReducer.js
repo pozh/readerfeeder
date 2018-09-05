@@ -37,8 +37,8 @@ export default function (state = initialState, action) {
       return _.assign({}, state, {
         isAuthenticated: false,
         token: null,
-        usermeta: null,
-        user: null,
+        usermeta: {},
+        user: {},
       });
 
     case ActionType.SIGNUP_SUCCESS:
