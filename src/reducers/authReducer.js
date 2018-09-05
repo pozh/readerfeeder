@@ -18,10 +18,12 @@ const initialState = {
 export default function (state = initialState, action) {
   switch (action.type) {
     case ActionType.LOG_IN_SUCCESS:
+      let theMeta = action.payload.usermeta;
+      if (theMeta === undefined) theMeta = {};
       return _.assign({}, state, {
         isAuthenticated: true,
         token: action.payload.token,
-        usermeta: action.payload.usermeta,
+        usermeta: theMeta,
         user: action.payload.user
       });
 

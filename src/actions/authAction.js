@@ -103,12 +103,13 @@ export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
     const user = JSON.parse(localStorage.getItem('user'));
+    const usermeta = JSON.parse(localStorage.getItem('usermeta'));
     if (token) {
       const tokenDecoded = jwt_decode(token);
       if (tokenDecoded.exp > Math.floor(Date.now() / 1000)) {
         axios.defaults.headers.common.Authorization = `Bearer ${token}`;
         setToken(token);
-        dispatch(authActions.loginSuccess({ user, token }));
+        dispatch(authActions.loginSuccess({ user, usermeta, token }));
       } else clearToken();
     }
   };
@@ -119,6 +120,7 @@ export function logout() {
     dispatch(authActions.logout());
     clearToken();
     localStorage.removeItem('user');
+    localStorage.removeItem('usermeta');
     history.push(HOME);
   };
 }
