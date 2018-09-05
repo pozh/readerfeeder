@@ -32,6 +32,8 @@ class Header extends React.Component {
 
   render() {
     const isLight = this.props.light;
+    const usermeta = this.props.usermeta;
+
     return (
       <nav className={`Nav navbar navbar-expand-lg navbar-light ${isLight && 'bg-light'}`}>
         <div className="container">
@@ -67,10 +69,11 @@ class Header extends React.Component {
 
             {this.props.isAuthenticated && (
               <ul className="navbar-nav">
-                <li className="nav-item"><Link className="btn btn-primary Nav-upgrade-btn" to="/pricing">Upgrade</Link></li>
+                <li className="nav-item">{usermeta.plan === 'pro' ? '' : <Link className="btn btn-primary Nav-upgrade-btn" to="/pricing">Upgrade</Link>}</li>
                 <Dropdown caption={this.props.user.first_name}>
                   <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
                   <Link className="dropdown-item" to="/settings">Settings</Link>
+                  {usermeta.plan ? <Link className="dropdown-item" to="/pricing">Change Plan</Link> : ''}
                   <div className="dropdown-divider"> </div>
                   <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
                 </Dropdown>
@@ -87,6 +90,7 @@ class Header extends React.Component {
 function stateToProps(state) {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    usermeta: state.auth.usermeta,
     user: state.auth.user
   };
 }
