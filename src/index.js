@@ -8,7 +8,6 @@ import { checkAuth } from './actions/authAction';
 import store from './store';
 import App from './App';
 
-import './assets/styles/vendor.scss';
 import './assets/styles/main.scss';
 
 store.dispatch(checkAuth());
