@@ -62,6 +62,11 @@ class User extends Authenticatable implements JWTSubject
 
     public function meta()
     {
-        return $this->hasMany('App\Models\Usermeta')->get();
+        $meta_array = $this->hasMany('App\Models\Usermeta')->get();
+        $meta_object = [];
+        foreach ($meta_array as $pair) {
+            $meta_object[$pair->key] = $pair->value;
+        }
+        return (object)$meta_object;
     }
 }
