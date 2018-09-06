@@ -97,11 +97,11 @@ $base-color: $gray-900;
 
 }
 
-.paddle_styled_button.green {
+.paddle_button,
+.paddle_button.paddle_styled_button.green {
   &, &:active {
     @extend .btn;
     @extend .btn-primary;
-    color: $black;
     font-family: $font-family-base;
     text-shadow: none;
     background: $primary;

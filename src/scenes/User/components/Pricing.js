@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
-import { TITLE_PRICING } from 'constants/common';
+import { TITLE_SUFFIX, PRO_PLAN_ID } from '../../../constants/common';
 
 import PageCaption from '../../components/PageCaption';
 
@@ -18,15 +18,15 @@ class Pricing extends Component {
     const usermeta = this.props.usermeta;
     const isPro = isAuthenticated && (usermeta.plan === 'pro');
 
-    let freeBtn = <Link to="/signup" className="paddle_button">Choose Plan</Link>;
+    let freeBtn = <Link to="/signup" className="btn btn-primary">Choose Plan</Link>;
     let proBtn = freeBtn;
     if (isAuthenticated) {
       freeBtn = isPro ? <a href="#!" data-product="530517" className="paddle_button">Choose Plan</a> : <span>Current plan</span>;
-      proBtn = isPro ? <span>Current plan</span> : <a href="#!" data-product="530517" className="btn btn-secondary">Choose Plan</a>;
+      proBtn = isPro ? <span>Current plan</span> : <a href="#!" data-product={PRO_PLAN_ID} className="paddle_button">Choose Plan</a>;
     }
 
     return (
-      <DocumentTitle title={TITLE_PRICING}>
+      <DocumentTitle title={`Pricing ${TITLE_SUFFIX}`}>
         <main>
           <PageCaption>
             Choose your plan
