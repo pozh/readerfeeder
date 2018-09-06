@@ -8,6 +8,10 @@ import SignupPage from './scenes/Auth/Signup';
 import FeedsPage from './scenes/Feeds';
 import UserPage from './scenes/User';
 
+import { VENDOR_ID } from './constants/common';
+
+Paddle.Setup({ vendor: VENDOR_ID });
+
 const App = () => (
   <div>
     <Switch>
