@@ -20,8 +20,9 @@ class Settings extends Component {
   render() {
     const user = this.props.user;
     return (
-      <main>
+      <main className="border-bottom">
         <PageCaption>Settings</PageCaption>
+        <div className="section">
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-md-6">
@@ -56,6 +57,7 @@ class Settings extends Component {
               </form>
             </div>
           </div>
+        </div>
         </div>
       </main>
     );
