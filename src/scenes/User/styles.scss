@@ -96,16 +96,3 @@ $base-color: $gray-900;
 .display-2 {
 
 }
-
-.paddle_button,
-.paddle_button.paddle_styled_button.green {
-  &, &:active {
-    @extend .btn;
-    @extend .btn-primary;
-    font-family: $font-family-base;
-    text-shadow: none;
-    background: $primary;
-    box-shadow: none;
-    border: 0 none;
-  }
-}
