@@ -69,11 +69,11 @@ class Header extends React.Component {
 
             {this.props.isAuthenticated && (
               <ul className="navbar-nav">
-                <li className="nav-item">{usermeta.plan === 'pro' ? '' : <a className="btn btn-primary Nav-upgrade-btn" href="/pricing">Upgrade</a>}</li>
+                <li className="nav-item">{usermeta.plan === 'pro' ? '' : <a className="btn btn-primary Nav-upgrade-btn" href="/pricing" target="_blank">Upgrade</a>}</li>
                 <Dropdown caption={this.props.user.first_name}>
                   <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
                   <Link className="dropdown-item" to="/settings">Settings</Link>
-                  {usermeta.plan ? <a className="dropdown-item" href="/pricing">Change Plan</a> : ''}
+                  {usermeta.plan ? <a className="dropdown-item" href="/pricing" target="_blank">Change Plan</a> : ''}
                   <div className="dropdown-divider"> </div>
                   <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
                 </Dropdown>
