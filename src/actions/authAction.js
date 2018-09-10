@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from '../utils/authUtil';
 
 import * as api from '../constants/api';
-import { HOME, LOGIN } from '../constants/common';
+import { HOME, USER_HOME, LOGIN } from '../constants/common';
 import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';
@@ -58,7 +58,7 @@ export function login({ email, password }) {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
       dispatch(authActions.loginSuccess(response.data));
-      history.push(HOME);
+      history.push(USER_HOME);
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
