@@ -8,24 +8,60 @@ import * as authAction from 'actions/authAction';
 import { TITLE_SUFFIX, PRO_PLAN_ID } from '../../../constants/common';
 
 import PageCaption from '../../components/PageCaption';
+import ButtonConfirm from '../../components/ButtonConfirm';
+
 
 class Pricing extends Component {
-  componentWillMount() {
+  constructor(props) {
+    super(props);
+    this.handleBtnClick = this.handleBtnClick.bind(this);
+    this.logout = this.logout.bind(this);
+  }
+
+  handleBtnClick(event) {
+    event.preventDefault();
+    const isAuthenticated = this.props.isAuthenticated;
+    const user = this.props.user;
+    const usermeta = this.props.usermeta;
+    const isPro = isAuthenticated && (usermeta.plan === 'pro');
+    if (isPro) {
+      // cancell pro plan
+    } else {
+      Paddle.Checkout.open({
+        product: PRO_PLAN_ID,
+        email: user.email,
+        success: '/pricing#purchase-complete',
+        passthrough: user.id
+      });
+    }
+  }
+
+  logout(event) {
+    event.preventDefault();
+    this.props.actions.logout();
   }
 
   render() {
     const isAuthenticated = this.props.isAuthenticated;
     const usermeta = this.props.usermeta;
     const isPro = isAuthenticated && (usermeta.plan === 'pro');
-
-    let freeBtn = <Link to="/signup" className="btn btn-primary">Choose Plan</Link>;
-    let proBtn = freeBtn;
-    if (isAuthenticated) {
-      freeBtn = isPro ? <a href="#!" data-product="530517" className="paddle_button">Choose Plan</a> : <span>Current plan</span>;
-      proBtn = isPro ? <span>Current plan</span> : <a href="#!" data-product={PRO_PLAN_ID} className="paddle_button">Choose Plan</a>;
+    let freeBtn;
+    let proBtn;
+    if (isPro) {
+      proBtn = <span>Current plan</span>;
+      freeBtn = <ButtonConfirm className="btn btn-primary" href="#" onClick={this.handleBtnClick}>Choose Plan</ButtonConfirm>;
+    } else {
+      proBtn = <a className="btn btn-primary" href="#" onClick={this.handleBtnClick}>Choose Plan</a>;
+      freeBtn = <span>Current plan</span>;
     }
 
-    return (
+    if (this.props.location.hash === '#purchase-complete') {
+      return (
+        <DocumentTitle title={`Pricing ${TITLE_SUFFIX}`}>
+          <div className="section text-center my-6 py-6"><h1>Purchase complete. Please <Link to="#" onClick={this.logout}>relogin</Link></h1></div>
+        </DocumentTitle>
+      );
+    } else return (
       <DocumentTitle title={`Pricing ${TITLE_SUFFIX}`}>
         <main>
           <PageCaption>
@@ -47,7 +83,8 @@ class Pricing extends Component {
                       <li>Visual Composer Included</li>
                       <li>24/7 Support System</li>
                     </ul>
-                    {freeBtn}
+                    {!isAuthenticated && <Link to="/signup" className="btn btn-primary">Choose Plan</Link>}
+                    {isAuthenticated && freeBtn}
                   </div>
                 </div>
 
@@ -63,7 +100,8 @@ class Pricing extends Component {
                       <li>Visual Composer Included</li>
                       <li>24/7 Support System</li>
                     </ul>
-                    {proBtn}
+                    {!isAuthenticated && <Link to="/signup" className="btn btn-primary">Choose Plan</Link>}
+                    {isAuthenticated && proBtn}
                   </div>
                 </div>
 
