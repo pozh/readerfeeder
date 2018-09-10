@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
-import { TITLE_SUFFIX, PRO_PLAN_ID } from '../../../constants/common';
+import { PRO_PLAN_ID } from '../../../constants/common';
 
 import PageCaption from '../../components/PageCaption';
 import ButtonConfirm from '../../components/ButtonConfirm';
@@ -57,12 +57,12 @@ class Pricing extends Component {
 
     if (this.props.location.hash === '#purchase-complete') {
       return (
-        <DocumentTitle title={`Pricing ${TITLE_SUFFIX}`}>
+        <DocumentTitle title="Pricing - ReaderFeeder">
           <div className="section text-center my-6 py-6"><h1>Purchase complete. Please <Link to="#" onClick={this.logout}>relogin</Link></h1></div>
         </DocumentTitle>
       );
     } else return (
-      <DocumentTitle title={`Pricing ${TITLE_SUFFIX}`}>
+      <DocumentTitle title="Pricing - ReaderFeeder">
         <main>
           <PageCaption>
             Choose your plan

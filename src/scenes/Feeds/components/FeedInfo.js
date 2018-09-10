@@ -10,8 +10,6 @@ import * as crudAction from 'actions/crudAction';
 import PageCaption from './../../components/PageCaption';
 import { isEmpty } from '../../../utils/commonUtil';
 
-import { TITLE_SUFFIX } from '../../../constants/common';
-
 
 class FeedInfo extends Component {
   componentWillMount() {
@@ -26,14 +24,14 @@ class FeedInfo extends Component {
   render() {
     const items = [];
     const feed = this.props.feed;
-    const pageTitle = `${feed.title} - Kindle subscription${TITLE_SUFFIX}`;
+    const pageTitle = `${feed.title} - Kindle subscription - ReaderFeeder`;
     // const items = this.state.items;
 
     if (!feed || this.props.match.params.slug !== feed.slug) {
       return (
         <main>
           <PageCaption>...</PageCaption>
-          <div className="container mt-5"> </div>
+          <div className="container mt-5">&nbsp;</div>
         </main>
       );
     }

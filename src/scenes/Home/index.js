@@ -3,11 +3,10 @@ import DocumentTitle from 'react-document-title';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import Hero from './components/Hero';
-import { TITLE_HOME } from '../../constants/common';
 import './styles.scss';
 
 const HomePage = () => (
-  <DocumentTitle title={TITLE_HOME}>
+  <DocumentTitle title="RSS delivery service for Kindle Paperwhite, Voyage and Oasis - ReaderFeeder">
     <div>
       <Header light />
       <Hero />

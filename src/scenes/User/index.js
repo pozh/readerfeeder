@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
-import { TITLE_USER_SETTINGS } from '../../constants/common';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import RequireAuth from '../Auth/RequireAuth';
@@ -12,7 +11,7 @@ import Pricing from './components/Pricing';
 import './styles.scss';
 
 export const UserPage = () => (
-  <DocumentTitle title={TITLE_USER_SETTINGS}>
+  <DocumentTitle title="Settings - ReaderFeeder">
     <div>
       <Header className="white" />
       <Switch>
