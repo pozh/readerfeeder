@@ -20,12 +20,6 @@ class UserController extends BaseController
         return $this->response->paginator($users, new UserTransformer);
     }
 
-    public function me()
-    {
-        if (!$user = Auth::user()) return response()->json(['user_not_found'], 401);
-        else return new UserResource($user);
-    }
-
     /**
      * Display the specified resource.
      *

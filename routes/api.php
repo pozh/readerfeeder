@@ -14,7 +14,6 @@ Route::namespace('Api\V1')->group(function () {
         Route::get('auth/check', 'AuthController@checkToken');
 
         Route::get('user', 'UserController@index');
-        Route::get('user/me', 'UserController@me');
         Route::get('user/{id}', 'UserController@show');
         Route::put('user/{id}', 'UserController@update');
         Route::delete('user/{id}', 'UserController@destroy');
