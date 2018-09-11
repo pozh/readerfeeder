@@ -56,7 +56,7 @@ export function login({ email, password }) {
       axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       setToken(response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
+        localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
       dispatch(authActions.loginSuccess(response.data));
       history.push(USER_HOME);
     })
@@ -86,8 +86,6 @@ export function signup({ first_name, email, password, password_confirmation }) {
     axios.post(api.API_SIGNUP, { first_name, email, password, password_confirmation })
       .then((response) => {
         dispatch(apiAction.apiResponse());
-        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-        localStorage.setItem('user', JSON.stringify(response.data.user));
         dispatch(authActions.signupSuccess(response.data.user));
         notify.success(message.SIGNUP_SUCCESS);
         history.push(LOGIN);
