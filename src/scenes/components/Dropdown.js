@@ -12,7 +12,8 @@ class Dropdown extends Component {
     this.toggle = this.toggle.bind(this);
   }
 
-  toggle() {
+  toggle(event) {
+    event.preventDefault();
     this.setState({
       isOpen: !this.state.isOpen
     });
