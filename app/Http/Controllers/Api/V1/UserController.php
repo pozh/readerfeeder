@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\User as UserResource;
 use Auth;
+use Validator;
+
 
 class UserController extends BaseController
 {
@@ -28,13 +30,9 @@ class UserController extends BaseController
      */
     public function show($id)
     {
-
-        $user = $this->user->findOrFail($id);
-        if (! $user) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($user, new UserTransformer);
+        $user = User::findOrFail($id);
+        if (!$user) return response()->json(["message" => "User not found"], 404);
+        else return new UserResource($user);
     }
 
     /**
@@ -46,7 +44,30 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-      return true;
+        $validator =  Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'kindle_email' => 'required|string|email|max:255',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "message" => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $user = User::find($id);
+            $user->first_name = $request->first_name;
+            $user->settings = json_encode(['kindle_email' => $request->kindle_email]);
+            $user->save();
+        } catch (Exception $e) {
+            return response()->json([
+                "message" => "Unable to update user"
+            ], 400);
+        }
+        return response()->json([
+            'user' => $user,
+        ], 200);
     }
 
     /**
@@ -58,15 +79,15 @@ class UserController extends BaseController
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        if (! $user) {
-            return $this->response->errorNotFound();
+        if (!$user) {
+            return response()->json(["message" => "User not found"], 404);
         }
 
         if( !$user->delete() ) {
-            return $this->response->errorInternal();
+            return response()->json(["message" => "Internal error"], 500);
         }
 
-        return $this->response->noContent();
+        return response()->json(["message" => "Deleted"], 200);
     }
 
 

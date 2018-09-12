@@ -15,7 +15,7 @@ Route::namespace('Api\V1')->group(function () {
 
         Route::get('user', 'UserController@index');
         Route::get('user/{id}', 'UserController@show');
-        Route::put('user/{id}', 'UserController@update');
+        Route::post('user/{id}', 'UserController@update');
         Route::delete('user/{id}', 'UserController@destroy');
 
         Route::get('subscription', 'SubController@index');
