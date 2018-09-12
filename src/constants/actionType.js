@@ -5,6 +5,8 @@ export const LOG_OUT = 'LOG_OUT';
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 
+export const SETTINGS_SAVED = 'SETTINGS_SAVED';
+
 export const SUBSCRIBE = 'SUBSCRIBE';
 
 export const LIST = 'LIST';

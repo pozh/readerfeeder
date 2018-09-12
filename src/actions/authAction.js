@@ -34,6 +34,13 @@ const authActions = {
       payload: data
     };
   },
+
+  settingsSaved(data) {
+    return {
+      type: ActionType.SETTINGS_SAVED,
+      payload: data
+    };
+  },
 };
 
 export function authErrorHandler(dispatch, error, type) {
@@ -56,7 +63,7 @@ export function login({ email, password }) {
       axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       setToken(response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
-        localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
+      localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
       dispatch(authActions.loginSuccess(response.data));
       history.push(USER_HOME);
     })
@@ -122,3 +129,24 @@ export function logout() {
     history.push(HOME);
   };
 }
+
+export function updateSettings({ id, first_name, kindle_email }) {
+  return (dispatch) => {
+    if (!first_name || !kindle_email) {
+      notify.error(message.SETTINGS_MISSING_VALUE);
+      return;
+    }
+    dispatch(apiAction.apiRequest());
+    axios.post(`${api.API_USER}/${id}`, { first_name, kindle_email })
+      .then((response) => {
+        dispatch(apiAction.apiResponse());
+        dispatch(authActions.settingsSaved(response.data));
+        notify.success(message.SETTINGS_SAVED);
+      })
+      .catch((error) => {
+        authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
+        notify.error(error && error.response.data.message ? error.response.data.message : message.ERROR);
+      });
+  };
+}
+

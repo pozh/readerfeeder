@@ -52,6 +52,7 @@ export default function (state = initialState, action) {
         token: null,
         user: null,
       });
+
     case ActionType.NOT_AUTHORIZED:
       return _.assign({}, state, {
         isAuthenticated: false,
@@ -59,6 +60,12 @@ export default function (state = initialState, action) {
         usermeta: null,
         user: null
       });
+
+    case ActionType.SETTINGS_SAVED:
+      return _.assign({}, state, {
+        user: action.payload.user
+      });
+
     default:
       return state;
   }

@@ -6,3 +6,6 @@ export const SIGNUP_SUCCESS = 'All set! Please log in to your account';
 export const SIGNUP_NO_PASSWORD = 'No password provided!';
 export const SIGNUP_SHORT_PASSWORD = 'Password must be at least 6 characters long';
 export const SIGNUP_PASSWORD_MATCH = 'Passwords do not match!';
+export const SETTINGS_MISSING_VALUE = 'All fields are required.';
+export const SETTINGS_SAVED = 'Settings saved.';
+export const ERROR = 'Error.';
