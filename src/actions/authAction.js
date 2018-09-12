@@ -136,7 +136,7 @@ export function updateSettings({ id, first_name, kindle_email }) {
       notify.error(message.SETTINGS_MISSING_VALUE);
       return;
     }
-    dispatch(apiAction.apiRequest());
+    dispatch(apiAction.apiRequest({ first_name, kindle_email }));
     axios.post(`${api.API_USER}/${id}`, { first_name, kindle_email })
       .then((response) => {
         dispatch(apiAction.apiResponse());
