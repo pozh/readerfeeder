@@ -17,7 +17,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password',
+        'first_name', 'last_name', 'email', 'password', 'settings'
     ];
 
     /**
@@ -68,5 +68,10 @@ class User extends Authenticatable implements JWTSubject
             $meta_object[$pair->key] = $pair->value;
         }
         return (object)$meta_object;
+    }
+
+    public function getSettings()
+    {
+        return json_decode($this->settings);
     }
 }
