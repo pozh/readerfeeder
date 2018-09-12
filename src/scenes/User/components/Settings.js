@@ -46,7 +46,7 @@ class Settings extends Component {
                     label="Name"
                     width="available"
                     name="name"
-                    onChange={(val) => { this.state.settings.name = val; }}
+                    onChange={(val) => { this.state.settings.first_name = val; }}
                     defaultValue={this.state.settings.first_name}
                   />
                 </div>
