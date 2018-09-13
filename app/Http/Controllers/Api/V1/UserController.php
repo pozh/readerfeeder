@@ -4,19 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Transformers\UserTransformer;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Http\Resources\User as UserResource;
+use Auth;
+use Validator;
 
 
 class UserController extends BaseController
 {
-    protected $user;
-
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -28,16 +22,6 @@ class UserController extends BaseController
         return $this->response->paginator($users, new UserTransformer);
     }
 
-
-    public function me()
-    {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
-        }
-        return $this->response->item($user, new UserTransformer());
-
-    }
-
     /**
      * Display the specified resource.
      *
@@ -46,40 +30,9 @@ class UserController extends BaseController
      */
     public function show($id)
     {
-
-        $user = $this->user->findOrFail($id);
-        if (! $user) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($user, new UserTransformer);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function store(Request $request)
-    {
-        $validator = \Validator::make($request->input(), [
-            'email' => 'required|email|unique:users',
-            'password' => 'required',
-        ]);
-        if ($validator->fails()) {
-            return $this->errorBadRequest($validator->messages());
-        }
-
-        $attributes = [
-            'first_name' => $request->get('name'),
-            'email' => $request->get('email'),
-            'password' => app('hash')->make($request->get('password')),
-        ];
-        $user = $this->user->create($attributes);
-        $token = \Auth::fromUser($user);
-
-        return $this->response->array(compact('token'));
+        $user = User::findOrFail($id);
+        if (!$user) return response()->json(["message" => "User not found"], 404);
+        else return new UserResource($user);
     }
 
     /**
@@ -91,7 +44,30 @@ class UserController extends BaseController
      */
     public function update(Request $request, $id)
     {
-      return true;
+        $validator =  Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'kindle_email' => 'required|string|email|max:255',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "message" => $validator->errors(),
+            ], 422);
+        }
+
+        try {
+            $user = User::find($id);
+            $user->first_name = $request->first_name;
+            $user->settings = json_encode(['kindle_email' => $request->kindle_email]);
+            $user->save();
+        } catch (Exception $e) {
+            return response()->json([
+                "message" => "Unable to update user"
+            ], 400);
+        }
+        return response()->json([
+            'user' => $user,
+        ], 200);
     }
 
     /**
@@ -103,15 +79,15 @@ class UserController extends BaseController
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        if (! $user) {
-            return $this->response->errorNotFound();
+        if (!$user) {
+            return response()->json(["message" => "User not found"], 404);
         }
 
         if( !$user->delete() ) {
-            return $this->response->errorInternal();
+            return response()->json(["message" => "Internal error"], 500);
         }
 
-        return $this->response->noContent();
+        return response()->json(["message" => "Deleted"], 200);
     }
 
 

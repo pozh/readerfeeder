@@ -4,16 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Subscription;
-use App\Transformers\SubTransformer;
-use Tymon\JWTAuth\Facades\JWTAuth;
-
+use App\Http\Resources\Subscription as SubscriptionResource;
+use Auth;
 
 class SubController extends BaseController
 {
-    protected $sub;
-
-    public function __construct(Subscription $sub)
-    {
+    private $sub;
+    public function __construct(Subscription $sub){
         $this->sub = $sub;
     }
 
@@ -24,40 +21,35 @@ class SubController extends BaseController
      */
     public function index()
     {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
-        }
+        if (!$user = Auth::user()) return response()->json(['user_not_found'], 404);
         $subs = $user->subscriptions();
-//        return $this->response->array(array('data' => array_flatten($subs->toArray())));
-        return $this->response->collection($subs, new SubTransformer());
+        return SubscriptionResource::collection($subs);
     }
 
     /**
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
-        $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
-            return $this->response->errorNotFound();
-        }
-
-        return $this->response->item($sub, new SubTransformer);
+        $sub = Subscription::findOrFail($id);
+        if (!$sub) return response()->json(['subscription_not_found'], 404);
+        else return new SubscriptionResource($sub);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        if (!$user = JWTAuth::parseToken()->toUser()) {
-            $this->response->errorForbidden(trans('auth.incorrect'));
+        if (!$user = Auth::user()) {
+            return response()->json([
+                'message' => __('auth.notauthorized')
+            ], 403);
         }
 
         $validator = \Validator::make($request->input(), [
@@ -65,7 +57,9 @@ class SubController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->errorBadRequest($validator->messages());
+            return responce()->json([
+                'message' => __('all.invalid')
+            ], 403);
         }
 
         $attributes = [
@@ -74,21 +68,21 @@ class SubController extends BaseController
         ];
         $newSub = $this->sub->create($attributes);
 
-        return $this->response->item($newSub, new SubTransformer);
+        return response()->json($newSub);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
     {
         $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
-            return $this->response->errorNotFound();
+        if (!$sub) {
+            return response()->errorNotFound();
         }
 
         $validator = \Validator::make($request->input(), [
@@ -101,27 +95,27 @@ class SubController extends BaseController
         $sub->status = $request->get('status');
         $sub->update();
 
-        return $this->response->noContent();
+        return response()->noContent();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {
         $sub = $this->sub->findOrFail($id);
-        if (! $sub) {
-            return $this->response->errorNotFound();
+        if (!$sub) {
+            return response()->json(['message' => 'Not found'], 404);
         }
 
-        if( !$sub->delete() ) {
-            return $this->response->errorInternal();
+        if (!$sub->delete()) {
+            return response()->json(['message' => 'Internal Error'], 401);
         }
 
-        return $this->response->noContent();
+        return response()->json(['message' => 'Deleted'], 204);
     }
 
 }

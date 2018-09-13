@@ -2,47 +2,40 @@
 
 use Illuminate\Http\Request;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::namespace('Api\V1')->group(function () {
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
+    Route::group(['prefix'=> 'auth'],function(){
+        Route::post('/register','Auth\RegisterController@register');
+        Route::post("/login",'Auth\LoginController@login');
+        Route::post('/login/{social}/callback','Auth\LoginController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|');
+    });
 
-Route::group(['middleware' => 'auth:api'], function($api){
-    $api->get('auth/check', 'AuthController@checkToken');
+    Route::group(['middleware' => 'jwt.auth'], function(){
+        Route::get('auth/check', 'AuthController@checkToken');
 
-    $api->get('user', 'UserController@index');
-    $api->get('user/me', 'UserController@me');
-    $api->get('user/{id}', 'UserController@show');
-    $api->put('user/{id}', 'UserController@update');
-    $api->delete('user/{id}', 'UserController@destroy');
+        Route::get('user', 'UserController@index');
+        Route::get('user/{id}', 'UserController@show');
+        Route::post('user/{id}', 'UserController@update');
+        Route::delete('user/{id}', 'UserController@destroy');
 
-    $api->get('subscription', 'SubController@index');
-    $api->get('subscription/{id}', 'SubController@show');
-    $api->post('subscription', 'SubController@store');
-    $api->put('subscription/{id}', 'SubController@update');
-    $api->delete('subscription/{id}', 'SubController@destroy');
+        Route::get('subscription', 'SubController@index');
+        Route::get('subscription/{id}', 'SubController@show');
+        Route::post('subscription', 'SubController@store');
+        Route::put('subscription/{id}', 'SubController@update');
+        Route::delete('subscription/{id}', 'SubController@destroy');
+    });
+
+    Route::get('feed', 'FeedController@index');
+    Route::get('feed/{id}', 'FeedController@show');
+    Route::get('feed/byslug/{slug}', 'FeedController@showBySlug');
+    Route::post('feed', 'FeedController@store');
+    Route::put('feed/{id}', 'FeedController@update');
+    Route::delete('feed/{id}', 'FeedController@destroy');
+
+    Route::get('category', 'CategoryController@index');
+    Route::get('category/{id}', 'CategoryController@show');
+    Route::get('category/byslug/{slug}', 'CategoryController@showBySlug');
+    Route::post('category', 'CategoryController@store');
+    Route::put('category/{id}', 'CategoryController@update');
+    Route::delete('category/{id}', 'CategoryController@destroy');
 });
-
-Route::get('feed', 'Api\V1\FeedController@index');
-Route::get('feed/{id}', 'Api\V1\FeedController@show');
-Route::get('feed/byslug/{slug}', 'Api\V1\FeedController@showBySlug');
-Route::post('feed', 'Api\V1\FeedController@store');
-Route::put('feed/{id}', 'Api\V1\FeedController@update');
-Route::delete('feed/{id}', 'Api\V1\FeedController@destroy');
-
-Route::get('category', 'Api\V1\CategoryController@index');
-Route::get('category/{id}', 'Api\V1\CategoryController@show');
-Route::get('category/byslug/{slug}', 'Api\V1\CategoryController@showBySlug');
-Route::post('category', 'Api\V1\CategoryController@store');
-Route::put('category/{id}', 'Api\V1\CategoryController@update');
-Route::delete('category/{id}', 'Api\V1\CategoryController@destroy');
