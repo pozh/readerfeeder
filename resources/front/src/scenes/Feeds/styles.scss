@@ -1,0 +1,187 @@
+@import "../../assets/styles/variables";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/variables";
+
+
+.Feeds {
+
+  background: $light;
+
+  &-order {
+    line-height: 1em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline-block;
+
+      & + li {
+        margin-left: 15px;
+      }
+    }
+
+    a{
+      text-decoration: none;
+      padding-bottom: 3px;
+      border-bottom: 3px solid transparent;
+      color: $black;
+      font-size: 1.3rem;
+
+      &.active {
+        border-color: $primary;
+      }
+
+      &:active, &:hover {
+        text-decoration: none;
+        border-color: $primary;
+      }
+    }
+  }
+
+  &-list {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  &-section {
+    break-inside: avoid;
+    margin-bottom:50px;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      margin-bottom: 0px;
+      text-transform: uppercase;
+
+      a {
+        color: rgba(0,0,0,.5);
+        &:hover {
+          text-decoration: none;
+          color: $primary;
+        }
+      }
+    }
+  }
+
+  &-feeds {
+    padding: 20px 0 0 0;
+  }
+}
+
+
+.Feed {
+  background: $white;
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin-bottom: $spacer;
+  box-shadow: 0 3px 9px rgba(0,0,0,.05);
+  break-inside: avoid-column;
+
+  &.subscribed {
+    background: $green;
+    //box-shadow: 0 1px 1px darken(#b52d2d, 10%);
+
+    * { color: $white; }
+
+    .Feed-name {
+      &:hover {
+        opacity:1;
+        color: $white;
+      }
+    }
+
+    .Feed-functions {
+      border-top: 1px solid rgba(255,255,255,.3);
+    }
+  }
+
+  & + & { margin-top:15px; }
+
+  &-delivery {
+    font-size: 13px;
+    //margin-top: 3px;
+  }
+
+  &-delivery-icon {
+    margin-right: 6px;
+    margin-top: -4px;
+  }
+
+  &-order {
+    opacity: .5;
+  }
+
+  &-name {
+    color:$black;
+    opacity: .8;
+    min-height: 3.7rem;
+    font-weight: normal;
+    font-size: 22px;
+    display: inline-block;
+
+    &:hover {
+      opacity: 1;
+      color: $black;
+      text-decoration: none;
+    }
+  }
+
+  &-functions {
+    margin-top: 15px;
+    border-top: 1px solid $gray-300;
+    padding-top: 16px;
+    position: relative;
+  }
+
+  &-unsubscribe {
+    display: none;
+  }
+
+  &-actions {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+
+  &-action {
+    font-size:0.8rem;
+    font-weight: 500;
+    opacity: .8;
+    color: #D53E2B;
+    text-transform: uppercase;
+
+    & + & {
+      margin-left:15px;
+      position: relative;
+
+      &:after {
+        content: ' ';
+        display: inline-block;
+        border-left: 1px solid $gray-400;
+        position: absolute;
+        left: -8px;
+        top: 0;
+        height: 100%;
+        width: 1px;
+        overflow: hidden;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+      text-decoration: none;
+
+      .Feed-unsubscribe {
+        display: inline;
+      }
+      .Feed-status {
+        display: none;
+      }
+    }
+  }
+}

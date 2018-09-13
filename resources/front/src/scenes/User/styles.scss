@@ -1,0 +1,98 @@
+@import "../../assets/styles/variables";
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/buttons";
+
+$base-weight: 300;
+$base-color: $gray-900;
+
+
+.pricing {
+  background: $light;
+
+  // Tables
+  &-card {
+    text-align: center;
+    border: 0;
+    padding: 2.25rem 0;
+    position: relative;
+
+    &_spec {
+      background: $white;
+      border-radius: 0px;
+      box-shadow: 0 3px 0px 0 rgba(0, 0, 0, .08);
+      transition: all .3s ease-in-out;
+      will-change: transform;
+
+      &:hover {
+        box-shadow: 0 10px 15px 0 rgba(0, 0, 0, .05);
+        transform: translate(0,-3px);
+
+        &:after {
+          width: 100%;
+        }
+      }
+
+      & .pricing-card__header {
+        background-color: white;
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background-color: $primary;
+      transition: 0.3s;
+    }
+
+
+    &__header {
+      font-size: 7rem;
+      letter-spacing: -.5rem;
+      margin: 0;
+
+      .currency {
+        font-size: 2.75rem;
+        position: relative;
+        font-weight: $base-weight + 100;
+        top: -45px;
+        letter-spacing: 0px;
+      }
+
+      .period {
+        font-size: 1rem;
+        color: lighten($base-color, 20%);
+        letter-spacing: 0px;
+      }
+    }
+
+    &__title {
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: $primary;
+    }
+
+    &__features {
+      list-style: none;
+      margin: 0 0 $spacer * 2;
+      padding: 0;
+
+      li {
+        margin: 0;
+        padding: .25rem;
+        font-weight: $base-weight;
+      }
+    }
+  }
+}
+
+// Price
+.display-2 {
+
+}
