@@ -16,7 +16,7 @@ const uglifyPlugin = new webpack.optimize.UglifyJsPlugin({ compress: { warnings:
 const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
 
 const includePaths = [
-  path.resolve(__dirname, './src/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/assets/styles'),
 ];
 
 const stylesheetsLoaders = [
