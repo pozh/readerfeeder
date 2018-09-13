@@ -8,7 +8,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const includePaths = [
-  path.resolve(__dirname, './src/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
