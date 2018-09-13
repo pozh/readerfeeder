@@ -24,7 +24,7 @@ const stylesheetsLoaders = [
 ];
 
 module.exports = {
-  context: path.join(__dirname, 'src'),
+  context: path.join(__dirname, 'resources/front/src'),
   entry: './index',
   output: {
     publicPath:    "/",
@@ -36,7 +36,7 @@ module.exports = {
     definePlugin,
   ],
   resolve: {
-    modules: ['node_modules', path.join(__dirname, 'src')]
+    modules: ['node_modules', path.join(__dirname, 'resources/front/src')]
   },
   module: {
     rules: [
