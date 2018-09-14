@@ -12,5 +12,4 @@ yarn-error.log
 .env
 _ide_helper*.php
 Nginx-*
-/storage/data
 .phpstorm*
