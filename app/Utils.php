@@ -118,33 +118,33 @@ class Utils
      */
     public static function curlGetData($url, $headerOnly = false)
     {
-        $ch = curl_init();
+        $ch = \curl_init();
 
         if (!$ch) return false;
 
         $timeout = 20;
         $date = date('Y-m-d');
-        curl_setopt($ch, CURLOPT_URL, $url);
+        \curl_setopt($ch, CURLOPT_URL, $url);
         if ($headerOnly) {
-            curl_setopt($ch, CURLOPT_HEADER, true); // was sometime ago commented, to get rid of header, the problem was described at http://stackoverflow.com/questions/1378915/header-only-retreival-in-php-via-curl
-            curl_setopt($ch, CURLOPT_NOBODY, true);
+            \curl_setopt($ch, CURLOPT_HEADER, true); // was sometime ago commented, to get rid of header, the problem was described at http://stackoverflow.com/questions/1378915/header-only-retreival-in-php-via-curl
+            \curl_setopt($ch, CURLOPT_NOBODY, true);
         }
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
+        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        \curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        \curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        \curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
 
         // Wikipedia requires honest user agent information!
         if (strpos($url, 'wikipedia.') !== false)
-            curl_setopt($ch, CURLOPT_USERAGENT, 'User-Agent: ReaderFeeder (+https://readerfeeder.co/)');
+            \curl_setopt($ch, CURLOPT_USERAGENT, 'User-Agent: ReaderFeeder (+https://readerfeeder.co/)');
         else
-            curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENTS[rand(0, 12)]);
+            \curl_setopt($ch, CURLOPT_USERAGENT, self::USER_AGENTS[rand(0, 12)]);
 
-        curl_setopt($ch, CURLOPT_COOKIEJAR, storage_path("data/cookie-$date.txt"));
-        curl_setopt($ch, CURLOPT_COOKIEFILE, storage_path("data/cookie-$date.txt"));
-        $data = curl_exec($ch);
-        curl_close($ch);
+        \curl_setopt($ch, CURLOPT_COOKIEJAR, storage_path("data/cookie-$date.txt"));
+        \curl_setopt($ch, CURLOPT_COOKIEFILE, storage_path("data/cookie-$date.txt"));
+        $data = \curl_exec($ch);
+        \curl_close($ch);
         return $data;
     }
 }
