@@ -51,10 +51,10 @@ class SDocument
         $this->type = $type;
 
         // create user personal folders if not exists
-        if (!is_dir(storage_path('data'))) mkdir(storage_path('data'), '0777');
+        if (!is_dir(storage_path('data'))) mkdir(storage_path('data'), 0777);
         $this->path = storage_path('data/' . $user_id);
-        if (!is_dir($this->path)) mkdir($this->path, '0777');
-        if (!is_dir($this->path . '/html')) mkdir($this->path . '/html', '0777');
+        if (!is_dir($this->path)) mkdir($this->path, 0777);
+        if (!is_dir($this->path . '/html')) mkdir($this->path . '/html', 0777);
 
         // periodical: add TOC
         if ($type == 'periodical') {
