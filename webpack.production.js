@@ -17,6 +17,7 @@ const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
 
 const includePaths = [
   path.resolve(__dirname, './resources/front/src/assets/styles'),
+  path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
 const stylesheetsLoaders = [
@@ -30,7 +31,7 @@ const stylesheetsLoaders = [
 }];
 
 module.exports = {
-  context: path.join(__dirname, 'src'),
+  context: path.join(__dirname, 'resources/front/src'),
   entry: './index',
   output: {
     publicPath: '/',
@@ -45,7 +46,7 @@ module.exports = {
     compressionPlugin,
   ],
   resolve: {
-    modules: ['node_modules', path.join(__dirname, 'src')]
+    modules: ['node_modules', path.join(__dirname, 'resources/front/src')]
   },
   module: {
     rules: [
