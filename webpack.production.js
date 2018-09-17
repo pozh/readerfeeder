@@ -32,11 +32,11 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './index',
+  entry: './index.js',
   output: {
     publicPath: '/',
     filename: 'assets/js/main.js',
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'public')
   },
   plugins: [
     stylesheetsPlugin,
@@ -62,13 +62,19 @@ module.exports = {
         use: ExtractTextPlugin.extract({use: stylesheetsLoaders})
       }, {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({ use: [...stylesheetsLoaders, 'sass-loader']})
+        use: ExtractTextPlugin.extract({ use: [...stylesheetsLoaders, {
+          loader: 'sass-loader',
+          options: {
+            includePaths: includePaths,
+          }
+        }]})
       }, {
         test: /\.sass$/,
         use: ExtractTextPlugin.extract({use: [...stylesheetsLoaders, {
             loader: 'sass-loader',
             options: {
               indentedSyntax: 'sass',
+              includePaths: includePaths,
             }
           }]
         })
