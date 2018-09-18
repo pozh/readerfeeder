@@ -7,10 +7,8 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const compressionPlugin = new CompressionPlugin();
 
 const definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV === 'development' || 'false')),
-  'process.env': {
-    NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'production')
-  }
+  __DEV__: JSON.stringify('false'),
+  'process.env': {NODE_ENV: JSON.stringify('production')}
 });
 const uglifyPlugin = new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } });
 const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
