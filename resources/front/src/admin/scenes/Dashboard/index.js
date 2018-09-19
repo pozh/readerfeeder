@@ -15,7 +15,7 @@ const Dashboard = () => (
           <Link to="users">Users</Link> | <Link to="feeds">Feeds</Link>
         </h4>
         <UserList/>
-        <FeedList/>
+        <FeedList className="mt-5"/>
       </div>
     </div>
   </DocumentTitle>
