@@ -38,9 +38,18 @@ class UserList extends Component {
 
     if (!users.length > 0) return (<p>No users</p>);
     else return (
-      <div>
-        <h2>Users ({users.length})</h2>
-        <ReactTable data={users} columns={columns} pageSize={5} sorted={[{id:'id', desc:true}]}/>
+      <div className="card">
+        <div className="card-header">
+          <div className="row">
+            <h5 className="col pt-2">Users <span className="badge badge-pill badge-primary">{users.length}</span></h5>
+            <div className="col text-right">
+              <Link className="btn btn-primary" to="#">Add new</Link>
+            </div>
+          </div>
+        </div>
+        <div className="card-body">
+          <ReactTable data={users} columns={columns} pageSize={5} sorted={[{id:'id', desc:true}]}/>
+        </div>
       </div>
     );
   }

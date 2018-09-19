@@ -8,14 +8,16 @@ import FeedList from './components/FeedList';
 const Dashboard = () => (
   <DocumentTitle title="RSS delivery service for Kindle Paperwhite, Voyage and Oasis - ReaderFeeder">
     <div>
-      <div className="container pt-5">
-        <h1>ADMIN</h1>
-        <hr/>
-        <h4 className="text-right">
-          <Link to="users">Users</Link> | <Link to="feeds">Feeds</Link>
-        </h4>
-        <UserList/>
-        <FeedList className="mt-5"/>
+      <div className="container-fluid pt-3">
+        <h1 className="mb-3">ADMIN</h1>
+        <div className="row">
+          <div className="col-md-6">
+            <UserList/>
+          </div>
+          <div className="col-md-6">
+            <FeedList/>
+          </div>
+        </div>
       </div>
     </div>
   </DocumentTitle>

@@ -45,9 +45,16 @@ class FeedList extends Component {
 
     if (!feeds.length > 0) return (<p>...</p>);
     else return (
-      <div className={this.props.className}>
-        <h2>Feeds ({feeds.length})</h2>
-        <ReactTable data={feeds} columns={columns} />
+      <div className="card">
+        <div className="card-header">
+          <div className="row">
+            <h5 className="col pt-2">Feeds <span className="badge badge-pill badge-primary">{feeds.length}</span></h5>
+            <div className="col text-right">
+              <Link className="btn btn-primary" to="#">Add new</Link>
+            </div>
+          </div>
+        </div>
+        <div className="card-body"><ReactTable data={feeds} columns={columns} /></div>
       </div>
     );
   }
