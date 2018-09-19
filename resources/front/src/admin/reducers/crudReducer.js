@@ -1,18 +1,13 @@
 import _ from 'lodash';
 import * as ActionType from '../constants/actionType';
-import { pluralize } from './../utils/converter';
+import { pluralize } from 'utils/converter';
 
 
 const initialState = {
   items: {
     feeds: [],
     categories: [],
-    subscriptions: [],
-  },
-  // For stuff editing purposes inside admin and user cp interfaces
-  selectedItem: {
-    feed: {},
-    category: {},
+    users: []
   },
 };
 
@@ -51,13 +46,6 @@ export default function (state = initialState, action) {
       const data = newState.items[pluralize(action.entity)];
       let index = _.indexOf(data, _.find(data, { id: action.id }));
       data.splice(index, 1);
-      return newState;
-
-    case ActionType.SUBSCRIBE:
-      newState = _.cloneDeep(state);
-      const subs = newState.items.subscriptions;
-      index = _.indexOf(subs, _.find(subs, { feed_id: action.item.feed_id }));
-      if (index < 0) newState.items.subscriptions.push(action.item);
       return newState;
 
     case ActionType.CLEAR_LIST:
