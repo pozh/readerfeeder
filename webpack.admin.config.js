@@ -36,7 +36,11 @@ module.exports = {
     definePlugin,
   ],
   resolve: {
-    modules: ['node_modules', path.join(__dirname, 'resources/front/src/admin')]
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'resources/front/src/admin'),
+      path.join(__dirname, 'resources/front/src')
+    ]
   },
   module: {
     rules: [

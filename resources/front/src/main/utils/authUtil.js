@@ -1,5 +1,5 @@
 import Cookies from 'universal-cookie';
-import { TOKEN } from 'constants/api';
+import { TOKEN } from './../constants/api';
 
 export const setToken = token => {
   const cookies = new Cookies();
