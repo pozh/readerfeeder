@@ -38,6 +38,7 @@ module.exports = {
   resolve: {
     modules: [
       'node_modules',
+      path.join(__dirname, 'resources/front/src/shared'),
       path.join(__dirname, 'resources/front/src/admin')
     ]
   },

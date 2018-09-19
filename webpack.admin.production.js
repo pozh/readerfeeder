@@ -44,7 +44,11 @@ module.exports = {
     compressionPlugin,
   ],
   resolve: {
-    modules: ['node_modules', path.join(__dirname, 'resources/front/src/admin')]
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'resources/front/src/shared'),
+      path.join(__dirname, 'resources/front/src/admin')
+    ]
   },
   module: {
     rules: [
