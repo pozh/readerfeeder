@@ -2,6 +2,7 @@ import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { Link } from 'react-router-dom';
 import UserList from './components/UserList';
+import FeedList from './components/FeedList';
 
 
 const Dashboard = () => (
@@ -14,6 +15,7 @@ const Dashboard = () => (
           <Link to="users">Users</Link> | <Link to="feeds">Feeds</Link>
         </h4>
         <UserList/>
+        <FeedList/>
       </div>
     </div>
   </DocumentTitle>
