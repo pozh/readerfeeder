@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NotificationManager as notify } from 'react-notifications';
 import jwt_decode from 'jwt-decode';
-import { setToken, clearToken, getToken } from '../utils/authUtil';
+import { setToken, clearToken, getToken } from 'utils/authUtil';
 
 import * as api from '../constants/api';
 import { HOME, USER_HOME, LOGIN } from '../constants/common';

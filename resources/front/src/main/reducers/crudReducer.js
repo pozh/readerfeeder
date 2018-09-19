@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import * as ActionType from '../constants/actionType';
-import { pluralize } from './../utils/converter';
+import { pluralize } from 'utils/converter';
 
 
 const initialState = {
