@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --hot",
+    "start-admin": "webpack-dev-server --config ./webpack.admin.config.js --hot",
+    "build-admin": "webpack --config ./webpack.admin.production.js --progress --profile --colors",
     "build": "webpack --config ./webpack.production.js --progress --profile --colors"
   },
   "engines": {
