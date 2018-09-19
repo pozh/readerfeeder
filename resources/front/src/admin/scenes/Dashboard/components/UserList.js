@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
+import ReactTable from "react-table";
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -18,32 +19,28 @@ class UserList extends Component {
 
   render() {
     const users = this.props.users || [];
+    const columns = [{
+      Header: 'ID',
+      accessor: 'id'
+    },{
+      Header: 'Name',
+      accessor: 'first_name'
+    },{
+      Header: 'Plan',
+      accessor: 'plan'
+    },{
+      Header: 'Email',
+      accessor: 'email'
+    },{
+      Header: 'Settings',
+      accessor: 'settings'
+    }];
+
     if (!users.length > 0) return (<p>No users</p>);
     else return (
       <div>
         <h2>Users ({users.length})</h2>
-        <table className="table">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Plan</th>
-            <th scope="col">email</th>
-            <th scope="col">Settings</th>
-          </tr>
-          </thead>
-          <tbody>
-            {users.map(user => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.first_name}</td>
-                <td>&nbsp;</td>
-                <td>{user.email}</td>
-                <td>{user.settings}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <ReactTable data={users} columns={columns} pageSize={5} sorted={[{id:'id', desc:true}]}/>
       </div>
     );
   }
