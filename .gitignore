@@ -2,6 +2,7 @@
 /public/hot
 /public/assets
 /public/index.html*
+/public/admin.html*
 /public/storage
 /storage/*.key
 /vendor

@@ -2,13 +2,13 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'index.html' });
+const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'admin.html' });
 const definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify('true')
 });
 
 const includePaths = [
-  path.resolve(__dirname, './resources/front/src/main/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/admin/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -25,7 +25,7 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './index',
+  entry: './admin/index.js',
   output: {
     publicPath:    "/",
     filename: '[hash].js',
@@ -39,7 +39,7 @@ module.exports = {
     modules: [
       'node_modules',
       path.join(__dirname, 'resources/front/src/shared'),
-      path.join(__dirname, 'resources/front/src/main')
+      path.join(__dirname, 'resources/front/src/admin')
     ]
   },
   module: {
@@ -91,9 +91,6 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
     host: "rf.local",
-    port: 8081,
-    proxy: {
-      '/api*': "http://localhost:8181"
-    }
+    port: 8081
   }
 };
