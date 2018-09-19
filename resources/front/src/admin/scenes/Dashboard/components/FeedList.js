@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
+import ReactTable from "react-table";
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -18,40 +19,34 @@ class FeedList extends Component {
 
   render() {
     const feeds = this.props.feeds || [];
+    const columns = [{
+      Header: 'ID',
+      accessor: 'id'
+    }, {
+      Header: 'Title',
+      accessor: 'title',
+    }, {
+      Header: 'Status',
+      accessor: 'status'
+    }, {
+      Header: 'Period',
+      accessor: 'period'
+    }, {
+      Header: 'Subscribers',
+      accessor: 'subscribers'
+    }, {
+      Header: 'Delivery time',
+      accessor: 'schedule_time'
+    }, {
+      Header: 'Category',
+      accessor: 'category_id'
+    }];
+
     if (!feeds.length > 0) return (<p>No feeds</p>);
     else return (
       <div>
         <h2>Feeds ({feeds.length})</h2>
-        <table className="table">
-          <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Active</th>
-            <th scope="col">Period</th>
-            <th scope="col">Subscribers</th>
-            <th scope="col">Time</th>
-            <th scope="col">Category</th>
-            <th scope="col">Created</th>
-            <th scope="col">Sent</th>
-          </tr>
-          </thead>
-          <tbody>
-          {feeds.map(feed => (
-            <tr key={feed.id}>
-              <td>{feed.id}</td>
-              <td>{feed.title}</td>
-              <td>{feed.status}</td>
-              <td>{feed.period}</td>
-              <td>{feed.subscribers}</td>
-              <td>{feed.schedule_time}</td>
-              <td>{feed.category_id}</td>
-              <td></td>
-              <td></td>
-            </tr>
-          ))}
-          </tbody>
-        </table>
+        <ReactTable data={feeds} columns={columns} />
       </div>
     );
     if (!feeds.length > 0) return (<p>No feeds</p>);
