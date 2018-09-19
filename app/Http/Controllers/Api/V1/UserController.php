@@ -18,8 +18,8 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $users = $this->user->paginate(25);
-        return $this->response->paginator($users, new UserTransformer);
+        $users = User::paginate(50);
+        return UserResource::collection($users);
     }
 
     /**
