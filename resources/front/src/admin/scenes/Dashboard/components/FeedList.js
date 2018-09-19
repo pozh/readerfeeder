@@ -15,6 +15,7 @@ class FeedList extends Component {
 
   componentDidMount() {
     this.props.actions.fetchAll('feed');
+    this.props.actions.fetchAll('category');
   }
 
   render() {
@@ -42,14 +43,13 @@ class FeedList extends Component {
       accessor: 'category_id'
     }];
 
-    if (!feeds.length > 0) return (<p>No feeds</p>);
+    if (!feeds.length > 0) return (<p>...</p>);
     else return (
-      <div>
+      <div className={this.props.className}>
         <h2>Feeds ({feeds.length})</h2>
         <ReactTable data={feeds} columns={columns} />
       </div>
     );
-    if (!feeds.length > 0) return (<p>No feeds</p>);
   }
 }
 
