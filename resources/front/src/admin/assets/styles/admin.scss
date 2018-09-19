@@ -1,0 +1,59 @@
+@import "./variables";
+@import "bootstrap";
+@import "~react-notifications/lib/notifications.css";
+
+// Globals
+// -------------------------------------------------------------------
+html {
+  min-height: 100%;
+}
+
+main {
+  display: block;
+  min-height: 35rem;
+}
+
+.section {
+  padding: $spacer * 4 0;
+}
+
+// Buttons
+.btn-round {
+  border-radius: $spacer * 3;
+  padding-left: $input-btn-padding-x * 1.4;
+  padding-right: $input-btn-padding-x * 1.4;
+}
+
+.btn-circle {
+  $d: 43px;
+  width: $d;
+  height: $d;
+  text-align: center;
+  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  border-radius: 50%;
+  color: $white;
+}
+
+.btn-facebook {
+  background: $color-facebook;
+}
+.btn-twitter {
+  background: $color-twitter;
+}
+.btn-google {
+  background: $color-google;
+}
+
+
+// Helpers
+img { max-width: 100%; }
+.hidden { display: none; }
+
+
+// Modal dialog card, login, etc.
+.card-dialog{
+  border: 0 none;
+  box-shadow: 0 9px 50px rgba(0,0,0,.06);
+}
