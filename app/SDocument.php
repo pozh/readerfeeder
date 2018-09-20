@@ -153,7 +153,7 @@ class SDocument
         }
 
         // grab anything except gizmodo and few others using curl
-        $exceptions = array('gizmodo', 'lifehacker');
+        $exceptions = array('gizmodo', 'lifehacker', 'feedproxy.google');
         $useCurl = true;
         foreach ($exceptions as $exception) {
             if (strpos($this->url, $exception) > 0) $useCurl = false;
