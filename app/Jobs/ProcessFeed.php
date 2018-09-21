@@ -162,6 +162,8 @@ class ProcessFeed implements ShouldQueue
             $item->url = $item_info['url'];
             $item->save();
         }
-        dispatch(new SendFeed($this->feed, $mobi_filename));
+        if ($this->feed->subscribers()->count() > 0) {
+            dispatch(new SendFeed($this->feed, $mobi_filename));
+        }
     }
 }
