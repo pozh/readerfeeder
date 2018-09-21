@@ -47,7 +47,7 @@ class ProcessFeed implements ShouldQueue
         $result_doc->setTitle($this->feed->title);
         $result_doc->keep_images = true;
 
-        $sources = $this->feed->sources();
+        $sources = $this->feed->sources()->get();
         $source_errors = 0;                    // if equal to the number of sources, Periodical is considered as failed
         $warnings = [];                        // placeholder for all warning messages
         $total_items_added = 0;                // count items in the whole job. If zero, don't send MOBI, nothing to send.
@@ -146,7 +146,7 @@ class ProcessFeed implements ShouldQueue
         // Write mobi file
         $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
         if (!$result_doc->writeTempHtml(false, false)) {
-            throw new \Exception('Can not write temp file for ' . $this->feed->title)
+            throw new \Exception('Can not write temp file for ' . $this->feed->title);
         }
         $mobi_filename = $result_doc->saveMobi();
         $result_doc->deleteTempFiles();

@@ -33,6 +33,11 @@ class Feed extends Model
      */
     public function sources()
     {
-        return $this->hasMany('App\Models\Source')->get();
+        return $this->hasMany('App\Models\Source');
+    }
+
+    public function subscribers()
+    {
+        return $this->belongsToMany('App\Models\User', 'subscriptions', 'feed_id', 'user_id');
     }
 }
