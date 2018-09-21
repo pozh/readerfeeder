@@ -2,8 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Models\Feed;
-use App\Models\Subscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,9 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Feeds;
+
+use App\Models\Feed;
+use App\Models\Item as FeedItem;
 use App\SDocument;
-use App\Sender;
-use App\Models\Item;
+
 
 class ProcessFeed implements ShouldQueue
 {
@@ -24,6 +24,7 @@ class ProcessFeed implements ShouldQueue
     /**
      * Create a new job instance.
      *
+     * @param App\Models\Feed $feed
      * @return void
      */
     public function __construct(Feed $feed)
@@ -41,7 +42,7 @@ class ProcessFeed implements ShouldQueue
         $doc = new SDocument(0);
         $doc->keep_images = true;
 
-        $result_doc = new SDocument(0, 'periodical');
+        $result_doc = new SDocument('periodical');
         $result_doc->send_as_book = false;
         $result_doc->setTitle($this->feed->title);
         $result_doc->keep_images = true;
@@ -50,6 +51,7 @@ class ProcessFeed implements ShouldQueue
         $source_errors = 0;                    // if equal to the number of sources, Periodical is considered as failed
         $warnings = [];                        // placeholder for all warning messages
         $total_items_added = 0;                // count items in the whole job. If zero, don't send MOBI, nothing to send.
+        $sent_items_array = [];                // Articles processed
 
         foreach ($sources as $i => $source) {
             $feed = Feeds::make($source->url, true);
@@ -74,13 +76,13 @@ class ProcessFeed implements ShouldQueue
             // don't initialize section until you're sure there is at least 1 item in the source.
             $feed_title_placed = false;
 
-            foreach ($articles as $i => $article) {
+            foreach ($articles as $j => $article) {
 
                 // take care of "&amp;" substrings in the feed items' urls
                 $article_url = html_entity_decode($article->get_permalink());
 
                 // make sure this item was not processed previously. Skip if it was.
-                $item_sent = Item::where('url', $article_url)->first();
+                $item_sent = FeedItem::where('url', $article_url)->first();
                 if ($item_sent) continue;
 
                 $doc->setTitle($article->get_title());
@@ -124,7 +126,7 @@ class ProcessFeed implements ShouldQueue
                 ];
 
                 // Add new page after each entry except the last one (we'll place the periodical's footer there instead)
-                if ($i < count($articles) - 1) {
+                if ($j < count($articles) - 1) {
                     $result_doc->addHtml('<div style="page-break-after:always"></div>');
                 }
                 Log::debug('item added.', ['title' => $doc->title]);
@@ -134,53 +136,32 @@ class ProcessFeed implements ShouldQueue
 
             // clear up memory
             unset($articles);
-            $feed->__destruct();
             unset($feed);
         }
 
         if (count($sources) <= $source_errors) {
-            Log::error('Too many errors in the feed ' . $this->feed->title);
-            exit(1);
+            throw new \Exception('Too many errors in the feed ' . $this->feed->title);
         }
 
         // Write mobi file
         $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
         if (!$result_doc->writeTempHtml(false, false)) {
-            Log::error("Can\'t write temp file", ['feed' => $this->feed->title]);
-            exit(2);
+            throw new \Exception('Can not write temp file for ' . $this->feed->title)
         }
         $mobi_filename = $result_doc->saveMobi();
         $result_doc->deleteTempFiles();
         if ($mobi_filename === false) {
-            Log::error("saveMobi returned false", ['feed' => $this->feed->title]);
-            exit(3);
-        } else Log::info('Mibi file is ready', ['filename' => $mobi_filename]);
+            throw new \Exception('saveMobi returned false in feed' . $this->feed->title);
+        } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
 
-        $sender = new Sender();
-        $file_added = $sender->addFile($mobi_filename);
-        if (!$file_added) {
-            Log::error($sender->getLastError(), ['feed' => $this->feed->title]);
-            exit(4);
-        }
-
-        $subs = Subscription::where('feed_id', $this->feed->id)->where('status', Subscription::ACTIVE)->get();
-        foreach ($subs as $sub) {
-            $sender->send($sub->user_id);
-        }
-
-        // Finally, update the 'last_sent' value
-        $dt = new DateTime;
-        $this->feed->last_sent = $dt->format('m-d-y H:i:s');
-        $this->feed->save();
-
-        // save articles delivered to subscribers in DB Items
-        foreach ($sent_items_array as $item_sent) {
-            $item = new Item;
-            $item->title = $item_sent['title'];
-            $item->source_id = $item_sent['source_id'];
-            $item->url = $item_sent['url'];
+        // Save processed articles in our DB to ignore them during the next delivery
+        foreach ($sent_items_array as $item_info) {
+            $item = new FeedItem;
+            $item->title = $item_info['title'];
+            $item->source_id = $item_info['source_id'];
+            $item->url = $item_info['url'];
             $item->save();
         }
-
+        dispatch(new SendFeed($this->feed, $mobi_filename));
     }
 }
