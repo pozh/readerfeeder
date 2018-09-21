@@ -26,4 +26,14 @@ class Subscription extends Model
      * @var array
      */
     protected $guarded = ['id'];
+
+    public function feed()
+    {
+        return $this->belongsTo('App\Models\Feed');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }
