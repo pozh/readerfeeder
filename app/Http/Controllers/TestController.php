@@ -31,7 +31,7 @@ class TestController extends Controller
     public function rss()
     {
         $feed = Feeds::make('http://evo-lutio.livejournal.com/data/rss', true);
-        var_dump($feed->get_language());
+        var_dump($feed->get_title());
 //
 //        $data = array(
 //            'title'     => $feed->get_title(),
@@ -43,17 +43,29 @@ class TestController extends Controller
 
     public function subscribers($feed_id)
     {
-        $subs = Subscription::where('feed_id', $feed_id)->get();
-        if (!empty($subs)) {
-            foreach ($subs as $sub) {
-                echo $sub->user_id;
-            }
-        } else echo 'Nothing found';
+        $feed = Feed::findOrFail($feed_id);
+
+        var_dump($feed->subscribers()->count());
+        die();
+
+        $subs = $feed->subscribers;
+        foreach($feed->subscribers as $user) {
+            echo $user->first_name . '<br>';
+        }
     }
+
+    public function feedsWithSubscribers()
+    {
+        $feeds = Feed::has('subscribers')->get();
+        foreach($feeds as $val) {
+            echo $val->id . '<br>';
+        }
+    }
+
 
     public function sendfeed($feed_id)
     {
-        $feed = Feed::find($feed_id);
-        ProcessFeed::dispatch($feed);
+        $feed = Feed::findOrFail($feed_id);
+        dispatch(new ProcessFeed($feed));
     }
 }
