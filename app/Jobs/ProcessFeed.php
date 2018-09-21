@@ -154,6 +154,12 @@ class ProcessFeed implements ShouldQueue
             throw new \Exception('saveMobi returned false in feed' . $this->feed->title);
         } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
 
+        $file_size = filesize($mobi_filename);
+        if ($file_size > env('MAX_FILESIZE')) {
+            throw new \Exception(sprintf('Mobi file %s is too large (%sM)',
+                    $mobi_filename, floor($file_size / 1048576)));
+        }
+
         // Save processed articles in our DB to ignore them during the next delivery
         foreach ($sent_items_array as $item_info) {
             $item = new FeedItem;
