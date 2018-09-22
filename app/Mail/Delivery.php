@@ -11,14 +11,17 @@ class Delivery extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $attachement;
+
     /**
      * Create a new message instance.
      *
+     * @param string $attachement Filename of the .mobi file to send.
      * @return void
      */
-    public function __construct()
+    public function __construct($attachement)
     {
-        //
+        $this->attachement = $attachement;
     }
 
     /**
@@ -28,6 +31,7 @@ class Delivery extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('email.delivery')
+            ->attach($this->attachement);
     }
 }
