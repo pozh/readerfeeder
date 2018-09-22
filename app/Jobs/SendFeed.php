@@ -8,8 +8,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 use App\Models\Feed;
+use App\Mail\Delivery;
 
 
 class SendFeed implements ShouldQueue
@@ -39,19 +41,18 @@ class SendFeed implements ShouldQueue
      */
     public function handle()
     {
+        $kindleEmails = $feed->subscribers()
+            ->whereNotNull('kindle_email')
+            ->pluck('kindle_email')
+            ->toArray();
 
-
-        $subscribers = $this->feed->subscribers()->get();
-        if($subscribers->count() == 0) return;
-
-        foreach($subscribers as $subscriber) {
-            // TODO: send!
-        }
+        // Do nothing if there's no subscriber with kindle_email specified
+        if (count($kindleEmails) === 0) return;
+        $result = Mail::to($kindleEmails)->send(new Delivery($this->filename));
+        // TODO: log?
 
         $dt = new \DateTime;
         $this->feed->last_sent = $dt->format('m-d-y H:i:s');
         $this->feed->save();
-
-
     }
 }
