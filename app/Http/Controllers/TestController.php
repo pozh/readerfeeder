@@ -45,13 +45,15 @@ class TestController extends Controller
     {
         $feed = Feed::findOrFail($feed_id);
 
-        var_dump($feed->subscribers()->count());
-        die();
+//        var_dump($feed->subscribers()->count());
+//        die();
 
-        $subs = $feed->subscribers;
-        foreach($feed->subscribers as $user) {
-            echo $user->first_name . '<br>';
-        }
+        $subs = $feed->subscribers()->whereNotNull('kindle_email')->pluck('kindle_email')->toArray();
+        var_dump($subs);
+        echo ('<hr>');
+//        foreach($feed->subscribers as $user) {
+//            echo $user->first_name . '<br>';
+//        }
     }
 
     public function feedsWithSubscribers()
@@ -62,6 +64,30 @@ class TestController extends Controller
         }
     }
 
+    /**
+     * test feeds processing
+     */
+    public function process() {
+        $feeds = Feed::where('status', Feed::ACTIVE)->get();
+        foreach ($feeds as $feed) {
+            if ($feed->period == Feed::DAILY) {
+                if( $feed->schedule_time == date('G')+2 ) {
+                    echo 'Processing ' . $feed->title;
+//                    $feed->status = Feed::PROCESSING;
+//                    $feed->save();
+                    echo $feed->title;
+                    ProcessFeed::dispatch($feed);
+                    echo '<br>';
+                }
+            } else if ($feed->period == Feed::WEEKLY) {
+//                if ($feed->schedule_day == date('w') && $feed->schedule_time == date('G')) {
+//                    $feed->status = Feed::PROCESSING;
+//                    $feed->save();
+//                    ProcessFeed::dispatch($feed);
+//                }
+            }
+        }
+    }
 
     public function sendfeed($feed_id)
     {
