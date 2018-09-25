@@ -120,7 +120,7 @@ class ProcessFeed implements ShouldQueue
                  * Save to DB at the very end of the processing routine, once everything else is done.
                  * */
                 $sent_items_array[] = [
-                    'source_id' => $source->id,
+                    'feed_id' => $this->feed->id,
                     'url' => $article_url,
                     'title' => $article->get_title()
                 ];
@@ -171,7 +171,7 @@ class ProcessFeed implements ShouldQueue
         foreach ($sent_items_array as $item_info) {
             $item = new FeedItem;
             $item->title = $item_info['title'];
-            $item->source_id = $item_info['source_id'];
+            $item->feed_id = $item_info['feed_id'];
             $item->url = $item_info['url'];
             $item->save();
         }
