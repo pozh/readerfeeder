@@ -1,9 +1,9 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-@import "./../../../assets/styles/variables";
+@import "~assets/styles/variables";
 
 .BodySignup {
-  background: $white url(./../../../assets/images/newspaper.png) no-repeat bottom right;
+  background: $white url(~assets/images/newspaper.png) no-repeat bottom right;
 }
 
 .Signup {

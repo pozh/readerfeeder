@@ -6,7 +6,7 @@ import * as authAction from 'actions/authAction';
 import Dropdown from '../components/Dropdown';
 
 import './styles.scss';
-import logoImg from './../../assets/images/logo.png';
+import logoImg from 'assets/images/logo.png';
 
 
 class Header extends React.Component {

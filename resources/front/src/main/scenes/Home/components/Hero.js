@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import heroImg from './../../../assets/images/news.png';
+import heroImg from 'assets/images/news.png';
 
 const Hero = () => (
   <section className="Hero bg-light">
