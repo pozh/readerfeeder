@@ -1,13 +1,12 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\SDocument;
-use App\Models\Subscription;
 use App\Models\Feed;
 use Feeds;
-use View;
 use App\Jobs\ProcessFeed;
+use Mail;
+use App\Mail\Delivery;
 
 class TestController extends Controller
 {
@@ -91,7 +90,17 @@ class TestController extends Controller
 
     public function sendfeed($feed_id)
     {
-        $feed = Feed::findOrFail($feed_id);
-        dispatch(new ProcessFeed($feed));
+        $kindleEmails = ['pozhilov@gmail.com'];
+
+        // Do nothing if there's no subscriber with kindle_email specified
+        if (count($kindleEmails) === 0) return;
+        $filename = storage_path('data');
+        $filename .=  DIRECTORY_SEPARATOR . '0' . DIRECTORY_SEPARATOR . 'el-pas-spain.mobi';
+        $result = Mail::to($kindleEmails)->send(new Delivery($filename));
+        echo '<pre>';
+        var_dump($result);
+
+//        $feed = Feed::findOrFail($feed_id);
+//        dispatch(new ProcessFeed($feed));
     }
 }
