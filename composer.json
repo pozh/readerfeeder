@@ -13,6 +13,7 @@
         "laravel/socialite": "^3.0@dev",
         "laravel/tinker": "~1.0",
         "spatie/eloquent-sortable": "dev-master",
+        "spatie/laravel-activitylog": "dev-master",
         "tymon/jwt-auth": "1.0.0-rc.2",
         "willvincent/feeds": "1.1.*"
     },
