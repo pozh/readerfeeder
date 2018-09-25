@@ -14,7 +14,7 @@ const uglifyPlugin = new webpack.optimize.UglifyJsPlugin({ compress: { warnings:
 const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
 
 const includePaths = [
-  path.resolve(__dirname, './resources/front/src/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/main/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -30,7 +30,7 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './index.js',
+  entry: './main/index.js',
   output: {
     publicPath: '/',
     filename: 'assets/js/main.js',
@@ -44,7 +44,11 @@ module.exports = {
     compressionPlugin,
   ],
   resolve: {
-    modules: ['node_modules', path.join(__dirname, 'resources/front/src')]
+    modules: [
+      'node_modules',
+      path.join(__dirname, 'resources/front/src/shared'),
+      path.join(__dirname, 'resources/front/src/main')
+    ]
   },
   module: {
     rules: [

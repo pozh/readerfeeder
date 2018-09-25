@@ -25,7 +25,7 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './index',
+  entry: './main/index',
   output: {
     publicPath:    "/",
     filename: '[hash].js',
