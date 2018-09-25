@@ -52,9 +52,10 @@ class SDocument
 
         // create user personal folders if not exists
         if (!is_dir(storage_path('data'))) mkdir(storage_path('data'), 0777);
-        $this->path = storage_path('data/' . $user_id);
+        $this->path = storage_path('data' . DIRECTORY_SEPARATOR . $user_id);
         if (!is_dir($this->path)) mkdir($this->path, 0777);
-        if (!is_dir($this->path . '/html')) mkdir($this->path . '/html', 0777);
+        if (!is_dir($this->path . DIRECTORY_SEPARATOR .'html'))
+            mkdir($this->path . DIRECTORY_SEPARATOR . 'html', 0777);
 
         // periodical: add TOC
         if ($type == 'periodical') {
@@ -250,11 +251,11 @@ class SDocument
     {
         $this->title = stripslashes(mb_substr(strip_tags($title), 0, 255)) . $title_suffix;
         $this->filename_base = Utils::makeFilename($title . $title_suffix);
-        if (file_exists($this->path . '/' . $this->filename_base . '.mobi')) {
+        if (file_exists($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.mobi')) {
             $n = 1;
             do {
                 $n++;
-            } while (file_exists($this->path . '/' . $this->filename_base . $n . '.mobi'));
+            } while (file_exists($this->path . DIRECTORY_SEPARATOR . $this->filename_base . $n . '.mobi'));
             $this->filename_base .= $n;
         }
     }
@@ -290,7 +291,7 @@ class SDocument
 
         $mimeExtensions = array('image/gif' => 'gif', 'image/jpeg' => 'jpg', 'image/png' => 'png', 'image/bmp' => 'bmp');
 
-        $temp_filename = "$this->path/$this->filename_base.html";
+        $temp_filename = $this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.html';
         Log::info('html temp file: ' . $temp_filename);
         $this->temp_files = array($temp_filename);    // remember, we'll need to delete temp files (but don't delete .mobi files)
 
@@ -311,8 +312,8 @@ class SDocument
                     $image_url = str_replace(' ', '%20', $image_url);
                     $rand_str = base_convert(rand(10e7, 10e10), 10, 36);
                     $temp_img_name = time() . $rand_str;
-                    //$temp_img_name = sanitize_file_name( $rand_str . substr($src[1], strrpos($src[1], '/')+1) );
-                    //$temp_img_name = str_replace( array('|',';',',','!','@','#','$','(',')','<','>','%','/','\\','"','\'','`','~','{','}','[',']','=','+','&','^','‘','’', '?'), '', $temp_img_name );
+                    //$temp_img_name = sanitize_file_name( $rand_str . substr($src[1], strrpos($src[1], DIRECTORY_SEPARATOR)+1) );
+                    //$temp_img_name = str_replace( array('|',';',',','!','@','#','$','(',')','<','>','%',DIRECTORY_SEPARATOR,'\\','"','\'','`','~','{','}','[',']','=','+','&','^','‘','’', '?'), '', $temp_img_name );
 
                     // get extension
                     if (stripos($image_url, '.jpg') > 0) $temp_img_name .= '.jpg';
@@ -333,10 +334,10 @@ class SDocument
 
                     // now download the image to my server.
                     if (strlen($temp_img_name) > 0) {
-                        if (@copy($image_url, $this->path . '/' . $temp_img_name))
-                            $this->temp_files[] = $this->path . '/' . $temp_img_name;
+                        if (@copy($image_url, $this->path . DIRECTORY_SEPARATOR . $temp_img_name))
+                            $this->temp_files[] = $this->path . DIRECTORY_SEPARATOR . $temp_img_name;
                         else
-                            Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . '/' . $temp_img_name);
+                            Log::error('img copy command failed. from: ' . $image_url . ' to: ' . $this->path . DIRECTORY_SEPARATOR . $temp_img_name);
                         $html = str_replace($src[1], $temp_img_name, $html);
                     }
                 }
@@ -414,13 +415,13 @@ EOT
                 {
                     $image_url = $src[2];
                     if (!preg_match('/https?:\/\/[^\/]+/', $image_url)) {
-                        if ($image_url[0] == '/') {
-                            if ($image_url[1] == '/')  // on wikipedia image URLs start with '//upload.wikimedia.org...' so we just need to add http:
+                        if ($image_url[0] == DIRECTORY_SEPARATOR) {
+                            if ($image_url[1] == DIRECTORY_SEPARATOR)  // on wikipedia image URLs start with '//upload.wikimedia.org...' so we just need to add http:
                                 $image_url = 'http:' . $image_url;
                             else
                                 $image_url = $this->site_url . $image_url;
                         } else {
-                            $image_url = $this->folder_url . '/' . $image_url;
+                            $image_url = $this->folder_url . DIRECTORY_SEPARATOR . $image_url;
                         }
                     }
                     // add the correct <img ... /> to the special array, we'll move it from there to html in a separate loop
@@ -576,7 +577,7 @@ EOT
             'date' => $date_str,
             'filename_base' => $this->filename_base
         ));
-        $opf_filename = $this->path . '/' . $this->filename_base . '.opf';
+        $opf_filename = $this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.opf';
         $opf_file = fopen($opf_filename, 'w');
         if (!$opf_file) {
             Log::error("Can't open OPF file for writing: " . $opf_filename);
@@ -592,9 +593,9 @@ EOT
         if (!$this->cover) $this->cover = Utils::sprintfn(Mobi::$cover_tpl, array(
             'title' => $this->title,
             'date' => $date_str));
-        $cover_file = fopen($this->path . '/' . $this->filename_base . '_cover.html', 'w');
+        $cover_file = fopen($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_cover.html', 'w');
         if (!$cover_file) {
-            Log::error("Can't write Cover file: " . $this->path . '/' . $this->filename_base . '_cover.html');
+            Log::error("Can't write Cover file: " . $this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_cover.html');
             return false;
         }
         fwrite($cover_file, $this->cover);
@@ -609,9 +610,9 @@ EOT
                 'filename_base' => $this->filename_base,
                 'navpoints' => $this->ncx_navpoints)
         );
-        $ncx_file = fopen($this->path . '/' . $this->filename_base . '.ncx', 'w');
+        $ncx_file = fopen($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.ncx', 'w');
         if (!$ncx_file) {
-            Log::error("Can't write NCX file: " . $this->path . '/' . $this->filename_base . '.ncx');
+            Log::error("Can't write NCX file: " . $this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.ncx');
             return false;
         }
         fwrite($ncx_file, $ncx_text);
@@ -619,22 +620,25 @@ EOT
 
         // And finally, TOC html file. Finalize its html code first.
         $this->toc_html .= '<div style="page-break-after:always"></div> </body></html>';
-        $toc_file = fopen($this->path . '/' . $this->filename_base . '_toc.html', 'w');
+        $toc_file = fopen($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_toc.html', 'w');
         if (!$toc_file) {
-            Log::error("Can't write TOC file: " . $this->path . '/' . $this->filename_base . '_toc.html');
+            Log::error("Can't write TOC file: " . $this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_toc.html');
             return false;
         }
         fwrite($toc_file, $this->toc_html);
         fclose($toc_file);
-        exec(base_path('/') . env('KINDLEGEN') . ' ' . $opf_filename, $res);
+        exec(env('KINDLEGEN') . ' ' . $opf_filename, $res);
 
         // Log Kindlegen result
         Log::info('Kindlegen report', $res);
 
         // Check for Kindlegen errors
         $res_str = implode(PHP_EOL, $res);
-        if (strpos($res_str, 'rror(prcgen') != false || strpos($res_str, 'rror: ') != false) {
+        if (strpos($res_str, 'rror(prcgen') != false
+            || strpos($res_str, 'rror: ') != false
+            || strpos($res_str, 'ошиб') != false) {
             Log::error('There was an error in Kindlegen report');
+            Log::error($res_str);
             return false;
         } else return str_replace('.html', '.mobi', $this->temp_files[0]);
     }
@@ -645,10 +649,10 @@ EOT
     function deleteTempFiles()
     {
         // if we've sent a periodical, delete cover, TOC, OPF and NCX files
-        @unlink($this->path . '/' . $this->filename_base . '.opf');
-        @unlink($this->path . '/' . $this->filename_base . '.ncx');
-        @unlink($this->path . '/' . $this->filename_base . '_toc.html');
-        @unlink($this->path . '/' . $this->filename_base . '_cover.html');
+        @unlink($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.opf');
+        @unlink($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '.ncx');
+        @unlink($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_toc.html');
+        @unlink($this->path . DIRECTORY_SEPARATOR . $this->filename_base . '_cover.html');
         foreach ($this->temp_files as $temp_file) @unlink($temp_file);
     }
 }
