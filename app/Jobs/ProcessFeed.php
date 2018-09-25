@@ -42,7 +42,7 @@ class ProcessFeed implements ShouldQueue
         $doc = new SDocument(0);
         $doc->keep_images = true;
 
-        $result_doc = new SDocument('periodical');
+        $result_doc = new SDocument(0,'periodical');
         $result_doc->send_as_book = false;
         $result_doc->setTitle($this->feed->title);
         $result_doc->keep_images = true;
@@ -140,7 +140,14 @@ class ProcessFeed implements ShouldQueue
         }
 
         if (count($sources) <= $source_errors) {
-            throw new \Exception('Too many errors in the feed ' . $this->feed->title);
+            // TODO: save the following report somewhere in the DB,
+            // So admin can see what happened witht the failed fee.
+            Log::debug('Too many errors in the feed ' . $this->feed->title, [
+                'source count' => count($sources),
+                'errors' => $source_errors,
+                'warnings' => $warnings
+            ]);
+            throw new \Exception('Too many errors in the feed ' . $this->feed->title . ', see logs');
         }
 
         // Write mobi file
