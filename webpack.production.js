@@ -15,6 +15,7 @@ const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
 
 const includePaths = [
   path.resolve(__dirname, './resources/front/src/main/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/admin/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -30,10 +31,13 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './main/index.js',
+  entry: {
+    main: './main/index.js',
+    admin: './admin/index.js'
+  },
   output: {
     publicPath: '/',
-    filename: 'assets/js/main.js',
+    filename: 'assets/js/[name].js',
     path: path.join(__dirname, 'public')
   },
   plugins: [
@@ -47,6 +51,7 @@ module.exports = {
     modules: [
       'node_modules',
       path.join(__dirname, 'resources/front/src/shared'),
+      path.join(__dirname, 'resources/front/src/admin'),
       path.join(__dirname, 'resources/front/src/main')
     ]
   },
