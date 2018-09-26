@@ -157,7 +157,7 @@ class ProcessFeed implements ShouldQueue
                 'errors' => $source_errors,
                 'warnings' => $warnings
             ]);
-            throw new \Exception('Too many errors in the feed ' . $this->feed->title . ', see logs');
+            $this->failed(new \Exception('Too many errors in the feed'));
         }
 
         // Generate mobi file only if there is at least one subscriber for this feed
@@ -165,18 +165,20 @@ class ProcessFeed implements ShouldQueue
             // Write mobi file
             $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
             if (!$result_doc->writeTempHtml(false, false)) {
-                throw new \Exception('Can not write temp file for ' . $this->feed->title);
+                $this->failed(new \Exception('Can not write temp file'));
             }
             $mobi_filename = $result_doc->saveMobi();
             $result_doc->deleteTempFiles();
             if ($mobi_filename === false) {
-                throw new \Exception('saveMobi returned false in feed' . $this->feed->title);
+                $this->failed(new \Exception('saveMobi returned false'));
             } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
 
             $file_size = filesize($mobi_filename);
             if ($file_size > env('MAX_FILESIZE')) {
-                throw new \Exception(sprintf('Mobi file %s is too large (%sM)',
-                    $mobi_filename, floor($file_size / 1048576)));
+                $this->failed(new \Exception(
+                    sprintf('Mobi file %s is too large (%sM)',
+                        $mobi_filename, floor($file_size / 1048576))
+                ));
             }
 
             // Send mobi to subscribers
@@ -196,5 +198,14 @@ class ProcessFeed implements ShouldQueue
             ->performedOn($this->feed)
             ->withProperties(['items' => count($sent_items_array)])
             ->log('Finished processing');
+    }
+
+    public function failed($exception)
+    {
+        $msg = $exception->getMessage();
+        activity()
+            ->performedOn($this->feed)
+            ->log('Failed. ' . $msg);
+        // etc...
     }
 }
