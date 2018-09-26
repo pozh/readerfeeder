@@ -5,8 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server --hot",
     "start-admin": "webpack-dev-server --config ./webpack.admin.config.js --hot",
-    "build-admin": "NODE_ENV=production BABEL_ENV=production webpack --config ./webpack.admin.production.js --progress --profile --colors",
-    "build": "NODE_ENV=production BABEL_ENV=production webpack --config ./webpack.production.js --progress --profile --colors"
+    "build": "cross-env NODE_ENV=production cross-env BABEL_ENV=production webpack --config ./webpack.production.js --progress --profile --colors"
   },
   "engines": {
     "node": ">=6.6.0",
@@ -17,7 +16,7 @@
     "babel-eslint": "^8.0.1",
     "babel-plugin-react-transform": "^3.0.0",
     "babel-watch": "^2.0.7",
-    "cross-env": "^5.0.5",
+    "cross-env": "^5.2.0",
     "enzyme-adapter-react-16": "^1.0.0",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^15.1.0",

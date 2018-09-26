@@ -1,7 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'index.html' });
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const compressionPlugin = new CompressionPlugin();
@@ -15,6 +14,7 @@ const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
 
 const includePaths = [
   path.resolve(__dirname, './resources/front/src/main/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/admin/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -30,15 +30,19 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
-  entry: './main/index.js',
+  entry: {
+    main: './main/index.js',
+    admin: './admin/index.js'
+  },
   output: {
     publicPath: '/',
-    filename: 'assets/js/main.js',
+    filename: 'assets/js/[name].js',
     path: path.join(__dirname, 'public')
   },
   plugins: [
     stylesheetsPlugin,
-    htmlWebpackPlugin,
+    new HtmlWebpackPlugin({ template: 'index.html', chunks: ['main'], filename: 'index.html' }),
+    new HtmlWebpackPlugin({ template: 'admin.html', chunks: ['admin'], filename: 'admin.html' }),
     definePlugin,
     uglifyPlugin,
     compressionPlugin,
@@ -47,6 +51,7 @@ module.exports = {
     modules: [
       'node_modules',
       path.join(__dirname, 'resources/front/src/shared'),
+      path.join(__dirname, 'resources/front/src/admin'),
       path.join(__dirname, 'resources/front/src/main')
     ]
   },
