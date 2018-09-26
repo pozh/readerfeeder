@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 
-export default function (ComponentToShow) {
+export default function (ComponentToShow, loginPath='/login') {
 
   class Authenticate extends Component {
 
@@ -25,13 +25,13 @@ export default function (ComponentToShow) {
 
     componentWillMount() {
       if (!this.props.isAuthenticated && !this.state.redirect) {
-        this.setState(() => ({redirect: '/login'}));
+        this.setState(() => ({redirect: loginPath}));
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.isAuthenticated && !this.state.redirect) {
-        this.setState(() => ({redirect: '/login'}));
+        this.setState(() => ({redirect: loginPath}));
       }
     }
 

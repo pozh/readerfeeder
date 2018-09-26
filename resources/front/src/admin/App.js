@@ -8,8 +8,8 @@ import LoginPage from 'scenes/Auth/Login';
 const App = () => (
   <div>
     <Switch>
-      <Route exact path="/" component={RequireAuth(Dashboard)} />
-      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/admin" component={RequireAuth(Dashboard, '/admin/login')} />
+      <Route exact path="/admin/login" component={LoginPage} />
     </Switch>
     <NotificationContainer />
   </div>
