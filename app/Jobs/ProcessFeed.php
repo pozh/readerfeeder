@@ -8,6 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Spatie\Activitylog\Models\Activity;
 use Feeds;
 
 use App\Models\Feed;
@@ -39,6 +40,10 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
+        activity()
+            ->performedOn($this->feed)
+            ->log('Started processing');
+
         $doc = new SDocument(0);
         $doc->keep_images = true;
 
@@ -59,6 +64,11 @@ class ProcessFeed implements ShouldQueue
             if ($feed->error()) {
                 $source_errors++;
                 $warnings[] = 'Failed to read RSS at ' . $source->url;
+                activity()
+                    ->performedOn($source)
+                    ->causedBy($this->feed)
+                    ->withProperties(['url' => $source->url])
+                    ->log('Source error');
                 continue;
             }
             $articles = $feed->get_items(0, $source->count);
@@ -150,21 +160,27 @@ class ProcessFeed implements ShouldQueue
             throw new \Exception('Too many errors in the feed ' . $this->feed->title . ', see logs');
         }
 
-        // Write mobi file
-        $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
-        if (!$result_doc->writeTempHtml(false, false)) {
-            throw new \Exception('Can not write temp file for ' . $this->feed->title);
-        }
-        $mobi_filename = $result_doc->saveMobi();
-        $result_doc->deleteTempFiles();
-        if ($mobi_filename === false) {
-            throw new \Exception('saveMobi returned false in feed' . $this->feed->title);
-        } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
+        // Generate mobi file only if there is at least one subscriber for this feed
+        if ($this->feed->subscribers()->count() > 0) {
+            // Write mobi file
+            $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
+            if (!$result_doc->writeTempHtml(false, false)) {
+                throw new \Exception('Can not write temp file for ' . $this->feed->title);
+            }
+            $mobi_filename = $result_doc->saveMobi();
+            $result_doc->deleteTempFiles();
+            if ($mobi_filename === false) {
+                throw new \Exception('saveMobi returned false in feed' . $this->feed->title);
+            } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
 
-        $file_size = filesize($mobi_filename);
-        if ($file_size > env('MAX_FILESIZE')) {
-            throw new \Exception(sprintf('Mobi file %s is too large (%sM)',
+            $file_size = filesize($mobi_filename);
+            if ($file_size > env('MAX_FILESIZE')) {
+                throw new \Exception(sprintf('Mobi file %s is too large (%sM)',
                     $mobi_filename, floor($file_size / 1048576)));
+            }
+
+            // Send mobi to subscribers
+            dispatch(new SendFeed($this->feed, $mobi_filename));
         }
 
         // Save processed articles in our DB to ignore them during the next delivery
@@ -175,8 +191,10 @@ class ProcessFeed implements ShouldQueue
             $item->url = $item_info['url'];
             $item->save();
         }
-        if ($this->feed->subscribers()->count() > 0) {
-            dispatch(new SendFeed($this->feed, $mobi_filename));
-        }
+
+        activity()
+            ->performedOn($this->feed)
+            ->withProperties(['items' => count($sent_items_array)])
+            ->log('Finished processing');
     }
 }
