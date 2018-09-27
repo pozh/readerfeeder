@@ -66,17 +66,18 @@ const commonActions = {
  * Error handler
  */
 export function errorHandler(dispatch, response, type) {
-  const errorMessage = (response.data.message) ? response.data.message : response.data;
-
-  // NOT AUTHENTICATED ERROR
-  if (response.status === 401) {
+  if (!response || !response.data) {
+    notify.error(message.ERROR);
+    // Do nothing
+  } else if (response.status === 401) {
+    // NOT AUTHENTICATED ERROR
     notify.error(message.NOT_AUTHORIZED);
     dispatch(commonActions.notAuthorized());
     history.push(LOGIN);
   } else {
     dispatch({
       type,
-      payload: errorMessage,
+      payload: (response.data.message) ? response.data.message : response.data,
     });
   }
 }
