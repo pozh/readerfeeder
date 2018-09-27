@@ -13,6 +13,8 @@ Route::namespace('Api\V1')->group(function () {
     Route::group(['middleware' => 'jwt.auth'], function(){
         Route::get('auth/check', 'AuthController@checkToken');
 
+        Route::get('log', 'LogController@index');
+
         Route::get('user', 'UserController@index');
         Route::get('user/{id}', 'UserController@show');
         Route::post('user/{id}', 'UserController@update');

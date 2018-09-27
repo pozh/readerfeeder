@@ -11,12 +11,15 @@
 |
 */
 
-Route::get('/tests', 'TestController@index');
-Route::get('/tests/rss', 'TestController@rss');
-Route::get('/tests/subs', 'TestController@feedsWithSubscribers');
-Route::get('/tests/subs/{feed_id}', 'TestController@subscribers');
-Route::get('/tests/send/{feed_id}', 'TestController@sendfeed');
-Route::get('/tests/process', 'TestController@process');
+Route::group(['prefix'=> 'tests'], function(){
+    Route::get('/', 'TestController@index');
+    Route::get('/rss', 'TestController@rss');
+    Route::get('/subs', 'TestController@feedsWithSubscribers');
+    Route::get('/subs/{feed_id}', 'TestController@subscribers');
+    Route::get('/send/{feed_id}', 'TestController@sendfeed');
+    Route::get('/process', 'TestController@process');
+    Route::get('/logs', 'TestController@logs');
+});
 
 Route::get('/redirect/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
 

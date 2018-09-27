@@ -7,6 +7,9 @@ use Feeds;
 use App\Jobs\ProcessFeed;
 use Mail;
 use App\Mail\Delivery;
+use Spatie\Activitylog\Models\Activity;
+use App\Http\Resources\Log as LogResource;
+
 
 class TestController extends Controller
 {
@@ -102,5 +105,11 @@ class TestController extends Controller
 
 //        $feed = Feed::findOrFail($feed_id);
 //        dispatch(new ProcessFeed($feed));
+    }
+
+    public function logs() {
+        $logs = Activity::paginate(50);
+        echo '<pre>';
+        var_dump(LogResource::collection($logs));
     }
 }

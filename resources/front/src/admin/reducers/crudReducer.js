@@ -7,7 +7,8 @@ const initialState = {
   items: {
     feeds: [],
     categories: [],
-    users: []
+    users: [],
+    logs: []
   },
 };
 

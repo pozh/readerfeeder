@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import { Link } from 'react-router-dom';
 import UserList from './components/UserList';
+import LogList from './components/LogList';
 import FeedList from './components/FeedList';
 
 
@@ -13,6 +13,7 @@ const Dashboard = () => (
         <div className="row">
           <div className="col-md-6">
             <UserList/>
+            <LogList/>
           </div>
           <div className="col-md-6">
             <FeedList/>
