@@ -49,7 +49,7 @@ class SendFeed implements ShouldQueue
         // Do nothing if there's no subscriber with kindle_email specified
         if (count($kindleEmails) === 0) return;
         Mail::to($kindleEmails)->queue(new Delivery($this->filename));
-        activity()
+        activity('sender')
             ->on($this->feed)
             ->withProperties(['file' => $this->filename, 'subscribers_count' => count($kindleEmails)])
             ->log('Sent');

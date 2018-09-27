@@ -182,10 +182,10 @@ class ProcessFeed implements ShouldQueue
             }
 
             // Send mobi to subscribers
-            activity()
-                ->performedOn($this->feed)
-                ->withProperties(['mobi_filename' => $mobi_filename])
-                ->log('Sent to SendFeed');
+            activity('sender')
+                ->on($this->feed)
+                ->withProperties(['file' => $mobi_filename])
+                ->log('Send Job dispatched');
             dispatch(new SendFeed($this->feed, $mobi_filename));
         }
 
