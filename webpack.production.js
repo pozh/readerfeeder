@@ -6,6 +6,7 @@ const CompressionPlugin = require('compression-webpack-plugin');
 const compressionPlugin = new CompressionPlugin();
 
 const definePlugin = new webpack.DefinePlugin({
+  API_ROOT: JSON.stringify('http://temp.readerfeeder.co/api/'),
   __DEV__: JSON.stringify('false'),
   'process.env': {NODE_ENV: JSON.stringify('production')}
 });
