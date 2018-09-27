@@ -41,18 +41,30 @@ class SendFeed implements ShouldQueue
      */
     public function handle()
     {
-        $kindleEmails = $feed->subscribers()
+        $kindleEmails = $this->feed->subscribers()
             ->whereNotNull('kindle_email')
             ->pluck('kindle_email')
             ->toArray();
 
         // Do nothing if there's no subscriber with kindle_email specified
         if (count($kindleEmails) === 0) return;
-        $result = Mail::to($kindleEmails)->send(new Delivery($this->filename));
-        // TODO: log?
+        Mail::to($kindleEmails)->queue(new Delivery($this->filename));
+        activity()
+            ->on($this->feed)
+            ->withProperties(['file' => $this->filename, 'subscribers_count' => count($kindleEmails)])
+            ->log('Sent');
 
         $dt = new \DateTime;
         $this->feed->last_sent = $dt->format('m-d-y H:i:s');
         $this->feed->save();
+    }
+
+    public function failed($exception)
+    {
+        $msg = $exception->getMessage();
+        activity('sender')
+            ->on($this->feed)
+            ->withProperties(['file'=>$this->filename])
+            ->log('Send Failed. ' . $msg);
     }
 }

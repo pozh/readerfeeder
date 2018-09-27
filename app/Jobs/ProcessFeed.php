@@ -40,9 +40,9 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
-        activity()
-            ->performedOn($this->feed)
-            ->log('Started processing');
+        activity('processing')
+            ->on($this->feed)
+            ->log('Started');
 
         $doc = new SDocument(0);
         $doc->keep_images = true;
@@ -64,9 +64,9 @@ class ProcessFeed implements ShouldQueue
             if ($feed->error()) {
                 $source_errors++;
                 $warnings[] = 'Failed to read RSS at ' . $source->url;
-                activity()
-                    ->performedOn($source)
-                    ->causedBy($this->feed)
+                activity('processing')
+                    ->on($source)
+                    ->by($this->feed)
                     ->withProperties(['url' => $source->url])
                     ->log('Source error');
                 continue;
@@ -194,18 +194,17 @@ class ProcessFeed implements ShouldQueue
             $item->save();
         }
 
-        activity()
+        activity('processing')
             ->performedOn($this->feed)
             ->withProperties(['items' => count($sent_items_array)])
-            ->log('Finished processing');
+            ->log('Finished successfully');
     }
 
     public function failed($exception)
     {
         $msg = $exception->getMessage();
-        activity()
-            ->performedOn($this->feed)
-            ->log('Failed. ' . $msg);
-        // etc...
+        activity('processing')
+            ->on($this->feed)
+            ->log('Process failed. ' . $msg);
     }
 }
