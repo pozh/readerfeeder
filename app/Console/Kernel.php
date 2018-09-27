@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\processFeeds::class,
     ];
 
     /**
@@ -24,10 +23,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $log_filename = storage_path('logs/feeds.process.log');
-        $schedule->command('feeds:process')
-            ->hourly()
-            ->appendOutputTo($log_filename);
     }
 
     /**
