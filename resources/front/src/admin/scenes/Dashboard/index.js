@@ -13,6 +13,7 @@ const Dashboard = () => (
         <div className="row">
           <div className="col-md-6">
             <UserList/>
+            <br/>
             <LogList/>
           </div>
           <div className="col-md-6">

@@ -25,15 +25,13 @@ class LogList extends Component {
 
     if (!logs.length > 0) return (<p>No logs</p>);
     else return (
-      <div className="card">
+      <div>
         <div className="card-header">
           <div className="row">
-            <h5 className="col pt-2">Logs <span className="badge badge-pill badge-primary">{logs.length}</span></h5>
+            <h5 className="col pt-2"><strong>LOGS</strong> ({logs.length})</h5>
           </div>
         </div>
-        <div className="card-body">
-          <ReactTable data={logs} columns={columns} pageSize={20} />
-        </div>
+        <ReactTable data={logs} columns={columns} pageSize={20} />
       </div>
     );
   }
