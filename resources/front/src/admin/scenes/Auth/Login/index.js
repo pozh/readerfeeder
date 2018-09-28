@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 import Input from 'arui-feather/input';
 
-import { USER_HOME, TITLE_LOGIN } from 'constants/common';
+import { HOME } from 'constants/common';
 import * as authAction from 'actions/authAction';
 import SocialAuth from "../components/SocialAuth";
 import './styles.scss';
@@ -44,9 +44,9 @@ class LoginPage extends Component {
 
   render() {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
+    else if (this.props.isAuthenticated) return <Redirect to={HOME} />;
     return (
-      <DocumentTitle title={TITLE_LOGIN}>
+      <DocumentTitle title='Login'>
         <section className="Login">
           <div className="Login-dialog">
             <form className="Login-form" onSubmit={this.processForm} autoComplete="on">
@@ -57,9 +57,7 @@ class LoginPage extends Component {
 
               <div className="form-group">
                 <Input
-                  onChange={(val) => {
-                    this.state.user.email= val;
-                  }}
+                  onChange={(val) => {this.state.user.email= val;}}
                   label="Email"
                   width="available"
                 />
@@ -67,9 +65,7 @@ class LoginPage extends Component {
               <div className="form-group">
                 <Input
                   type="password"
-                  onChange={(val) => {
-                    this.state.user.password = val;
-                  }}
+                  onChange={(val) => {this.state.user.password = val;}}
                   label="Password"
                   autoComplete="off"
                   width="available"
@@ -81,8 +77,6 @@ class LoginPage extends Component {
               </div>
               <p className="mt-4">
                 <strong><Link to="/reset-password" className="">Forgot Password?</Link></strong>
-                <br />
-                  Don’t have an account? <strong><Link to="/signup" className="">Sign Up</Link></strong>
               </p>
             </form>
           </div>

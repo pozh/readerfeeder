@@ -1,6 +1,5 @@
-export const USER_HOME = '/';
-export const HOME = '/';
-export const LOGIN = '/login';
+export const HOME = '/admin/';
+export const LOGIN = '/admin/login';
 
 // Paddle
 export const PRO_PLAN_ID = 530517;
