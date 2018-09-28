@@ -40,6 +40,9 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
+        $this->feed->status = Feed::PROCESSING;
+        $this->feed->save();
+
         activity('processing')
             ->on($this->feed)
             ->log('Started');

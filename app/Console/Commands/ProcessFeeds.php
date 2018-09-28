@@ -61,8 +61,6 @@ class processFeeds extends Command
             }
 
             Log::debug('Time to process feed ' . $feed->title);
-            $feed->status = Feed::PROCESSING;
-            $feed->save();
             ProcessFeed::dispatch($feed);
         }
     }
