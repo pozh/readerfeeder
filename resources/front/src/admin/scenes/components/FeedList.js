@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import ReactTable from "react-table";
+import Form from 'arui-feather/form';
+import FormField from 'arui-feather/form-field';
+import Input from 'arui-feather/input';
+import Button from 'arui-feather/button';
 
+import Popup from './Popup';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
 class FeedList extends Component {
-  static defaultProps = {};
-  static propTypes = {};
-
-  componentDidMount() {
-    this.props.actions.fetchAll('feed');
-    this.props.actions.fetchAll('category');
-  }
-
-  render() {
-    const feeds = this.props.feeds || [];
-    const columns = [{
+  constructor() {
+    super();
+    this.state = {
+      feedPopup: false
+    };
+    this.feedPopup;
+    this.columns = [{
       Header: 'ID',
       accessor: 'id'
     }, {
@@ -42,7 +42,16 @@ class FeedList extends Component {
       Header: 'Category',
       accessor: 'category_id'
     }];
+  }
 
+  componentDidMount() {
+    console.log('DID MOUNT');
+    this.props.actions.fetchAll('feed');
+    this.props.actions.fetchAll('category');
+  }
+
+  render() {
+    const feeds = this.props.feeds || [];
     if (!feeds.length > 0) return (<p>...</p>);
     else return (
       <div>
@@ -50,11 +59,20 @@ class FeedList extends Component {
           <div className="row">
             <h5 className="col pt-2"><strong>FEEDS</strong> ({feeds.length})</h5>
             <div className="col text-right">
-              <Link className="btn btn-primary" to="#">Add new</Link>
+              <Popup/>
+                {/*<Form onSubmit={ () => { alert('Cool!'); } }>*/}
+                  {/*<FormField>*/}
+                    {/*<Input placeholder='Введите номер' />*/}
+                  {/*</FormField>*/}
+                  {/*<FormField>*/}
+                    {/*<Button view='extra' type='submit'>Submit</Button>*/}
+                  {/*</FormField>*/}
+                {/*</Form>*/}
+              {/*</Popup>*/}
             </div>
           </div>
         </div>
-        <ReactTable data={feeds} columns={columns} />
+        <ReactTable data={feeds} columns={this.columns} />
       </div>
     );
   }
