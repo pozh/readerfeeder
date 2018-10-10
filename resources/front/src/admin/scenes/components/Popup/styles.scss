@@ -1,0 +1,41 @@
+@import "../../../assets/styles/variables";
+
+.modal {
+  &__content {
+    position: absolute;
+    left: 20%;
+    top: 150px;
+    width: 60%;
+    box-shadow: 0 4px 16px rgba(0,0,0,.2);
+
+    background: $white;
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-size: 1.2rem;
+  }
+
+  &__close {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 5px;
+    background: transparent;
+    color: $gray-600;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  &__container {
+    border: 1px solid red;
+    padding: 30px 0;
+  }
+}
