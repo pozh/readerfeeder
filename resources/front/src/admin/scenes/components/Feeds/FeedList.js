@@ -1,17 +1,14 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import ReactTable from "react-table";
-import Form from 'arui-feather/form';
-import FormField from 'arui-feather/form-field';
-import Input from 'arui-feather/input';
-import Button from 'arui-feather/button';
 
-import Popup from './Popup';
+import Popup from '../Popup/Popup';
+import FeedEditor from './FeedEditor';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
+
 
 class FeedList extends Component {
   constructor() {
@@ -45,7 +42,6 @@ class FeedList extends Component {
   }
 
   componentDidMount() {
-    console.log('DID MOUNT');
     this.props.actions.fetchAll('feed');
     this.props.actions.fetchAll('category');
   }
@@ -59,16 +55,9 @@ class FeedList extends Component {
           <div className="row">
             <h5 className="col pt-2"><strong>FEEDS</strong> ({feeds.length})</h5>
             <div className="col text-right">
-              <Popup/>
-                {/*<Form onSubmit={ () => { alert('Cool!'); } }>*/}
-                  {/*<FormField>*/}
-                    {/*<Input placeholder='Введите номер' />*/}
-                  {/*</FormField>*/}
-                  {/*<FormField>*/}
-                    {/*<Button view='extra' type='submit'>Submit</Button>*/}
-                  {/*</FormField>*/}
-                {/*</Form>*/}
-              {/*</Popup>*/}
+              <Popup title="New Feed">
+                <FeedEditor/>
+              </Popup>
             </div>
           </div>
         </div>
