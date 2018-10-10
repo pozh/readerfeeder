@@ -1,23 +1,35 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
-import UserList from './components/UserList';
-import LogList from './components/LogList';
-import FeedList from './components/FeedList';
-
+import UserList from '../components/UserList';
+import LogList from '../components/LogList';
+import FeedList from '../components/Feeds/FeedList';
+import Header from '../components/Header/Header';
+import SideNav from '../components/Side/SideNav';
+import Sidebar from '../components/Side/Sidebar';
+import './styles.scss';
 
 const Dashboard = () => (
-  <DocumentTitle title="RSS delivery service for Kindle Paperwhite, Voyage and Oasis - ReaderFeeder">
-    <div>
-      <div className="container-fluid pt-3">
-        <h1 className="mb-3">ADMIN</h1>
+  <DocumentTitle title="ReaderFeeder Admin Dashboard">
+    <div className="dashboard">
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
-            <UserList/>
-            <br/>
-            <LogList/>
+          <div className="col-3 col-lg-2">
+            <Sidebar>
+              <SideNav/>
+            </Sidebar>
           </div>
-          <div className="col-md-6">
-            <FeedList/>
+          <div className="col">
+            <Header/>
+            <div className="row">
+              <div className="col">
+                <UserList/>
+                <br/>
+                <LogList/>
+              </div>
+              <div className="col">
+                <FeedList/>
+              </div>
+            </div>
           </div>
         </div>
       </div>
