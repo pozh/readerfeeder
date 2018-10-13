@@ -5,16 +5,17 @@ import './styles.scss';
 
 const Footer = () => (
   <footer className="Footer">
-    <nav className="navbar Footer-nav navbar-expand">
-      <div className="container">
-        <Link className="navbar-brand" to="/"><img src={require("assets/images/logo-footer.png")} alt="" /></Link>
-        <ul className="navbar-nav in">
-          <li className="nav-item"><Link className="nav-link" to="/terms">Terms of Use</Link></li>
-          <li className="nav-item"><Link className="nav-link" to="/privacy">Privacy Policy</Link></li>
-        </ul>
-        <span className="ml-auto text-right">ReaderFeeder &copy; {(new Date().getFullYear())}</span>
+    <div className="container">
+      <div className="row">
+        {/*<div className="col-md-4">*/}
+          {/*<Link to="/"><img width="150" src={require("assets/images/logo-footer.png")} alt="" /></Link>*/}
+        {/*</div>*/}
+        <div className="col text-center">
+          <p className="mb-1">ReaderFeeder &copy; {(new Date().getFullYear())}</p>
+          <p><Link to="/terms">Terms of Use</Link> &middot; <Link to="/privacy">Privacy Policy</Link></p>
+        </div>
       </div>
-    </nav>
+    </div>
   </footer>
 );
 
