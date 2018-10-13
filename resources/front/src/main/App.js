@@ -7,6 +7,8 @@ import LoginPage from './scenes/Auth/Login';
 import SignupPage from './scenes/Auth/Signup';
 import FeedsPage from './scenes/Feeds';
 import UserPage from './scenes/User';
+import TermsPage from "./scenes/Static/TermsPage";
+import PrivacyPage from "./scenes/Static/PrivacyPage";
 
 import { VENDOR_ID } from './constants/common';
 
@@ -20,6 +22,8 @@ const App = () => (
       <Route path="/feed" component={FeedsPage} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={SignupPage} />
+      <Route exact path="/terms" component={TermsPage} />
+      <Route exact path="/privacy" component={PrivacyPage} />
       <Route component={UserPage} />
     </Switch>
     <NotificationContainer />
