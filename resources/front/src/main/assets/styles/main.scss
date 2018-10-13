@@ -57,3 +57,11 @@ img { max-width: 100%; }
   border: 0 none;
   box-shadow: 0 9px 50px rgba(0,0,0,.06);
 }
+
+// Lists
+
+.list-simple {
+  li + li {
+    margin-top: .5rem;
+  }
+}
