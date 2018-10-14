@@ -9,6 +9,7 @@ import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
 import PageCaption from './../../components/PageCaption';
+import Loading from '../../components/Loading';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
 
@@ -38,9 +39,11 @@ class FeedList extends Component {
       return (
         <main>
           <PageCaption>Browse Feeds</PageCaption>
-          <div className="container">
-            <h2>Loading...</h2>
-          </div>
+          <section className="Feeds pt-5">
+            <div className="container page-height">
+              <Loading/>
+            </div>
+          </section>
         </main>
       );
     }

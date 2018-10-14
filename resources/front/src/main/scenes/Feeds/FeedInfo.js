@@ -9,6 +9,7 @@ import * as crudAction from 'actions/crudAction';
 
 import { isEmpty } from 'utils/commonUtil';
 import PageCaption from '../components/PageCaption';
+import Loading from '../components/Loading';
 
 
 class FeedInfo extends Component {
@@ -30,7 +31,8 @@ class FeedInfo extends Component {
     if (!feed || this.props.match.params.slug !== feed.slug) {
       return (
         <main>
-          <PageCaption>...</PageCaption>
+          <PageCaption>&nbsp;</PageCaption>
+          <Loading/>
           <div className="container mt-5">&nbsp;</div>
         </main>
       );
