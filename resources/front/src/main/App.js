@@ -5,7 +5,7 @@ import { NotificationContainer } from 'react-notifications';
 import HomePage from './scenes/Home';
 import LoginPage from './scenes/Auth/Login';
 import SignupPage from './scenes/Auth/Signup';
-import FeedsPage from './scenes/Feeds';
+import FeedsPage from './scenes/Feeds/FeedsPage';
 import UserPage from './scenes/User';
 import TermsPage from "./scenes/Static/TermsPage";
 import PrivacyPage from "./scenes/Static/PrivacyPage";
