@@ -8,7 +8,7 @@ import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
 import { isEmpty } from 'utils/commonUtil';
-import PageCaption from './../../components/PageCaption';
+import PageCaption from '../components/PageCaption';
 
 
 class FeedInfo extends Component {
