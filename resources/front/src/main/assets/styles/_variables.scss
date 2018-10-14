@@ -44,3 +44,7 @@ $input-btn-padding-x-lg:            2rem;
 
 // HEADINGS
 $headings-color:                    $gray-600;
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/variables";
