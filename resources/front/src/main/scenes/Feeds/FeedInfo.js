@@ -53,7 +53,10 @@ class FeedInfo extends Component {
           </div>
           <div className="container pt-5">
             <div className="row">
-              <div className="col-sm-9 mt-7">
+              <div className="col-md-3 order-md-12">
+                <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
+              </div>
+              <div className="col-md-9 mt-4 mt-md-7 order-md-0">
                 {feed.description && (
                   <div className="mb-5">{feed.description}</div>
                 )}
@@ -63,9 +66,6 @@ class FeedInfo extends Component {
                     <FeedToc items={feed.items} />
                   </div>
                 )}
-              </div>
-              <div className="col-sm-3">
-                <p><Link to="#" className="btn btn-lg btn-block btn-primary">Subscribe</Link></p>
               </div>
             </div>
           </div>

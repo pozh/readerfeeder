@@ -201,13 +201,19 @@
 
     .container {
       position: relative;
-      padding: 9rem;
+      padding: 4rem;
+      @include media-breakpoint-up(lg) {
+        padding: 9rem;
+      }
     }
 
     h1 {
       color: inherit;
-      font-size: 3.4rem;
+      font-size: 2.4rem;
       font-weight: bold;
+      @include media-breakpoint-up(lg) {
+        font-size: 3.4rem;
+      }
     }
   }
 }

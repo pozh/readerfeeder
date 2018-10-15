@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const FeedIcon = (props) => {
   return (
-    <div className="feed-ico">
+    <div className="feed-ico d-none d-md-block">
       { props.ico && <img src={props.ico} alt=""/> }
     </div>
   );
