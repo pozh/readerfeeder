@@ -57,13 +57,6 @@ class FeedInfo extends Component {
                 {feed.description && (
                   <div className="mb-5">{feed.description}</div>
                 )}
-                <div className="mb-5">
-                  <h3>Sources:</h3>
-                  <ul>
-                    {feed.sources && feed.sources.map(source =>
-                      <li key={source.url}><strong><a className="text-dark" href={source.url} target="_blank">{source.url}</a></strong></li>)}
-                  </ul>
-                </div>
                 {feed.items && (
                   <div>
                     <h2 className="mb-4">In this issue:</h2>
