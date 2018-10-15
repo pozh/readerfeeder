@@ -36,6 +36,11 @@ class Feed extends Model
         return $this->hasMany('App\Models\Source');
     }
 
+    public function items()
+    {
+        return $this->hasMany('App\Models\Item');
+    }
+
     public function subscribers()
     {
         return $this->belongsToMany('App\Models\User', 'subscriptions', 'feed_id', 'user_id');

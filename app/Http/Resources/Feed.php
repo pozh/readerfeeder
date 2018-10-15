@@ -27,6 +27,7 @@ class Feed extends JsonResource
             'category_id' => $this->category_id,
             'description' => $this->description,
             'sources' => $this->sources()->get(),
+            'items' => $this->items()->orderBy('id', 'desc')->take(20)->get(),
             'slug' => $this->slug,
             'subscribers' => $this->subscribers,
             'created_at' => $this->created_at,
