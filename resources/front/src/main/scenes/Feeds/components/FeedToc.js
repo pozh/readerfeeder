@@ -1,17 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-const TocItem = props => <li><Link to={props.item.url}>{props.item.title}</Link></li>;
 
 
-const FeedToc = ({toc}) => {
-  return (toc &&
-    <div>
-      <h3>In current issue:</h3>
-      <ul>
-        {toc.items.map((item, key) => <TocItem item={item} key={key}/>)}
-      </ul>
-    </div>
+const TocItem = props => <li><a className="text-dark" target="_blank" href={props.item.url}>{props.item.title}</a></li>;
+
+
+const FeedToc = ({items}) => {
+  return (
+    <ul className="list-simple">
+      {items.map((item, key) => <TocItem item={item} key={key}/>)}
+      <li>... and more</li>
+    </ul>
   );
 };
 
