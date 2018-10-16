@@ -20,7 +20,6 @@ class LoginPage extends Component {
         email: '',
         password: '',
       },
-      redirect: null
     };
 
     this.processForm = this.processForm.bind(this);
@@ -43,9 +42,8 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
-    return (
+    if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
+    else return (
       <DocumentTitle title={TITLE_LOGIN}>
         <section className="Login">
           <div className="Login-dialog">
