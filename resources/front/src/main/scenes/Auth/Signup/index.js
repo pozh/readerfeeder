@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 import Input from 'arui-feather/input';
-import { USER_HOME, TITLE_SIGNUP } from 'constants/common';
 import SocialAuth from "../components/SocialAuth";
 
 import * as authAction from 'actions/authAction';
@@ -48,9 +47,9 @@ class SignupPage extends Component {
 
   render() {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
+    else if (this.props.isAuthenticated) return <Redirect to={'/'} />;
     return (
-      <DocumentTitle title={TITLE_SIGNUP}>
+      <DocumentTitle title="Signup - ReaderFeeder">
         <section className="Signup">
           <div className="Signup-dialog">
             <form className="Signup-form" onSubmit={this.processForm}>

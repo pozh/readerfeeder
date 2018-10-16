@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 import Input from 'arui-feather/input';
 
-import { HOME } from 'constants/common';
 import * as authAction from 'actions/authAction';
 import SocialAuth from "../components/SocialAuth";
 import './styles.scss';
@@ -44,7 +43,7 @@ class LoginPage extends Component {
 
   render() {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (this.props.isAuthenticated) return <Redirect to={HOME} />;
+    else if (this.props.isAuthenticated) return <Redirect to='/admin' />;
     return (
       <DocumentTitle title='Login'>
         <section className="Login">

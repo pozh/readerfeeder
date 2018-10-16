@@ -10,7 +10,7 @@ import UserPage from './scenes/User';
 import TermsPage from "./scenes/Static/TermsPage";
 import PrivacyPage from "./scenes/Static/PrivacyPage";
 
-import { VENDOR_ID } from './constants/common';
+import { VENDOR_ID } from 'constants/common';
 
 if (typeof Paddle === 'object') Paddle.Setup({ vendor: VENDOR_ID });
 

@@ -4,7 +4,7 @@ import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from 'utils/authUtil';
 
 import * as api from '../constants/api';
-import { HOME, USER_HOME, LOGIN } from '../constants/common';
+import { HOME, USER_HOME, LOGIN } from '../../shared/constants/common';
 import * as message from '../constants/message';
 
 import * as ActionType from '../constants/actionType';

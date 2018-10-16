@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 import Input from 'arui-feather/input';
 
-import { USER_HOME, TITLE_LOGIN } from 'constants/common';
 import * as authAction from 'actions/authAction';
 import SocialAuth from "../components/SocialAuth";
 import './styles.scss';
@@ -42,9 +41,9 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (this.props.isAuthenticated) return <Redirect to={USER_HOME} />;
+    if (this.props.isAuthenticated) return <Redirect to='/' />;
     else return (
-      <DocumentTitle title={TITLE_LOGIN}>
+      <DocumentTitle title="Login to ReaderFeeder">
         <section className="Login">
           <div className="Login-dialog">
             <form className="Login-form" onSubmit={this.processForm} autoComplete="on">

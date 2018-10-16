@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as Converter from './converter';
-import * as api from 'constants/api';
 
 
 // NB. Bearer authorization header is already set on user login or authCheck
