@@ -65,9 +65,9 @@ class FeedInfo extends Component {
       <DocumentTitle title={pageTitle}>
         <main>
           <div className="feedinfo__pagetitle">
-            <div className="container">
+            <div className="container d-flex align-items-center justify-content-center">
               <FeedIcon/>
-              <h1>{feed.title}</h1>
+              <h1 className="">{feed.title}</h1>
             </div>
           </div>
           <div className="container pt-5">
