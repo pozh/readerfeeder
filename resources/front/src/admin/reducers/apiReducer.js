@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 // Import constants
-import * as ActionType from '../constants/actionType';
+import * as ActionType from 'constants/actionType';
 
 var initialState = {
   isRequesting: false,

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
 import RequireAuth from 'utils/RequireAuth';
 import Dashboard from './scenes/Dashboard';
-import LoginPage from 'scenes/Auth/Login';
+import LoginPage from './scenes/Auth/Login';
 
 const App = () => (
   <div>

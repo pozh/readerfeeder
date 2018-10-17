@@ -3,14 +3,12 @@ import { NotificationManager as notify } from 'react-notifications';
 import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from 'utils/authUtil';
 
-import * as api from '../constants/api';
-import { HOME, USER_HOME, LOGIN } from '../../shared/constants/common';
-import * as message from '../constants/message';
+import * as api from 'constants/api';
+import * as message from 'constants/message';
+import * as ActionType from 'constants/actionType';
+import * as apiAction from 'actions/apiAction';
 
-import * as ActionType from '../constants/actionType';
-import * as apiAction from './apiAction';
-
-import history from '../history';
+import history from 'utils/history';
 
 
 /**
@@ -65,7 +63,7 @@ export function login({ email, password }) {
       localStorage.setItem('user', JSON.stringify(response.data.user));
       localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
       dispatch(authActions.loginSuccess(response.data));
-      history.push(USER_HOME);
+      history.push('/admin');
     })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
@@ -126,7 +124,7 @@ export function logout() {
     clearToken();
     localStorage.removeItem('user');
     localStorage.removeItem('usermeta');
-    history.push(HOME);
+    history.push('/');
   };
 }
 

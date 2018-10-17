@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as ActionType from '../constants/actionType';
+import * as ActionType from 'constants/actionType';
 import { pluralize } from 'utils/converter';
 
 

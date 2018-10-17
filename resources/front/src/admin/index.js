@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 
 import { checkAuth } from './actions/authAction';
-import history from './history';
+import history from 'utils/history';
 import store from './store';
 import App from './App';
 

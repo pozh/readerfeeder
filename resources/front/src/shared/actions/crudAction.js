@@ -1,12 +1,11 @@
 import { NotificationManager as notify } from 'react-notifications';
-
 import * as apiService from 'utils/apiService';
 import * as Converter from 'utils/converter';
-import * as message from '../constants/message';
-import { LOGIN } from '../../shared/constants/common';
+
 import * as ActionType from '../constants/actionType';
+import * as message from '../constants/message';
 import * as apiAction from './apiAction';
-import history from '../history';
+import history from '../utils/history';
 
 
 /**
@@ -73,7 +72,7 @@ export function errorHandler(dispatch, response, type) {
     // NOT AUTHENTICATED ERROR
     notify.error(message.NOT_AUTHORIZED);
     dispatch(commonActions.notAuthorized());
-    history.push(LOGIN);
+    history.push('/login');
   } else {
     dispatch({
       type,
@@ -195,7 +194,7 @@ export function subscribe(id) {
   return dispatch => {
     dispatch(apiAction.apiRequest());
     return apiService.store('subscription', { feed_id: id }).then((response) => {
-      dispatch(apiAction.apiResponse());
+      dispatch(apiAction.apiResponse(response.data));
       dispatch({
         type: ActionType.SUBSCRIBE,
         item: response.data

@@ -3,13 +3,13 @@ import { NotificationManager as notify } from 'react-notifications';
 import jwt_decode from 'jwt-decode';
 import { setToken, clearToken, getToken } from 'utils/authUtil';
 
-import * as api from '../constants/api';
-import * as message from '../constants/message';
+import * as api from 'constants/api';
+import * as message from 'constants/message';
+import history from 'utils/history';
 
-import * as ActionType from '../constants/actionType';
-import * as apiAction from './apiAction';
+import * as ActionType from 'constants/actionType';
+import * as apiAction from 'actions/apiAction';
 
-import history from '../history';
 
 
 /**
@@ -57,16 +57,17 @@ export function authErrorHandler(dispatch, error, type) {
 export function login({ email, password }) {
   return (dispatch) => {
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_LOGIN, { email, password }).then((response) => {
-      dispatch(apiAction.apiResponse());
-      axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-      setToken(response.data.token);
-      localStorage.setItem('user', JSON.stringify(response.data.user));
-      localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
-      dispatch(authActions.loginSuccess(response.data));
-      history.push('/feeds');
-    })
-      .catch((error) => {
+    axios.post(api.API_LOGIN, { email, password })
+      .then(response => {
+        dispatch(apiAction.apiResponse());
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        setToken(response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
+        dispatch(authActions.loginSuccess(response.data));
+        history.push('/feeds');
+      })
+      .catch(error => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
         notify.error(message.INVALID_LOGIN_DATA);
       });

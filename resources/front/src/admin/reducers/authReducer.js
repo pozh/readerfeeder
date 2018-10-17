@@ -3,7 +3,7 @@ import _ from 'lodash';
 /**
  * Import all constants as an object.
  */
-import * as ActionType from '../constants/actionType';
+import * as ActionType from 'constants/actionType';
 
 const initialState = {
   token: null,
