@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Input from 'arui-feather/input';
 import EmailInput from 'arui-feather/email-input';
-
-import * as authAction from '../../../actions/authAction';
+import * as authAction from 'actions/authAction';
 import PageCaption from './../../components/PageCaption';
 
 
