@@ -1,5 +1,6 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
+import { Link } from 'react-router-dom';
 import Footer from './../components/Footer';
 import Header from './../components/Header';
 import Hero from './components/Hero';
@@ -15,11 +16,14 @@ const HomePage = () => (
         <div className="container">
           <div className="row align-items-center">
             <div className="col-md-5">
-              <img src={require('assets/images/placeholder.png')} />
+              <p>ReaderFeeder is a service for Amazon Kindle owners which lets you aggregate your favorite
+                feeds and have them delivered to your Kindle in a convenient, easy-to-navigate format.
+                You Can also have your feeds delivered to your Kindle automatically on schedule.</p>
+              <p>ReaderFeeder offers a free basic and a paid unlimited service. <Link to="/pricing">Click here</Link> to learn more.</p>
+              <p>ReaderFeeder will never send any unsolicited content to your Kindle or your email address.</p>
             </div>
             <div className="col-md-7 px-5">
-              <p className="h3">Collect</p>
-              <p>Save and tag your online resources for easy access anytime, anywhere</p>
+              <img src={require('assets/images/placeholder.png')} />
             </div>
           </div>
           <div className="row align-items-center">
