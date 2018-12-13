@@ -4,7 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'admin.html' });
 const definePlugin = new webpack.DefinePlugin({
-  'API_ROOT': JSON.stringify('http://rf.local/api/'),
+  API_ROOT: JSON.stringify('http://rf.local/api'),
+  SOCIAL_ROOT: JSON.stringify('http://rf.local/redirect'),
   __DEV__: JSON.stringify('true')
 });
 

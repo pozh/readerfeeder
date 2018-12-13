@@ -2,9 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'index.html' });
+const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'app.html' });
 const definePlugin = new webpack.DefinePlugin({
-  API_ROOT: JSON.stringify('http://rf.local/api/'),
+  API_ROOT: JSON.stringify('http://rf.local/api'),
+  SOCIAL_ROOT: JSON.stringify('http://rf.local/redirect'),
   __DEV__: JSON.stringify('true')
 });
 
@@ -26,6 +27,7 @@ const stylesheetsLoaders = [
 
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
+  mode: 'development',
   entry: './main/index',
   output: {
     publicPath:    "/",
