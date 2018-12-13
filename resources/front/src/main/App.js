@@ -17,13 +17,13 @@ if (typeof Paddle === 'object') Paddle.Setup({ vendor: VENDOR_ID });
 const App = () => (
   <div>
     <Switch>
-      <Route exact path="/" component={HomePage} />
-      <Route path="/feeds" component={FeedsPage} />
-      <Route path="/feed" component={FeedsPage} />
-      <Route exact path="/login" component={LoginPage} />
-      <Route exact path="/signup" component={SignupPage} />
-      <Route exact path="/terms" component={TermsPage} />
-      <Route exact path="/privacy" component={PrivacyPage} />
+      <Route exact path="/app/" component={HomePage} />
+      <Route path="/app/feeds" component={FeedsPage} />
+      <Route path="/app/feed" component={FeedsPage} />
+      <Route exact path="/app/login" component={LoginPage} />
+      <Route exact path="/app/signup" component={SignupPage} />
+      {/*<Route exact path="/app/terms" component={TermsPage} />*/}
+      {/*<Route exact path="/app/privacy" component={PrivacyPage} />*/}
       <Route component={UserPage} />
     </Switch>
     <NotificationContainer />

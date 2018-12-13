@@ -9,7 +9,7 @@ class SocialAuth extends Component {
   }
 
   handleClick(provider) {
-    window.location.assign(`/redirect/${provider}`);
+    window.location.assign(`${SOCIAL_ROOT}/${provider}`);
   }
 
   render() {

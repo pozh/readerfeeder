@@ -6,7 +6,6 @@ import Footer from './../components/Footer';
 import Header from './../components/Header';
 import Subscriptions from './components/Subscriptions';
 import Settings from './components/Settings';
-import Pricing from './components/Pricing';
 
 import './styles.scss';
 
@@ -15,9 +14,8 @@ export const UserPage = () => (
     <div>
       <Header className="white" />
       <Switch>
-        <Route path="/subscriptions" component={RequireAuth(Subscriptions)} />
-        <Route path="/settings" component={RequireAuth(Settings)} />
-        <Route path="/pricing" component={Pricing} />
+        <Route path="/app/subscriptions" component={RequireAuth(Subscriptions)} />
+        <Route path="/app/settings" component={RequireAuth(Settings)} />
       </Switch>
       <Footer />
     </div>
