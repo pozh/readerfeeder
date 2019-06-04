@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('/', function () {
+	return view('home');
+});
+
 Route::group(['prefix'=> 'tests'], function(){
     Route::get('/', 'TestController@index');
     Route::get('/rss', 'TestController@rss');
