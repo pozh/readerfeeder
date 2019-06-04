@@ -1,3 +1,0 @@
-[submodule "resources/static"]
-	path = resources/static
-	url = git@github.com:pozh/readerfeeder-static.git
