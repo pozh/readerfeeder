@@ -1,0 +1,14 @@
+.footer {
+  background: $light;
+  padding: 4rem 0;
+
+  a {
+    color: $dark;
+    opacity: .8;
+
+    &:hover {
+      text-decoration: none;
+      opacity: 1;
+    }
+  }
+}

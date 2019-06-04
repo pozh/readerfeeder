@@ -1,0 +1,30 @@
+# Unneeded dev files
+.htaccess
+.gitconfig
+.sass-cache/
+.sass-cache/*
+*.css.map
+*.swp
+*.bak
+Thumbs.db
+.log
+.DS_Store
+.env
+node_modules/
+httpd-vhost.conf
+
+# sitemaps not needed locally #
+sitemap.xml
+sitemap.xml.gz
+
+# Don't need Local or Live config #
+wp-config-*
+
+# Don't clutter repo with content #
+**/wp-content/upgrade/*
+**/wp-content/plugins/*
+**/wp-content/mu-plugins/*
+**/wp-content/uploads/*
+
+# GA Verification
+google*.html

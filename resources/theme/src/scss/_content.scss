@@ -1,0 +1,96 @@
+// Typography
+p,
+ul,
+ol {
+  font-size: 1.125rem;
+}
+
+// Images
+
+.img-fluid {
+  max-width: 100%;
+}
+
+// Buttons
+
+.btn-outline-secondary:hover {
+  background-color: transparent!important;
+  color: $dark!important;
+  border-color: $dark!important;
+}
+
+.btn-lg-cta {
+  border-radius: 2rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  @extend .btn-primary;
+}
+
+.main {
+  min-height: 55vh;
+}
+
+.page-title {
+  @extend .mt-6;
+  @extend .mb-7;
+
+  &__title {
+    text-align: center;
+  }
+
+  &_side {
+    @extend .mb-7;
+
+    .page-title__title {
+      text-align: left;
+    }
+  }
+}
+
+.section {
+  & + & {
+    margin-top: 5rem;
+  }
+
+  &__prefix {
+    color: $gray-500;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+
+    @include media-breakpoint-down(md) {
+      font-size: .8rem;
+      padding: 0 1rem;
+    }
+  }
+
+  &__title {
+
+    font-size: $h4-font-size;
+
+    @include media-breakpoint-only(md) {
+      font-size: $h3-font-size;
+    }
+
+    @include media-breakpoint-up(lg) {
+      font-size: $h2-font-size;
+    }
+
+    &.narrow {
+
+      @include media-breakpoint-up(md) {
+        width: 60%;
+      }
+      @extend .mx-auto;
+    }
+
+    small {
+      display: block;
+      color: $text-muted;
+      font-weight: normal;
+      margin-top: 1.2rem;
+      font-family: $font-family-base;
+    }
+  }
+
+}
+

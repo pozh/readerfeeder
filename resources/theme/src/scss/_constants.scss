@@ -1,0 +1,81 @@
+$white:                   #fff;
+$black:                   #000;
+
+$gray-100:                #f8f9fa;
+$gray-200:                #e9ecef;
+$gray-300:                #dee2e6;
+$gray-400:                #ced4da;
+$gray-500:                #adb5bd;
+$gray-600:                #6c757d;
+$gray-700:                #495057;
+$gray-800:                #3c3c3c;
+$gray-900:                #212529;
+$light:                   $gray-100;
+$dark:                    $gray-800;
+
+$red:                     #F95C52;
+
+$primary:                 $red;
+$body-color:              $gray-800;
+$text-muted:              $gray-500;
+
+$font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+$headings-font-family:    "Gentium Basic", Arial, Helvetica, sans-serif;
+$headings-font-weight:    700;
+$headings-color:          inherit;
+
+$font-size-base:          1rem; // Assumes the browser default, typically `16px`
+$h1-font-size:            $font-size-base * 2.7;
+$h2-font-size:            $font-size-base * 2.2;
+$h3-font-size:            $font-size-base * 1.75;
+$h4-font-size:            $font-size-base * 1.5;
+$h5-font-size:            $font-size-base * 1.25;
+$h6-font-size:            $font-size-base;
+
+$grid-breakpoints: (
+  xs:   0,
+  sm:   576px,
+  md:   768px,
+  lg:   992px,
+  xl:   1200px,
+  xxl:  1440px
+);
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1140px,
+  xxl:  1240px
+);
+
+$spacer: 1rem;
+$spacers: ();
+// stylelint-disable-next-line scss/dollar-variable-default
+$spacers: map-merge((
+  0: 0,
+  1: ($spacer * .25),
+  2: ($spacer * .5),
+  3: $spacer,
+  4: ($spacer * 1.5),
+  5: ($spacer * 2),
+  6: ($spacer * 3),
+  7: ($spacer * 4),
+  8: ($spacer * 5),
+  9: ($spacer * 5),
+), $spacers );
+
+
+// NavBar
+
+$navbar-padding-y:                  $spacer * 1.6;
+$navbar-light-color:                rgba($black, .7);
+$navbar-light-hover-color:          rgba($black, .9);
+$navbar-light-active-color:         $primary;
+$navbar-light-disabled-color:       rgba($black, .3);
+
+$navbar-toggler-padding-y:          .15rem;
+$navbar-toggler-padding-x:          .25rem;
+$navbar-toggler-font-size:          14px;
+$navbar-toggler-border-radius:      3px;
+
