@@ -35,7 +35,7 @@
 
 <div class="footer">
     <div class="container text-center">
-        <p class="text-muted small">&copy; 2018. ReaderFeeder.co. All rights reserved.</p>
+        <p class="text-muted small">&copy; {{ now()->year }}. ReaderFeeder.co. All rights reserved.</p>
         <p class="text-center small">
             <a href="/terms/">Terms of service</a>
             &nbsp;&middot;&nbsp;
