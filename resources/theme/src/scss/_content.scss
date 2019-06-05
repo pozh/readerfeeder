@@ -114,7 +114,7 @@ ol {
       @include font-size(45px);
     }
     @include media-breakpoint-up(xl) {
-      @include font-size(55px);
+      @include font-size(50px);
     }
   }
 
@@ -128,7 +128,8 @@ ol {
       display: block;
     }
     @include media-breakpoint-up(xl) {
-      margin-top: -8rem;
+      margin-top: -9vw;
+      max-height: 71vh;
     }
   }
 }

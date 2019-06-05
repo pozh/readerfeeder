@@ -8,7 +8,7 @@
       <div class="row align-content-center">
         <div class="col-lg-6">
           <h1 class="hero__title">
-            Read RSS feeds while offline, in the sun!
+            Read your favorite RSS feeds offline, in the sun!
             <span class="d-block d-lg-none">
             <img width="65%" src="/assets/images/hero.svg" alt="" class="mt-3">
           </span>

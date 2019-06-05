@@ -9918,7 +9918,7 @@ ol {
       font-size: 2.8125rem; } }
   @media (min-width: 1200px) {
     .hero__title {
-      font-size: 3.4375rem; } }
+      font-size: 3.125rem; } }
   .hero__img {
     margin-top: -6rem;
     position: absolute;
@@ -9929,7 +9929,8 @@ ol {
         display: block; } }
     @media (min-width: 1200px) {
       .hero__img {
-        margin-top: -8rem; } }
+        margin-top: -9vw;
+        max-height: 71vh; } }
 
 .footer {
   background: #f8f9fa;
