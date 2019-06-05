@@ -10,7 +10,7 @@
           <h1 class="hero__title">
             Read RSS feeds while offline, in the sun!
             <span class="d-block d-lg-none">
-            <img width="65%" src="/assets/images/hero_flip.svg" alt="" class="mt-3">
+            <img width="65%" src="/assets/images/hero.svg" alt="" class="mt-3">
           </span>
           </h1>
           <h2 class="font-family-base h5 font-weight-bold pr-xl-8">
@@ -26,7 +26,7 @@
           </h2>
         </div>
         <div class="col">
-          <img src="/assets/images/hero_flip.svg" alt="" class="hero__img">
+          <img src="/assets/images/hero.svg" alt="" class="hero__img">
         </div>
       </div>
     </div>
