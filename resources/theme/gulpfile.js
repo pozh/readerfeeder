@@ -40,7 +40,7 @@ gulp.task('browser-sync', function() {
 	bsync.init({
 		proxy: localHost,
 		watchEvents: [ 'change', 'add', 'unlink', 'addDir', 'unlinkDir' ],
-    files: ['assets/styles/*'],
+    files: ['assets/styles/*', '../views/**/*'],
     serveStatic: ['assets/styles']
 	});
 });

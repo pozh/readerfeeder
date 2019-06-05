@@ -5,6 +5,10 @@ ol {
   font-size: 1.125rem;
 }
 
+.font-family-base {
+  font-family: $font-family-base;
+}
+
 // Images
 
 .img-fluid {
@@ -94,3 +98,35 @@ ol {
 
 }
 
+.hero {
+  padding-top: 1rem;
+  text-align: center;
+
+  @include media-breakpoint-up(lg) {
+    min-height: 80vh;
+    text-align: left;
+  }
+
+  &__title {
+    @include media-breakpoint-up(lg) {
+      @include font-size(45px);
+    }
+    @include media-breakpoint-up(xl) {
+      @include font-size(55px);
+    }
+  }
+
+  &__img {
+    margin-top: -6rem;
+    position: absolute;
+    display: none;
+    
+    @include media-breakpoint-up(lg) {
+      width: 52vw;
+      display: block;
+    }
+    @include media-breakpoint-up(xl) {
+      margin-top: -8rem;
+    }
+  }
+}
