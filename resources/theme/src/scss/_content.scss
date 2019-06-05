@@ -1,5 +1,7 @@
 // Typography
 p,
+dd,
+dt,
 ul,
 ol {
   font-size: 1.125rem;
@@ -120,7 +122,7 @@ ol {
     margin-top: -6rem;
     position: absolute;
     display: none;
-    
+
     @include media-breakpoint-up(lg) {
       width: 52vw;
       display: block;
