@@ -25,6 +25,7 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
         <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+        <li class="nav-item"><a class="nav-link" href="/feeds">RSS Feeds</a></li>
         <li class="nav-item"><a class="btn navbar__btn btn-outline-secondary" href="/app">Sign In</a></li>
       </ul>
     </div>
