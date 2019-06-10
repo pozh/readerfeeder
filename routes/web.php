@@ -15,6 +15,12 @@ Route::get('/', function () { return view('home'); });
 Route::get('/terms', function () { return view('terms'); });
 Route::get('/privacy', function () { return view('privacy'); });
 
+Route::group(['prefix'=> 'feeds'], function(){
+  Route::get('/{category}/{slug}', 'FeedsController@feed')->name('feed');
+  Route::get('/{slug}', 'FeedsController@category')->name('category');
+  Route::get('/', 'FeedsController@index');
+});
+
 Route::group(['prefix'=> 'tests'], function(){
     Route::get('/', 'TestController@index');
     Route::get('/rss', 'TestController@rss');
