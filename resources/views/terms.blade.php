@@ -1,5 +1,6 @@
-@extends('layouts.page')
+@extends('layouts.page-narrow')
 @section('title', 'Terms of Service')
+@section('page-title', 'Terms of Service')
 
 @section('content')
 
