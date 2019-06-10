@@ -7,9 +7,20 @@ ol {
   font-size: 1.125rem;
 }
 
-.font-family-base {
-  font-family: $font-family-base;
+.text-serif {
+  font-family: $font-family-serif;
 }
+
+// Links
+.link-dark {
+  color: $dark;
+
+  &:hover {
+    color: $primary;
+    text-decoration: none;
+  }
+}
+
 
 // Images
 
@@ -36,26 +47,9 @@ ol {
   min-height: 55vh;
 }
 
-.page-title {
-  @extend .mt-6;
-  @extend .mb-7;
-
-  &__title {
-    text-align: center;
-  }
-
-  &_side {
-    @extend .mb-7;
-
-    .page-title__title {
-      text-align: left;
-    }
-  }
-}
-
 .section {
   & + & {
-    margin-top: 5rem;
+    margin-top: 4rem;
   }
 
   &__prefix {
@@ -70,32 +64,6 @@ ol {
   }
 
   &__title {
-
-    font-size: $h4-font-size;
-
-    @include media-breakpoint-only(md) {
-      font-size: $h3-font-size;
-    }
-
-    @include media-breakpoint-up(lg) {
-      font-size: $h2-font-size;
-    }
-
-    &.narrow {
-
-      @include media-breakpoint-up(md) {
-        width: 60%;
-      }
-      @extend .mx-auto;
-    }
-
-    small {
-      display: block;
-      color: $text-muted;
-      font-weight: normal;
-      margin-top: 1.2rem;
-      font-family: $font-family-base;
-    }
   }
 
 }
@@ -110,6 +78,7 @@ ol {
   }
 
   &__title {
+    font-family: $font-family-serif;
     @include media-breakpoint-up(lg) {
       @include font-size(45px);
     }
@@ -130,6 +99,76 @@ ol {
     @include media-breakpoint-up(xl) {
       margin-top: -9vw;
       max-height: 71vh;
+    }
+  }
+}
+
+.cat-img {
+  height: 170px;
+  width: 100%;
+  background-size: cover;
+  border-radius: $border-radius;
+}
+
+.hero-cat {
+  height: 50vh;
+  background-color: $gray-600;
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    @include gradient-y(transparent 70%, rgba(0,0,0,.7) 100%);
+    z-index: 0;
+  }
+
+  & .container {
+    z-index: 100;
+  }
+}
+
+
+.feed {
+  border-radius: $border-radius;
+  min-height: 100%;
+  position: relative;
+  padding-left: 78px!important;
+
+  &__icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: $spacer*1.2;
+    top: $spacer*1.35;
+    display: block;
+    border-radius: $border-radius;
+    background: url(/assets/images/rss.svg) no-repeat 100%;
+  }
+}
+
+.source {
+
+  & + & {
+    margin-top: 3.4rem;
+  }
+
+  &__toc {
+    @include font-size(16px);
+
+    @include media-breakpoint-up(lg) {
+      column-count: 2;
+    }
+
+    & li {
+      margin: .3rem 0 .7rem;
+      line-height: 1.2;
     }
   }
 }

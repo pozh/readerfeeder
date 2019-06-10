@@ -305,7 +305,7 @@ template {
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: 0.5rem;
-  font-family: "Gentium Basic", Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
   font-weight: 700;
   line-height: 1.2;
   color: inherit; }
@@ -7009,7 +7009,7 @@ button.bg-dark:focus {
 .m-6 {
   margin: 3rem !important; }
 
-.mt-6, .page-title,
+.mt-6,
 .my-6 {
   margin-top: 3rem !important; }
 
@@ -7036,7 +7036,7 @@ button.bg-dark:focus {
 .mx-7 {
   margin-right: 4rem !important; }
 
-.mb-7, .page-title, .page-title_side,
+.mb-7,
 .my-7 {
   margin-bottom: 4rem !important; }
 
@@ -7451,8 +7451,7 @@ button.bg-dark:focus {
   margin-top: auto !important; }
 
 .mr-auto,
-.mx-auto,
-.section__title.narrow {
+.mx-auto {
   margin-right: auto !important; }
 
 .mb-auto,
@@ -7460,8 +7459,7 @@ button.bg-dark:focus {
   margin-bottom: auto !important; }
 
 .ml-auto,
-.mx-auto,
-.section__title.narrow {
+.mx-auto {
   margin-left: auto !important; }
 
 @media (min-width: 576px) {
@@ -9851,8 +9849,14 @@ ul,
 ol {
   font-size: 1.125rem; }
 
-.font-family-base {
-  font-family: "Open Sans", Helvetica, Arial, sans-serif; }
+.text-serif {
+  font-family: "Gentium Basic", Arial, Helvetica, sans-serif; }
+
+.link-dark {
+  color: #3c3c3c; }
+  .link-dark:hover {
+    color: #F95C52;
+    text-decoration: none; }
 
 .img-fluid {
   max-width: 100%; }
@@ -9870,14 +9874,8 @@ ol {
 .main {
   min-height: 55vh; }
 
-.page-title__title {
-  text-align: center; }
-
-.page-title_side .page-title__title {
-  text-align: left; }
-
 .section + .section {
-  margin-top: 5rem; }
+  margin-top: 4rem; }
 
 .section__prefix {
   color: #adb5bd;
@@ -9888,24 +9886,6 @@ ol {
       font-size: .8rem;
       padding: 0 1rem; } }
 
-.section__title {
-  font-size: 1.5rem; }
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    .section__title {
-      font-size: 1.75rem; } }
-  @media (min-width: 992px) {
-    .section__title {
-      font-size: 2.2rem; } }
-  @media (min-width: 768px) {
-    .section__title.narrow {
-      width: 60%; } }
-  .section__title small {
-    display: block;
-    color: #adb5bd;
-    font-weight: normal;
-    margin-top: 1.2rem;
-    font-family: "Open Sans", Helvetica, Arial, sans-serif; }
-
 .hero {
   padding-top: 1rem;
   text-align: center; }
@@ -9913,12 +9893,14 @@ ol {
     .hero {
       min-height: 80vh;
       text-align: left; } }
-  @media (min-width: 992px) {
-    .hero__title {
-      font-size: 2.8125rem; } }
-  @media (min-width: 1200px) {
-    .hero__title {
-      font-size: 3.125rem; } }
+  .hero__title {
+    font-family: "Gentium Basic", Arial, Helvetica, sans-serif; }
+    @media (min-width: 992px) {
+      .hero__title {
+        font-size: 2.8125rem; } }
+    @media (min-width: 1200px) {
+      .hero__title {
+        font-size: 3.125rem; } }
   .hero__img {
     margin-top: -6rem;
     position: absolute;
@@ -9932,15 +9914,61 @@ ol {
         margin-top: -9vw;
         max-height: 71vh; } }
 
-.footer {
-  background: #f8f9fa;
-  padding: 4rem 0; }
-  .footer a {
-    color: #3c3c3c;
-    opacity: .8; }
-    .footer a:hover {
-      text-decoration: none;
-      opacity: 1; }
+.cat-img {
+  height: 170px;
+  width: 100%;
+  background-size: cover;
+  border-radius: 0.25rem; }
+
+.hero-cat {
+  height: 50vh;
+  background-color: #6c757d;
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative; }
+  .hero-cat::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(70%, transparent), to(rgba(0, 0, 0, 0.7)));
+    background-image: linear-gradient(to bottom, transparent 70% 0%, rgba(0, 0, 0, 0.7) 100% 100%);
+    background-repeat: repeat-x;
+    z-index: 0; }
+  .hero-cat .container {
+    z-index: 100; }
+
+.feed {
+  border-radius: 0.25rem;
+  min-height: 100%;
+  position: relative;
+  padding-left: 78px !important; }
+  .feed__icon {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    left: 1.2rem;
+    top: 1.35rem;
+    display: block;
+    border-radius: 0.25rem;
+    background: url(/assets/images/rss.svg) no-repeat 100%; }
+
+.source + .source {
+  margin-top: 3.4rem; }
+
+.source__toc {
+  font-size: 1rem; }
+  @media (min-width: 992px) {
+    .source__toc {
+      -webkit-column-count: 2;
+         -moz-column-count: 2;
+              column-count: 2; } }
+  .source__toc li {
+    margin: .3rem 0 .7rem;
+    line-height: 1.2; }
 
 .overlay {
   position: absolute;
