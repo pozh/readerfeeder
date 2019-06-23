@@ -37,9 +37,9 @@
   </div>
 
   {{-- Top feeds --}}
-  <div class="section mb-8">
+  <div class="section mb-6">
     <div class="container">
-      <h2 class="h3 mb-4 font-weight-light">Popular feeds</h2>
+      <h2 class="h3 mb-4 font-weight-normal">Popular feeds</h2>
       <div class="row">
         @foreach ($feeds->sortByDesc('subscribers')->slice(0,env("POPULAR_FEEDS",4))->all() as $feed)
           <div class="col-md-6 col-lg-4 mb-4">
@@ -49,5 +49,7 @@
       </div>
     </div>
   </div>
+
+  @include('shared.more-inside')
 
 @endsection

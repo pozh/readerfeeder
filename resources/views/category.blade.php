@@ -11,7 +11,7 @@
   </div>
 
   {{-- Top feeds --}}
-  <div class="section mb-8">
+  <div class="section mb-6">
     <div class="container">
       <h2 class="h3 mb-4 font-weight-light">Top feeds</h2>
       <div class="row">
@@ -23,5 +23,7 @@
       </div>
     </div>
   </div>
+
+  @include('shared.more-inside')
 
 @endsection
