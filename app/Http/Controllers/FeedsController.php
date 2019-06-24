@@ -12,6 +12,10 @@ use App\Http\Resources\Log as LogResource;
 class FeedsController extends Controller {
 
   public function index() {
+    if(\Auth::check()){
+      return view( 'app' );
+    }
+
     $data = array(
       'categories' => Category::all(),
       'feeds'      => Feed::all(),
