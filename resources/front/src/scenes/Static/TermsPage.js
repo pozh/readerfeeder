@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import ScrollToTop from 'utils/ScrollToTop';
-import Footer from './../components/Footer';
-import Header from './../components/Header';
-import PageCaption from './../components/PageCaption';
+import Footer from '../../components/Footer';
+import Header from '../../components/Header';
+import PageCaption from '../../components/PageCaption';
 
 
 const TermsPage = () => {

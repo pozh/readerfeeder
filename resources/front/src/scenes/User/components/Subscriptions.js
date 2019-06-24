@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
-import PageCaption from './../../components/PageCaption';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
-import FeedCard from 'scenes/Feeds/components/FeedCard';
-
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
+import Header from 'components/Header';
+import PageCaption from 'components/PageCaption';
+import FeedCard from 'scenes/Feeds/components/FeedCard';
 
 
 class Subscriptions extends Component {
+  static defaultProps = {
+    feeds: null,
+    subscriptions: null,
+  }
 
   componentWillMount() {
     if (!this.props.feeds.length > 0) this.props.actions.fetchAll('feed');
@@ -25,7 +30,8 @@ class Subscriptions extends Component {
     );
 
     return (
-      <main>
+      <div>
+        <Header />
         <PageCaption>Subscriptions</PageCaption>
         <div className="container">
           {!subs.length > 0 && (
@@ -50,10 +56,15 @@ class Subscriptions extends Component {
             </div>
           )}
         </div>
-      </main>
+      </div>
     );
   }
 }
+
+Subscriptions.propTypes = {
+  feeds: PropTypes.arrayOf(PropTypes.object),
+  subscriptions: PropTypes.arrayOf(PropTypes.object),
+};
 
 /**
  * Map the state to props.

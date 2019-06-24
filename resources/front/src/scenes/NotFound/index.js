@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Footer from './../components/Footer';
-import Header from './../components/Header';
-import PageCaption from './../components/PageCaption';
+import Footer from '../../components/Footer';
+import Header from '../../components/Header';
+import PageCaption from '../../components/PageCaption';
 
 
 const NotFoundPage = () => (

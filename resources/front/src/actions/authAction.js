@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { NotificationManager as notify } from 'react-notifications';
 import jwt_decode from 'jwt-decode';
-import { setToken, clearToken, getToken } from './../utils/authUtil';
-import history from './../utils/history';
-import * as api from './../constants/api';
-import * as message from './../constants/message';
-import * as ActionType from './../constants/actionType';
+import { setToken, clearToken, getToken } from '../utils/authUtil';
+import history from '../utils/history';
+import * as api from '../constants/api';
+import * as message from '../constants/message';
+import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 
 

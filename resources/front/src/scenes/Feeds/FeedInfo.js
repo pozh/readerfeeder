@@ -7,7 +7,7 @@ import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
 import { isEmpty } from 'utils/commonUtil';
-import Loading from '../components/Loading';
+import Loading from '../../components/Loading';
 import FeedIcon from './components/FeedIcon';
 import FeedToc from './components/FeedToc';
 

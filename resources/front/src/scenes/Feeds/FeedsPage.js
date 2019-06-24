@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 
-import Footer from './../components/Footer';
-import Header from './../components/Header';
+import Footer from '../../components/Footer';
+import Header from '../../components/Header';
 import FeedInfo from './FeedInfo';
 import FeedList from './components/FeedList';
 

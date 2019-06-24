@@ -1,15 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
-import Dropdown from '../components/Dropdown';
-
-import './styles.scss';
 import logoImg from 'assets/images/logo.png';
+import Dropdown from './Dropdown';
+import './styles.scss';
 
 
 class Header extends React.Component {
+  static propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    actions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
@@ -31,11 +36,10 @@ class Header extends React.Component {
   }
 
   render() {
-    const isLight = this.props.light;
     const usermeta = this.props.usermeta;
 
     return (
-      <nav className={`Nav navbar navbar-expand-lg navbar-light ${isLight && 'bg-light'}`}>
+      <nav className='Nav navbar navbar-expand-lg navbar-light bg-white'>
         <div className="container">
           <Link className="navbar-brand" to="/"><img src={logoImg} alt="" /></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">

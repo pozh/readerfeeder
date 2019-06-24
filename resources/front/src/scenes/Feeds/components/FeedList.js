@@ -8,8 +8,8 @@ import _ from 'lodash';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
-import PageCaption from './../../components/PageCaption';
-import Loading from '../../components/Loading';
+import PageCaption from '../../../components/PageCaption';
+import Loading from '../../../components/Loading';
 import SortCtrl from './SortCtrl';
 import FeedCard from './FeedCard';
 
