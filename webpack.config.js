@@ -10,7 +10,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const includePaths = [
-  path.resolve(__dirname, './resources/front/src/main/assets/styles'),
+  path.resolve(__dirname, './resources/front/src/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -28,7 +28,7 @@ const stylesheetsLoaders = [
 module.exports = {
   context: path.join(__dirname, 'resources/front/src'),
   mode: 'development',
-  entry: './main/index',
+  entry: './index',
   output: {
     publicPath:    "/",
     filename: '[hash].js',
@@ -41,8 +41,7 @@ module.exports = {
   resolve: {
     modules: [
       'node_modules',
-      path.join(__dirname, 'resources/front/src/shared'),
-      path.join(__dirname, 'resources/front/src/main')
+      path.join(__dirname, 'resources/front/src')
     ]
   },
   module: {
