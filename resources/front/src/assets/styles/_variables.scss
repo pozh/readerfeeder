@@ -97,7 +97,11 @@ $input-btn-padding-x:               1.5rem;
 $input-btn-padding-x-lg:            2rem;
 
 // HEADINGS
-$headings-color:                    $gray-600;
+$font-family-sans-serif:  "Open Sans", Helvetica, Arial, sans-serif;
+$font-family-serif:       "Gentium Basic", Arial, Helvetica, sans-serif;
+$headings-font-family:    $font-family-sans-serif;
+$headings-font-weight:    700;
+$headings-color:          inherit;
 
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/mixins";
