@@ -5,7 +5,7 @@ import DocumentTitle from 'react-document-title';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import FeedInfo from './FeedInfo';
-import FeedList from './components/FeedList';
+import FeedList from './FeedList';
 
 import './styles.scss';
 
