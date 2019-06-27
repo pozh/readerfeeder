@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
 import logoImg from 'assets/images/logo.png';
 import Dropdown from './Dropdown';
-import './styles.scss';
 
 
 class Header extends React.Component {
@@ -39,7 +38,7 @@ class Header extends React.Component {
     const usermeta = this.props.usermeta;
 
     return (
-      <nav className='Nav navbar navbar-expand-lg navbar-light bg-white'>
+      <nav className="Nav navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
           <Link className="navbar-brand" to="/"><img src={logoImg} alt="" /></Link>
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
@@ -54,28 +53,11 @@ class Header extends React.Component {
             </svg>
           </button>
           <div className={`collapse navbar-collapse ${this.state.isOpen && 'show'}`}>
-            {!this.props.isAuthenticated && (
+            {this.props.isAuthenticated && (
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link className="btn btn-link" to="/login/">Log In</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="btn btn-primary" to="/signup/">Sign Up</Link>
-                </li>
-              </ul>
-            )}
-
-            {this.props.isAuthenticated && (
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item"><Link className="nav-link" to="/feeds">Browse Feeds</Link></li>
-              </ul>
-            )}
-
-            {this.props.isAuthenticated && (
-              <ul className="navbar-nav">
                 <li className="nav-item">{usermeta.plan === 'pro' ? '' : <Link className="btn btn-primary Nav-upgrade-btn" to="/pricing">Upgrade</Link>}</li>
+                <li className="nav-item"><Link className="nav-link" to="/feeds/">RSS Feeds</Link></li>
                 <Dropdown caption={this.props.user.first_name}>
-                  <Link className="dropdown-item" to="/subscriptions">Subscriptions</Link>
                   <Link className="dropdown-item" to="/settings">Settings</Link>
                   {usermeta.plan ? <Link className="dropdown-item" to="/pricing">Change Plan</Link> : ''}
                   <div className="dropdown-divider"> </div>

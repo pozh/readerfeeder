@@ -33,7 +33,7 @@ class Subscriptions extends Component {
       <div>
         <Header />
         <PageCaption>Subscriptions</PageCaption>
-        <div className="container">
+        <div className="container pt-6">
           {!subs.length > 0 && (
             <div className="text-center">
               {this.props.apiState.isRequesting && <h3>Loading...</h3>}

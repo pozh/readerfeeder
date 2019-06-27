@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './styles.scss';
 
 class ButtonConfirm extends Component {
   constructor(props) {

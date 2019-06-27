@@ -1,5 +1,4 @@
 import React from 'react';
-import './styles.scss';
 
 const PageCaption = props => (
   <header className="PageCaption">

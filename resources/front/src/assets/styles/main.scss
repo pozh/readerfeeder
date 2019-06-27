@@ -1,5 +1,6 @@
 @import "./variables";
 @import "bootstrap";
+@import "navigation";
 @import "~react-notifications/lib/notifications.css";
 
 // Globals
@@ -64,5 +65,52 @@ img { max-width: 100%; }
 .list-simple {
   li + li {
     margin-top: .5rem;
+  }
+}
+
+
+// PageHeader
+.PageCaption {
+  background: $white;
+  padding: 50px 0;
+  text-align: center;
+  min-height: 4rem;
+
+  &__h1 {
+    display: inline-block;
+    font-size: 4rem;
+    font-weight: bold;
+    color: #444444;
+    text-align: center;
+
+    small {
+      display: block;
+      text-transform: uppercase;
+      font-size: 0.25em;
+      font-weight: bold;
+      letter-spacing: 2px;
+      opacity: .45;
+      margin-top: 25px;
+    }
+  }
+}
+
+
+
+// Footer
+.Footer {
+  background: $white;
+  font-size: .9rem;
+  padding: 30px 0 50px 0;
+
+  .navbar-brand img {
+    height: 30px;
+  }
+
+  &-nav .container { padding-left: 15px; }
+
+  &-copyright {
+    text-align: center;
+    margin: 1rem 0 0 0;
   }
 }
