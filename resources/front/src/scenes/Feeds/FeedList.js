@@ -49,9 +49,13 @@ class FeedList extends Component {
     }
     return (
       <main>
-        <PageCaption>
-          Browse Feeds
-          {order === 'category' && <small>{category.title}</small>}
+        <PageCaption
+          title="RSS Feeds"
+          caption="Full text feeds for Kindle, Kindle Touch, Paperwhite, Oasis &amp; Voyage">
+          <p className="text-center lead mt-2">
+            Subscribe to any of the RSS Feeds listed below,
+            and ReaderFeeder will start delivering them right to your Kindle.
+          </p>
         </PageCaption>
 
         <section className="Feeds pt-5">

@@ -69,32 +69,10 @@ img { max-width: 100%; }
 }
 
 
-// PageHeader
-.PageCaption {
-  background: $white;
-  padding: 50px 0;
-  text-align: center;
-  min-height: 4rem;
 
-  &__h1 {
-    display: inline-block;
-    font-size: 4rem;
-    font-weight: bold;
-    color: #444444;
-    text-align: center;
-
-    small {
-      display: block;
-      text-transform: uppercase;
-      font-size: 0.25em;
-      font-weight: bold;
-      letter-spacing: 2px;
-      opacity: .45;
-      margin-top: 25px;
-    }
-  }
+.text-serif {
+  font-family: $font-family-serif;
 }
-
 
 
 // Footer
