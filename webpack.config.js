@@ -62,7 +62,13 @@ module.exports = {
           loader: 'sass-loader',
           options: {
             sourceMap: true,
-            includePaths: includePaths
+            includePaths: includePaths,
+            data: `
+              @import "resources/front/src/assets/styles/variables";
+              @import '~bootstrap/scss/variables';
+              @import '~bootstrap/scss/functions';
+              @import '~bootstrap/scss/mixins';
+            `
           }
         }]
       }, {
