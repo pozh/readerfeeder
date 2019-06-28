@@ -3,17 +3,33 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import _ from 'lodash';
+import find from 'lodash/find';
+import assign from 'lodash/assign';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
+import { PageCaption, SectionTitle, Loading } from 'components';
 
-import PageCaption from '../../components/PageCaption';
-import Loading from '../../components/Loading';
-import SortCtrl from './components/SortCtrl';
 import FeedCard from './components/FeedCard';
 
+
 class FeedList extends Component {
+  static propTypes = {
+    categories: PropTypes.arrayOf(PropTypes.object),
+    subscriptions: PropTypes.arrayOf(PropTypes.object),
+    feeds: PropTypes.arrayOf(PropTypes.object),
+    isAuthenticated: PropTypes.bool,
+    actions: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    categories: {},
+    subscriptions: {},
+    feeds: {},
+    actions: {},
+    isAuthenticated: false
+  };
+
   componentWillMount() {
     if (!this.props.categories.length > 0) {
       this.props.actions.fetchAll('feed');
@@ -33,72 +49,58 @@ class FeedList extends Component {
     let order = this.props.match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
-    const category = categorySlug ? _.find(categories, { slug: categorySlug }) : null;
+    const category = categorySlug ? find(categories, { slug: categorySlug }) : null;
 
     if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
       return (
         <main>
-          <PageCaption>Browse Feeds</PageCaption>
-          <section className="Feeds pt-5">
-            <div className="container page-height">
-              <Loading/>
-            </div>
-          </section>
+          <Loading />
         </main>
       );
-    }
-    return (
+    } return (
       <main>
         <PageCaption
           title="RSS Feeds"
-          caption="Full text feeds for Kindle, Kindle Touch, Paperwhite, Oasis &amp; Voyage">
+          caption="Full text feeds for Kindle, Kindle Touch, Paperwhite, Oasis &amp; Voyage"
+        >
           <p className="text-center lead mt-2">
             Subscribe to any of the RSS Feeds listed below,
             and ReaderFeeder will start delivering them right to your Kindle.
           </p>
         </PageCaption>
-
-        <section className="Feeds pt-5">
+        <section className="section">
           <div className="container">
-            <SortCtrl order={order} />
-
-            <div className="Feeds-list">
-
-              {/* Feeds by category, all categories */}
-              {(order === 'categories') && categories.map(eachCategory => (
-                <div className="Feeds-section" key={eachCategory.id}>
-                  <h4 className="title">
-                    <Link to={`/feeds/${eachCategory.slug}`}>{eachCategory.title}</Link>
-                  </h4>
-                  <div className="row Feeds-feeds">
-                    {feeds.filter(feed => feed.category_id === eachCategory.id).map(feed =>
-                      <FeedCard feed={feed} key={feed.id} />
-                    )}
-                  </div>
+            <SectionTitle>Categories</SectionTitle>
+            <div className="row">
+              {categories.map(cat => (
+                <div className="col-md-6 col-lg-3 mb-5" key={cat.id}>
+                  <Link to={`/feeds/${cat.slug}`} className="link-dark">
+                    <div className="cat-img" style={{ backgroundImage: `url(/assets/images/cat-${cat.slug}.jpg)` }} />
+                    <h6 className="mt-2 mb-0 text-uppercase">{cat.title}</h6>
+                  </Link>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
 
-              {/* Selected Category Feeds */}
-              {categorySlug && (
-                <div className="row Feeds-feeds">
-                  {feeds.filter(feed => feed.category_id === category.id)
-                    .map(feed => <FeedCard feed={feed} key={feed.id} />)}
-                </div>
-              )}
-
-              {order === 'popular' && (
-                <div className="row Feeds-feeds">
-                  {feeds.sort((a, b) => b.subscribers - a.subscribers)
-                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={feed.id} />)}
-                </div>
-              )}
-
-              {order === 'recent' && (
-                <div className="row Feeds-feeds">
-                  {feeds.sort((a, b) => b.id - a.id)
-                    .map((feed, idx) => <FeedCard feed={feed} idx={idx + 1} key={feed.id} />)}
-                </div>
-              )}
+        <section className="section">
+          <div className="container">
+            <SectionTitle>Popular feeds</SectionTitle>
+            <div className="row">
+              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12)
+                .map((feed, idx) => (
+                  <div className="col-md-6 col-lg-4 mb-4">
+                    <div className="feed d-flex align-items-center" key={feed.id}>
+                      <div className="feed__icon mr-2" />
+                      <div className="feed__info">
+                        <Link to={feed.slug} className="link-dark font-weight-bold">{ feed.title }</Link>
+                        <div className="small">Delivery: { feed.period }</div>
+                      </div>
+                    </div>
+                    {/*<FeedCard feed={feed} idx={idx + 1} key={feed.id} />*/}
+                  </div>
+                ))}
             </div>
           </div>
         </section>
@@ -106,16 +108,6 @@ class FeedList extends Component {
     );
   }
 }
-
-FeedList.propTypes = {
-  categories: PropTypes.arrayOf(PropTypes.object),
-  isAuthenticated: PropTypes.bool
-};
-
-FeedList.defaultProps = {
-  categories: {},
-  isAuthenticated: false
-};
 
 function mapStateToProps(state) {
   return {
@@ -130,7 +122,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(assign({}, crudAction, apiAction), dispatch)
   };
 }
 
