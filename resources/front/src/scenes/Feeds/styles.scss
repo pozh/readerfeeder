@@ -1,8 +1,4 @@
-@import "../../assets/styles/variables";
-
-.Feeds {
-
-  background: $light;
+.feeds {
 
   &-order {
     line-height: 1em;
@@ -36,10 +32,6 @@
     }
   }
 
-  &-list {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
 
   &-section {
     break-inside: avoid;
@@ -241,5 +233,25 @@
   font-family: "Libre Baskerville", "Times New Roman", serif;
   li + li {
     margin-top: .7rem;
+  }
+}
+
+.cat-img {
+  height: 170px;
+  width: 100%;
+  background-size: cover;
+  border-radius: $border-radius;
+}
+
+.feed {
+  background: $light;
+  border-radius: $border-radius;
+  padding: 1rem;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: $border-radius;
+    background: url(/assets/images/rss.svg) no-repeat 100%;
   }
 }

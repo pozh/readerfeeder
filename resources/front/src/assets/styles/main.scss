@@ -15,7 +15,7 @@ main {
 }
 
 .section {
-  padding: $spacer * 4 0;
+  margin: $spacer * 3 0;
 }
 
 // Buttons
@@ -68,7 +68,17 @@ img { max-width: 100%; }
   }
 }
 
+// Links
+.link-dark {
+  color: $dark;
 
+  &:hover {
+    color: $primary;
+    text-decoration: none;
+  }
+}
+
+// Other Typography
 
 .text-serif {
   font-family: $font-family-serif;
