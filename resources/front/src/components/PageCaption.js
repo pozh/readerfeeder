@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PageCaption = props => (
-  <header className="PageCaption pb-5">
+  <header>
     <div className="container">
       <h1 className="text-center mt-6 text-serif">
         {props.title}

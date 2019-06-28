@@ -1,11 +1,9 @@
 import React from 'react';
 
-const Loading = () => {
-  return (
-    <div className="text-center">
-      <img src={require('assets/images/loading.svg')} alt=""/>
-    </div>
-  );
-};
+const loader = require('assets/images/loading.svg');
 
-export default Loading;
+export default () => (
+  <div className="text-center mt-8 mb-8">
+    <img src={loader} alt="" />
+  </div>
+);
