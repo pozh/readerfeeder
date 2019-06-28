@@ -101,6 +101,7 @@ module.exports = {
     host: "rf.local",
     port: 8081,
     proxy: {
+      '/assets/images/*': 'http://rf.local',
       '/api*': "http://localhost:8181"
     }
   }
