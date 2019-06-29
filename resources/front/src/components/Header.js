@@ -56,13 +56,9 @@ class Header extends React.Component {
             {this.props.isAuthenticated && (
               <ul className="navbar-nav ml-auto">
                 <li className="nav-item">{usermeta.plan === 'pro' ? '' : <Link className="btn btn-primary Nav-upgrade-btn" to="/pricing">Upgrade</Link>}</li>
-                <li className="nav-item"><Link className="nav-link" to="/feeds/">RSS Feeds</Link></li>
-                <Dropdown caption={this.props.user.first_name}>
-                  <Link className="dropdown-item" to="/settings">Settings</Link>
-                  {usermeta.plan ? <Link className="dropdown-item" to="/pricing">Change Plan</Link> : ''}
-                  <div className="dropdown-divider"> </div>
-                  <Link className="dropdown-item" onClick={this.logout} to="#">Logout</Link>
-                </Dropdown>
+                <li className="nav-item"><Link className="nav-link" to="/feeds">RSS Feeds</Link></li>
+                <li className="nav-item"><Link className="nav-link" to="/settings">Settings</Link></li>
+                <li className="nav-item"><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></li>
               </ul>
             )}
           </div>
