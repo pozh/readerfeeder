@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 import { bindActionCreators } from 'redux';
@@ -13,6 +14,18 @@ import FeedToc from './components/FeedToc';
 
 
 class FeedInfo extends Component {
+  static propTypes = {
+    feed: PropTypes.object,
+    subscriptions: PropTypes.arrayOf(PropTypes.object),
+    actions: PropTypes.object,
+  };
+
+  static defaultProps = {
+    feed: {},
+    subscriptions: [],
+    actions: {},
+  };
+
   constructor(props) {
     super(props);
     this.onSubscribe = this.onSubscribe.bind(this);
@@ -43,7 +56,7 @@ class FeedInfo extends Component {
     const feed = this.props.feed;
     const pageTitle = `${feed.title} - Kindle subscription - ReaderFeeder`;
     const isSubscribed = (this.props.subscriptions.filter(
-        sub => sub.feed_id === feed.id).length > 0
+      sub => sub.feed_id === feed.id).length > 0
     );
 
     if (!feed || this.props.match.params.slug !== feed.slug) {
@@ -51,12 +64,12 @@ class FeedInfo extends Component {
         <main>
           <div className="feedinfo__pagetitle">
             <div className="container">
-              <FeedIcon/>
+              <FeedIcon />
               <h1>&nbsp;</h1>
             </div>
           </div>
           <div className="container mt-5">
-            <div className="mt-5"><Loading/></div>
+            <div className="mt-5"><Loading /></div>
           </div>
         </main>
       );
@@ -66,7 +79,7 @@ class FeedInfo extends Component {
         <main>
           <div className="feedinfo__pagetitle">
             <div className="container d-flex align-items-center justify-content-center">
-              <FeedIcon/>
+              <FeedIcon />
               <h1 className="">{feed.title}</h1>
             </div>
           </div>
@@ -91,7 +104,7 @@ class FeedInfo extends Component {
               </div>
             </div>
           </div>
-          <hr className="mt-5"/>
+          <hr className="mt-5" />
         </main>
       </DocumentTitle>
     );

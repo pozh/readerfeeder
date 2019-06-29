@@ -4,14 +4,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
+
 import logoImg from 'assets/images/logo.png';
-import Dropdown from './Dropdown';
 
 
 class Header extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-    actions: PropTypes.arrayOf(PropTypes.object).isRequired,
+    actions: PropTypes.object,
+    usermeta: PropTypes.object,
+  };
+
+  static defaultProps: {
+    usermeta: {},
+    actions: {},
+    isAuthenticated: false,
   };
 
   constructor(props) {

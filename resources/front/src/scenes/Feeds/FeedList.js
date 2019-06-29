@@ -15,18 +15,18 @@ import FeedCard from './components/FeedCard';
 
 class FeedList extends Component {
   static propTypes = {
-    categories: PropTypes.arrayOf(PropTypes.object),
-    subscriptions: PropTypes.arrayOf(PropTypes.object),
-    feeds: PropTypes.arrayOf(PropTypes.object),
+    categories: PropTypes.arrayOf(PropTypes.Object),
+    subscriptions: PropTypes.arrayOf(PropTypes.Object),
+    feeds: PropTypes.arrayOf(PropTypes.Object),
     isAuthenticated: PropTypes.bool,
-    actions: PropTypes.arrayOf(PropTypes.object),
+    actions: PropTypes.arrayOf(PropTypes.Object),
   };
 
   static defaultProps = {
-    categories: {},
-    subscriptions: {},
-    feeds: {},
-    actions: {},
+    categories: [],
+    subscriptions: [],
+    feeds: [],
+    actions: [],
     isAuthenticated: false
   };
 
