@@ -255,3 +255,28 @@
     background: url(/assets/images/rss.svg) no-repeat 100%;
   }
 }
+
+.hero-cat {
+  margin-top: 0!important;
+  height: 50vh;
+  background-color: $gray-600;
+  background-attachment: fixed;
+  background-size: cover;
+  position: relative;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    @include gradient-y(transparent 70%, rgba(0,0,0,.7) 100%);
+    z-index: 0;
+  }
+
+  & .container {
+    z-index: 100;
+  }
+}
