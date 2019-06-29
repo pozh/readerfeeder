@@ -6,8 +6,7 @@ import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import Header from 'components/Header';
-import PageCaption from 'components/PageCaption';
+import { Header, PageCaption, SectionTitle } from 'components';
 import FeedCard from 'scenes/Feeds/components/FeedCard';
 
 
@@ -32,29 +31,36 @@ class Subscriptions extends Component {
     return (
       <div>
         <Header />
-        <PageCaption>Subscriptions</PageCaption>
-        <div className="container pt-6">
-          {!subs.length > 0 && (
-            <div className="text-center">
-              {this.props.apiState.isRequesting && <h3>Loading...</h3>}
-              {!this.props.apiState.isRequesting && (
-                <div>
-                  <h3>No subscriptions yet</h3>
-                  <p>
-                    <br />
-                    <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Browse Feeds</Link>
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
-          {subs.length > 0 && (
-            <div className="Feeds-list pt-0">
-              <div className="row Feeds-feeds">
-                {myFeeds.map((feed, idx) => <FeedCard feed={feed} key={idx} />)}
+        <PageCaption title="My ReaderFeeder" />
+        <div className="container">
+          <section className="section">
+            <SectionTitle>Subscriptions</SectionTitle>
+            {!subs.length > 0 && (
+              <div className="text-center">
+                {this.props.apiState.isRequesting && <h3>Loading...</h3>}
+                {!this.props.apiState.isRequesting && (
+                  <div>
+                    <h3>No subscriptions yet</h3>
+                    <p>
+                      <br />
+                      <Link className="btn btn-lg btn-round btn-primary" to="/feeds">Browse Feeds</Link>
+                    </p>
+                  </div>
+                )}
               </div>
-            </div>
-          )}
+            )}
+            {subs.length > 0 && (
+              <div className="Feeds-list pt-0">
+                <div className="row Feeds-feeds">
+                  {myFeeds.map((feed, idx) => <FeedCard feed={feed} key={idx} />)}
+                </div>
+              </div>
+            )}
+          </section>
+          <section className="section">
+            <SectionTitle>Custom RSS Feeds</SectionTitle>
+            <Link to="/" className="btn btn-secondary">Add Feed</Link>
+          </section>
         </div>
       </div>
     );
