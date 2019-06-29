@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,6 +9,18 @@ import * as crudAction from 'actions/crudAction';
 
 
 class FeedCard extends Component {
+  static propTypes = {
+    feed: PropTypes.Object,
+    subscriptions: PropTypes.arrayOf(PropTypes.object),
+    actions: PropTypes.arrayOf(PropTypes.object),
+  };
+
+  static defaultProps = {
+    feed: {},
+    subscriptions: {},
+    actions: {},
+  };
+
   constructor(props) {
     super(props);
     this.handleSubscribe = this.handleSubscribe.bind(this);
@@ -33,24 +46,19 @@ class FeedCard extends Component {
 
   render() {
     const feed = this.props.feed;
-    const idx = this.props.idx;
-    const isSubscribed = (this.props.subscriptions.filter(
-      sub => sub.feed_id === feed.id).length > 0
-    );
-    const rootClassName = isSubscribed ? 'Feed subscribed' : 'Feed';
+    const isSubscribed = this.props.subscriptions.filter(
+      sub => sub.feed_id === feed.id).length > 0;
+    const rootClassName = isSubscribed ? 'feed d-flex subscribed' : 'feed d-flex';
     return (
-      <div className="col-md-6 col-lg-4 ">
-        <div className={rootClassName}>
-          <Link to={`/feed/${feed.slug}`} className="Feed-name">
-            {idx && (<span className="Feed-order">{idx}. </span>)}
-            {feed.title}
-          </Link>
-          <div className="Feed-functions">
-            <div className="Feed-delivery"><img className="Feed-delivery-icon" src={require('assets/images/ico_delivery.png')} alt="" />{feed.period}</div>
-
-            <div className="Feed-actions">
-              {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-subscribe">Unsubscribe</a>}
-              {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="Feed-action Feed-action-unsubscribe">Subscribe</a>}
+      <div className="col-md-6 col-lg-4 mb-4">
+        <div className={rootClassName} key={feed.id}>
+          <div className="feed__icon mr-2" />
+          <div className="feed__info">
+            <Link to={`/feed/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
+            <div className="small">{ feed.period } delivery</div>
+            <div className="feed__actions mt-2 text-right pt-1">
+              {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</a>}
+              {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</a>}
             </div>
           </div>
         </div>
@@ -59,17 +67,17 @@ class FeedCard extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function stateToProps(state) {
   return {
     apiState: state.api,
     subscriptions: state.crud.items.subscriptions
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function dispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedCard);
+export default connect(stateToProps, dispatchToProps)(FeedCard);

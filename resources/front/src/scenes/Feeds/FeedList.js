@@ -88,19 +88,9 @@ class FeedList extends Component {
           <div className="container">
             <SectionTitle>Popular feeds</SectionTitle>
             <div className="row">
-              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12)
-                .map((feed, idx) => (
-                  <div className="col-md-6 col-lg-4 mb-4">
-                    <div className="feed d-flex align-items-center" key={feed.id}>
-                      <div className="feed__icon mr-2" />
-                      <div className="feed__info">
-                        <Link to={feed.slug} className="link-dark font-weight-bold">{ feed.title }</Link>
-                        <div className="small">Delivery: { feed.period }</div>
-                      </div>
-                    </div>
-                    {/*<FeedCard feed={feed} idx={idx + 1} key={feed.id} />*/}
-                  </div>
-                ))}
+              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12).map(feed =>
+                <FeedCard feed={feed} key={feed.id} />
+              )}
             </div>
           </div>
         </section>

@@ -61,86 +61,39 @@
   }
 }
 
-.Feed {
-  background: $white;
-  border-radius: 2px;
-  padding: 16px 20px;
-  margin-bottom: $spacer;
-  box-shadow: 0 3px 9px rgba(0,0,0,.05);
-  break-inside: avoid-column;
+.feed {
+  background: $light;
+  border-radius: $border-radius;
+  padding: 1rem;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: $border-radius;
+    background: url(/assets/images/rss.svg) no-repeat 100%;
+  }
+
+  &__info {
+    flex: 1;
+  }
 
   &.subscribed {
     background: $green;
-    //box-shadow: 0 1px 1px darken(#b52d2d, 10%);
+    box-shadow: 0 1px 7px rgba($green, .3);
 
     * { color: $white; }
-
-    .Feed-name {
-      &:hover {
-        opacity:1;
-        color: $white;
-      }
-    }
-
-    .Feed-functions {
-      border-top: 1px solid rgba(255,255,255,.3);
-    }
   }
 
-  & + & { margin-top:15px; }
-
-  &-delivery {
-    font-size: 13px;
-    //margin-top: 3px;
-  }
-
-  &-delivery-icon {
-    margin-right: 6px;
-    margin-top: -4px;
-  }
-
-  &-order {
-    opacity: .5;
-  }
-
-  &-name {
-    color:$black;
-    opacity: .8;
-    min-height: 3.7rem;
-    font-weight: normal;
-    font-size: 22px;
-    display: inline-block;
-
-    &:hover {
-      opacity: 1;
-      color: $black;
-      text-decoration: none;
-    }
-  }
-
-  &-functions {
-    margin-top: 15px;
-    border-top: 1px solid $gray-300;
-    padding-top: 16px;
-    position: relative;
-  }
-
-  &-unsubscribe {
-    display: none;
-  }
-
-  &-actions {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-  }
-
-  &-action {
+  &__actions {
+    border-top: 1px solid rgba(255,255,255,.3);
     font-size:0.8rem;
     font-weight: 500;
     opacity: .8;
-    color: #D53E2B;
     text-transform: uppercase;
+  }
+
+  &__action {
+    color: #D53E2B;
 
     & + & {
       margin-left:15px;
@@ -162,13 +115,6 @@
     &:hover {
       opacity: 1;
       text-decoration: none;
-
-      .Feed-unsubscribe {
-        display: inline;
-      }
-      .Feed-status {
-        display: none;
-      }
     }
   }
 }
@@ -241,19 +187,6 @@
   width: 100%;
   background-size: cover;
   border-radius: $border-radius;
-}
-
-.feed {
-  background: $light;
-  border-radius: $border-radius;
-  padding: 1rem;
-
-  &__icon {
-    width: 40px;
-    height: 40px;
-    border-radius: $border-radius;
-    background: url(/assets/images/rss.svg) no-repeat 100%;
-  }
 }
 
 .hero-cat {

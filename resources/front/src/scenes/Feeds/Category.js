@@ -9,6 +9,7 @@ import assign from 'lodash/assign';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 import { SectionTitle, Loading } from 'components';
+import FeedCard from './components/FeedCard';
 
 
 class FeedList extends Component {
@@ -70,18 +71,9 @@ class FeedList extends Component {
           <div className="container">
             <SectionTitle>Top feeds</SectionTitle>
             <div className="row">
-              {feeds.filter(feed => feed.category_id === category.id).map(feed => (
-                <div className="col-md-6 col-lg-4 mb-4">
-                  <div className="feed d-flex align-items-center" key={feed.id}>
-                    <div className="feed__icon mr-2" />
-                    <div className="feed__info">
-                      <Link to={feed.slug} className="link-dark font-weight-bold">{ feed.title }</Link>
-                      <div className="small">Delivery: { feed.period }</div>
-                    </div>
-                  </div>
-                  {/* <FeedCard feed={feed} idx={idx + 1} key={feed.id} /> */}
-                </div>
-              ))}
+              {feeds.filter(feed => feed.category_id === category.id).map(feed =>
+                <FeedCard feed={feed} key={feed.id} />
+              )}
             </div>
           </div>
         </section>
@@ -90,7 +82,7 @@ class FeedList extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function stateToProps(state) {
   return {
     feeds: state.crud.items.feeds,
     categories: state.crud.items.categories,
@@ -101,10 +93,10 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function dispatchToProps(dispatch) {
   return {
     actions: bindActionCreators(assign({}, crudAction, apiAction), dispatch)
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeedList);
+export default connect(stateToProps, dispatchToProps)(FeedList);
