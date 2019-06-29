@@ -78,10 +78,32 @@
   }
 
   &.subscribed {
-    background: $green;
-    box-shadow: 0 1px 7px rgba($green, .3);
+    position: relative;
 
-    * { color: $white; }
+    &::after {
+      content: 'subscribed';
+      position: absolute;
+      display: block;
+      width: 6.7em;
+      color: white;
+      font-size: 13px;
+      height: 22px;
+      line-height: 22px;
+      background: $green;
+      right: 0;
+      top: 17px;
+      padding-left: 1em;
+      padding-right: 1em;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+
+      .subscriptions & {
+        display: none;
+      }
+    }
+    //box-shadow: 0 1px 7px rgba($green, .3);
+
+    //* { color: $white; }
   }
 
   &__actions {
@@ -166,9 +188,9 @@
   height: 168px;
   border-radius: 50%;
   overflow: hidden;
-  background: $white url(~assets/images/rss.svg) no-repeat center center;
+  background: $gray-300 url(~assets/images/rss.svg) no-repeat center center;
   background-size: 50% auto;
-  box-shadow: 0 8px 20px rgba(0,0,0,.15), inset 0 10px 50px rgba(0,0,0,.2);
+  //box-shadow: 0 8px 20px rgba(0,0,0,.15), inset 0 10px 50px rgba(0,0,0,.2);
 
   img {
     width: 100%;

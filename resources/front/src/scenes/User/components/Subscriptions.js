@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import { Header, PageCaption, SectionTitle } from 'components';
+import { Header, PageCaption, SectionTitle, Loading } from 'components';
 import FeedCard from 'scenes/Feeds/components/FeedCard';
 
 
@@ -33,11 +33,11 @@ class Subscriptions extends Component {
         <Header />
         <PageCaption title="My ReaderFeeder" />
         <div className="container">
-          <section className="section">
+          <section className="section subscriptions">
             <SectionTitle>Subscriptions</SectionTitle>
             {!subs.length > 0 && (
               <div className="text-center">
-                {this.props.apiState.isRequesting && <h3>Loading...</h3>}
+                {this.props.apiState.isRequesting && <Loading />}
                 {!this.props.apiState.isRequesting && (
                   <div>
                     <h3>No subscriptions yet</h3>
