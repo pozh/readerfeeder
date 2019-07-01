@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Input from 'arui-feather/input';
-import EmailInput from 'arui-feather/email-input';
 import * as authAction from 'actions/authAction';
 import { Header, PageCaption } from 'components';
 
@@ -26,12 +24,11 @@ class Settings extends Component {
 
   processForm(event) {
     event.preventDefault();
-    console.log(this.state.settings);
     this.props.actions.updateSettings(this.state.settings);
   }
 
   render() {
-    const user = this.props.user;
+    const { user } = this.props;
     const settings = JSON.parse(user.settings);
     return (
       <div>
@@ -43,22 +40,24 @@ class Settings extends Component {
               <div className="col-md-6">
                 <form method="post" id="settingsform" onSubmit={this.processForm}>
                   <div className="form-group">
-                    <Input
-                      label="Name"
-                      width="available"
+                    <input
+                      type="text"
+                      className="form-control"
                       name="name"
-                      onChange={(val) => { this.state.settings.first_name = val; }}
-                      defaultValue={this.state.settings.first_name}
+                      onChange={(val) => {
+                        this.state.settings.first_name = val;
+                      }}
                     />
                   </div>
                   <div className="form-group">
-                    <EmailInput
-                      label="Kindle e-mail"
+                    <input
+                      type="text"
+                      className="form-control"
                       name="kindle_email"
                       placeholder="Your Kindle's e-mail"
-                      width="available"
-                      onChange={(val) => { this.state.settings.kindle_email = val; }}
-                      defaultValue={settings ? settings.kindle_email : ''}
+                      onChange={(val) => {
+                        this.state.settings.kindle_email = val;
+                      }}
                     />
                   </div>
                   <div className="form-group text-center">
