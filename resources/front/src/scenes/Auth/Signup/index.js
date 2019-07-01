@@ -1,15 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
-import Input from 'arui-feather/input';
-import SocialAuth from "../components/SocialAuth";
-
 import * as authAction from 'actions/authAction';
+import SocialAuth from '../components/SocialAuth';
 
 import './styles.scss';
-
 
 class SignupPage extends Component {
   constructor(props) {
@@ -47,38 +44,42 @@ class SignupPage extends Component {
 
   render() {
     if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    else if (this.props.isAuthenticated) return <Redirect to={'/'} />;
+    if (this.props.isAuthenticated) return <Redirect to="/" />;
     return (
       <DocumentTitle title="Signup - ReaderFeeder">
         <section className="Signup">
           <div className="Signup-dialog">
             <form className="Signup-form" onSubmit={this.processForm}>
 
-              <Link className="Signup-logo" to="/"><img src={require('assets/images/logo.png')} alt="" /></Link>
+              <Link className="Signup-logo" to="/">
+                <img
+                  src={require('assets/images/logo.png')}
+                  alt=""
+                />
+              </Link>
               <p className="Signup-greeting">Create Account</p>
               <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
 
               <div className="form-group">
-                <Input
+                <input
+                  className="form-control"
                   type="text"
-                  width="available"
                   onChange={(val) => {
                     this.state.user.first_name = val;
                   }}
-                  label="Name"
                   autoComplete="on"
-                /></div>
+                />
+              </div>
               <div className="form-group">
-                <Input
-                  required
-                  type="email"
-                  width="available"
+                <input
+                  className="form-control"
+                  type="text"
                   onChange={(val) => {
                     this.state.user.email = val;
                   }}
-                  label="Email"
                   autoComplete="on"
-                /></div>
+                />
+              </div>
               <div className="form-group">
                 <Input
                   required
@@ -89,7 +90,8 @@ class SignupPage extends Component {
                   }}
                   label="Password"
                   autoComplete="off"
-                /></div>
+                />
+              </div>
               <div className="form-group">
                 <Input
                   required
@@ -100,15 +102,25 @@ class SignupPage extends Component {
                   }}
                   label="Password (again)"
                   autoComplete="off"
-                /></div>
+                />
+              </div>
 
               <div className="mt-4">
                 <button type="submit" className="btn btn-primary">REGISTER</button>
-                <SocialAuth/>
+                <SocialAuth />
               </div>
 
               <p className="mt-4">
-                  Already have an account? <strong><Link to="/login" className="">Login</Link></strong>
+                Already have an account?
+                {' '}
+                <strong>
+                  <Link
+                    to="/login"
+                    className=""
+                  >
+Login
+                  </Link>
+                </strong>
               </p>
             </form>
           </div>

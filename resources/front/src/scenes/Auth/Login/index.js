@@ -3,12 +3,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
-import Input from 'arui-feather/input';
 
 import * as authAction from 'actions/authAction';
-import SocialAuth from "../components/SocialAuth";
+import SocialAuth from '../components/SocialAuth';
 import './styles.scss';
-
 
 class LoginPage extends Component {
   constructor(props) {
@@ -41,45 +39,56 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (this.props.isAuthenticated) return <Redirect to='/' />;
-    else return (
+    if (this.props.isAuthenticated) return <Redirect to="/" />;
+    return (
       <DocumentTitle title="Login to ReaderFeeder">
         <section className="Login">
           <div className="Login-dialog">
             <form className="Login-form" onSubmit={this.processForm} autoComplete="on">
 
-              <Link className="Login-logo" to="/"><img src={require('assets/images/logo.png')} alt="" /></Link>
+              <Link className="Login-logo" to="/">
+                <img
+                  src={require('assets/images/logo.png')}
+                  alt=""
+                />
+              </Link>
               <p className="Login-greeting">Welcome back!</p>
               <p className="Login-cta">Sign in to continue to ReaderFeeder.</p>
 
               <div className="form-group">
-                <Input
+                <input
+                  className="form-control"
+                  type="text"
                   onChange={(val) => {
-                    this.state.user.email= val;
+                    this.state.user.email = val;
                   }}
-                  label="Email"
-                  width="available"
                 />
               </div>
               <div className="form-group">
-                <Input
+                <input
+                  className="form-control"
                   type="password"
                   onChange={(val) => {
                     this.state.user.password = val;
                   }}
-                  label="Password"
                   autoComplete="off"
-                  width="available"
                 />
               </div>
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">LOGIN</button>
-                <SocialAuth/>
+                <SocialAuth />
               </div>
               <p className="mt-4">
                 <strong><Link to="/reset-password" className="">Forgot Password?</Link></strong>
                 <br />
-                  Don’t have an account? <strong><Link to="/signup" className="">Sign Up</Link></strong>
+                Don’t have an account?
+                {' '}
+                <strong>
+                  <Link to="/signup" className="">
+Sign
+                Up
+                  </Link>
+                </strong>
               </p>
             </form>
           </div>
