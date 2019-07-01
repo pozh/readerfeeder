@@ -16,13 +16,7 @@ const includePaths = [
 
 const stylesheetsLoaders = [
   { loader: 'style-loader' },
-  { loader: 'css-loader',
-    options: {
-      modules: false,
-      localIdentName: '[path]-[local]-[hash:base64:3]',
-      sourceMap: true
-    }
-  }
+  { loader: 'css-loader' }
 ];
 
 module.exports = {
@@ -63,6 +57,8 @@ module.exports = {
           options: {
             sourceMap: true,
             includePaths: includePaths,
+            modules: false,
+            localIdentName: '[path]-[local]-[hash:base64:3]',
             data: `
               @import "resources/front/src/assets/styles/variables";
               @import '~bootstrap/scss/variables';
