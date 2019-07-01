@@ -15,7 +15,7 @@ class Header extends React.Component {
     usermeta: PropTypes.object,
   };
 
-  static defaultProps: {
+  static defaultProps = {
     usermeta: {},
     actions: {},
     isAuthenticated: false,

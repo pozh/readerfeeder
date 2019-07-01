@@ -10,9 +10,9 @@ import * as crudAction from 'actions/crudAction';
 
 class FeedCard extends Component {
   static propTypes = {
-    feed: PropTypes.Object,
+    feed: PropTypes.object,
     subscriptions: PropTypes.arrayOf(PropTypes.object),
-    actions: PropTypes.arrayOf(PropTypes.object),
+    actions: PropTypes.object,
   };
 
   static defaultProps = {
