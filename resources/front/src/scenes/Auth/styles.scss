@@ -1,0 +1,21 @@
+.body-auth {
+  background: $light url(~assets/images/newspaper.png) no-repeat bottom right;
+}
+
+.auth {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 99vh;
+
+  &-logo {
+    img { width: 180px; }
+  }
+
+  &-dialog {
+    width: 20em;
+    max-width: 90%;
+  }
+
+  .btn-circle + .btn-circle { margin-left: 8px; }
+}

@@ -6,7 +6,7 @@ import DocumentTitle from 'react-document-title';
 
 import * as authAction from 'actions/authAction';
 import SocialAuth from '../components/SocialAuth';
-import './styles.scss';
+import '../styles.scss';
 
 class LoginPage extends Component {
   constructor(props) {
@@ -22,38 +22,35 @@ class LoginPage extends Component {
     this.processForm = this.processForm.bind(this);
   }
 
-  processForm(event) {
-    event.preventDefault();
-    this.props.actions.login(this.state.user);
-  }
-
-  componentWillMount() {
-    document.getElementById('body').className = 'BodyLogin';
+  componentDidMount() {
+    document.getElementById('body').className = 'body-auth';
   }
 
   componentWillUnmount() {
-    const elems = document.querySelectorAll('.BodyLogin');
-    [].forEach.call(elems, (el) => {
-      el.classList.remove('BodyLogin');
-    });
+    document.getElementById('body').className = '';
+  }
+
+  processForm(event) {
+    event.preventDefault();
+    this.props.actions.login(this.state.user);
   }
 
   render() {
     if (this.props.isAuthenticated) return <Redirect to="/" />;
     return (
       <DocumentTitle title="Login to ReaderFeeder">
-        <section className="Login">
-          <div className="Login-dialog">
-            <form className="Login-form" onSubmit={this.processForm} autoComplete="on">
+        <section className="auth">
+          <div className="auth-dialog">
+            <form className="auth-form" onSubmit={this.processForm} autoComplete="on">
 
-              <Link className="Login-logo" to="/">
+              <Link className="auth-logo" to="/">
                 <img
                   src={require('assets/images/logo.png')}
                   alt=""
                 />
               </Link>
-              <p className="Login-greeting">Welcome back!</p>
-              <p className="Login-cta">Sign in to continue to ReaderFeeder.</p>
+              <p className="mt-4 mb-0 h4 font-weight-normal">Welcome back!</p>
+              <p className="mb-4 small text-muted">Sign in to continue to ReaderFeeder.</p>
 
               <div className="form-group">
                 <input
@@ -85,8 +82,8 @@ class LoginPage extends Component {
                 {' '}
                 <strong>
                   <Link to="/signup" className="">
-Sign
-                Up
+                    Sign
+                    Up
                   </Link>
                 </strong>
               </p>

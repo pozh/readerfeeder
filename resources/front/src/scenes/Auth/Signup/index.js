@@ -6,7 +6,7 @@ import DocumentTitle from 'react-document-title';
 import * as authAction from 'actions/authAction';
 import SocialAuth from '../components/SocialAuth';
 
-import './styles.scss';
+import '../styles.scss';
 
 class SignupPage extends Component {
   constructor(props) {
@@ -26,39 +26,36 @@ class SignupPage extends Component {
     this.processForm = this.processForm.bind(this);
   }
 
+  componentDidMount() {
+    document.getElementById('body').className = 'body-auth';
+  }
+
+  componentWillUnmount() {
+    document.getElementById('body').className = '';
+  }
+
   processForm(event) {
     event.preventDefault();
     this.props.actions.signup(this.state.user);
   }
 
-  componentWillMount() {
-    document.getElementById('body').className = 'BodySignup';
-  }
-
-  componentWillUnmount() {
-    const elems = document.querySelectorAll('.BodySignup');
-    [].forEach.call(elems, (el) => {
-      el.classList.remove('BodySignup');
-    });
-  }
-
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-    if (this.props.isAuthenticated) return <Redirect to="/" />;
+    if (this.state.redirect) return <Redirect to={this.state.redirect}/>;
+    if (this.props.isAuthenticated) return <Redirect to="/"/>;
     return (
       <DocumentTitle title="Signup - ReaderFeeder">
-        <section className="Signup">
-          <div className="Signup-dialog">
-            <form className="Signup-form" onSubmit={this.processForm}>
+        <section className="auth">
+          <div className="auth-dialog">
+            <form className="auth-form" onSubmit={this.processForm}>
 
-              <Link className="Signup-logo" to="/">
+              <Link className="auth-logo" to="/">
                 <img
                   src={require('assets/images/logo.png')}
                   alt=""
                 />
               </Link>
-              <p className="Signup-greeting">Create Account</p>
-              <p className="Signup-cta">Sign up here to start using ReaderFeeder.</p>
+              <p className="mt-4 mb-0 h4 font-weight-normal">Create Account</p>
+              <p className="mb-4 small text-muted">Sign up here to start using ReaderFeeder.</p>
 
               <div className="form-group">
                 <input
@@ -81,22 +78,19 @@ class SignupPage extends Component {
                 />
               </div>
               <div className="form-group">
-                <Input
-                  required
+                <input
+                  className="form-control"
                   type="password"
-                  width="available"
                   onChange={(val) => {
                     this.state.user.password = val;
                   }}
-                  label="Password"
                   autoComplete="off"
                 />
               </div>
               <div className="form-group">
-                <Input
-                  required
+                <input
+                  className="form-control"
                   type="password"
-                  width="available"
                   onChange={(val) => {
                     this.state.user.password_confirmation = val;
                   }}
@@ -107,7 +101,7 @@ class SignupPage extends Component {
 
               <div className="mt-4">
                 <button type="submit" className="btn btn-primary">REGISTER</button>
-                <SocialAuth />
+                <SocialAuth/>
               </div>
 
               <p className="mt-4">
@@ -118,7 +112,7 @@ class SignupPage extends Component {
                     to="/login"
                     className=""
                   >
-Login
+                    Login
                   </Link>
                 </strong>
               </p>
