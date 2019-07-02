@@ -44,10 +44,7 @@ class LoginPage extends Component {
             <form className="auth-form" onSubmit={this.processForm} autoComplete="on">
 
               <Link className="auth-logo" to="/">
-                <img
-                  src={require('assets/images/logo.png')}
-                  alt=""
-                />
+                <img src={require('assets/images/logo.png')} alt="" />
               </Link>
               <p className="mt-4 mb-0 h4 font-weight-normal">Welcome back!</p>
               <p className="mb-4 small text-muted">Sign in to continue to ReaderFeeder.</p>
@@ -56,8 +53,9 @@ class LoginPage extends Component {
                 <input
                   className="form-control"
                   type="text"
-                  onChange={(val) => {
-                    this.state.user.email = val;
+                  placeholder="Email address"
+                  onChange={(e) => {
+                    this.state.user.email = e.target.value;
                   }}
                 />
               </div>
@@ -65,8 +63,8 @@ class LoginPage extends Component {
                 <input
                   className="form-control"
                   type="password"
-                  onChange={(val) => {
-                    this.state.user.password = val;
+                  onChange={(e) => {
+                    this.state.user.password = e.target.value;
                   }}
                   autoComplete="off"
                 />

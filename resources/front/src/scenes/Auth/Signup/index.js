@@ -40,8 +40,8 @@ class SignupPage extends Component {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to={this.state.redirect}/>;
-    if (this.props.isAuthenticated) return <Redirect to="/"/>;
+    if (this.state.redirect) return <Redirect to={this.state.redirect} />;
+    if (this.props.isAuthenticated) return <Redirect to="/" />;
     return (
       <DocumentTitle title="Signup - ReaderFeeder">
         <section className="auth">
@@ -61,8 +61,8 @@ class SignupPage extends Component {
                 <input
                   className="form-control"
                   type="text"
-                  onChange={(val) => {
-                    this.state.user.first_name = val;
+                  onChange={(e) => {
+                    this.state.user.first_name = e.target.value;
                   }}
                   autoComplete="on"
                 />
@@ -71,8 +71,8 @@ class SignupPage extends Component {
                 <input
                   className="form-control"
                   type="text"
-                  onChange={(val) => {
-                    this.state.user.email = val;
+                  onChange={(e) => {
+                    this.state.user.email = e.target.value;
                   }}
                   autoComplete="on"
                 />
@@ -81,8 +81,8 @@ class SignupPage extends Component {
                 <input
                   className="form-control"
                   type="password"
-                  onChange={(val) => {
-                    this.state.user.password = val;
+                  onChange={(e) => {
+                    this.state.user.password = e.target.value;
                   }}
                   autoComplete="off"
                 />
@@ -91,8 +91,8 @@ class SignupPage extends Component {
                 <input
                   className="form-control"
                   type="password"
-                  onChange={(val) => {
-                    this.state.user.password_confirmation = val;
+                  onChange={(e) => {
+                    this.state.user.password_confirmation = e.target.value;
                   }}
                   label="Password (again)"
                   autoComplete="off"
@@ -101,7 +101,7 @@ class SignupPage extends Component {
 
               <div className="mt-4">
                 <button type="submit" className="btn btn-primary">REGISTER</button>
-                <SocialAuth/>
+                <SocialAuth />
               </div>
 
               <p className="mt-4">
