@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use Illuminate\Http\Request;
 use App\Models\Feed;
+use Feeds;
+use Response;
 use App\Http\Resources\Feed as FeedResource;
-use App\Transformers\FeedTransformer;
 
 
 class FeedController extends BaseController
@@ -42,10 +43,32 @@ class FeedController extends BaseController
      */
     public function showBySlug($slug)
     {
-
         $feed = Feed::where('slug', $slug)->firstOrFail();
         if (!$feed) abort(404);
         else return new FeedResource($feed);
+    }
+
+    public function getFeedItems($slug)
+    {
+        $feed = Feed::where('slug', $slug)->firstOrFail();
+        if (!$feed) abort(404);
+        else {
+            $items = [];
+            foreach ( $feed->sources as $src ) {
+                \Log::debug($src->title);
+                $sp_feed   = Feeds::make( $src->url, true );
+                $src_items = array_slice($sp_feed->get_items(), 0, $src->count);
+                foreach ($src_items as $item) {
+                    $record = [
+                        'url' => $item->get_permalink(),
+                        'title' => $item->get_title(),
+                        'timestamp' => $item->get_date('U')
+                    ];
+                    $items[] = $record;
+                }
+            }
+            return Response::json(['data'=>$items]);
+        }
     }
 
     /**

@@ -30,6 +30,7 @@ Route::namespace('Api\V1')->group(function () {
     Route::get('feed', 'FeedController@index');
     Route::get('feed/{id}', 'FeedController@show');
     Route::get('feed/byslug/{slug}', 'FeedController@showBySlug');
+    Route::get('item/byslug/{slug}', 'FeedController@getFeedItems');
     Route::post('feed', 'FeedController@store');
     Route::put('feed/{id}', 'FeedController@update');
     Route::delete('feed/{id}', 'FeedController@destroy');
