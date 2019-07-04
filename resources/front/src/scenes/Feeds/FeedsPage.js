@@ -12,8 +12,8 @@ const FeedsPage = () => (
     <Header />
     <Switch>
       <Route path="/feeds" exact component={FeedList} />
+      <Route path="/feeds/:category/:slug" component={FeedInfo} />
       <Route path="/feeds/:category" component={Category} />
-      <Route path="/feed/:slug" component={FeedInfo} />
     </Switch>
     <Footer />
   </div>

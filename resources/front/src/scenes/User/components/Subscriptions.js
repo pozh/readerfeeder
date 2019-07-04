@@ -13,11 +13,13 @@ import FeedCard from 'scenes/Feeds/components/FeedCard';
 class Subscriptions extends Component {
   static defaultProps = {
     feeds: null,
+    categories: null,
     subscriptions: null,
   }
 
   componentWillMount() {
     if (!this.props.feeds.length > 0) this.props.actions.fetchAll('feed');
+    if (!this.props.categories.length > 0) this.props.actions.fetchAll('category');
     if (!this.props.subscriptions.length > 0) this.props.actions.fetchAll('subscription');
   }
 
@@ -78,6 +80,7 @@ Subscriptions.propTypes = {
 function mapStateToProps(state) {
   return {
     feeds: state.crud.items.feeds,
+    categories: state.crud.items.categories,
     subscriptions: state.crud.items.subscriptions,
     apiState: state.api
   };

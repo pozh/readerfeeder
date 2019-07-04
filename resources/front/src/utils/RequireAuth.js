@@ -15,10 +15,6 @@ export default function (ComponentToShow, loginPath='/login') {
       };
     }
 
-    static contextTypes = {
-      router: PropTypes.object.isRequired
-    };
-
     static propTypes = {
       isAuthenticated: PropTypes.bool.isRequired,
     };

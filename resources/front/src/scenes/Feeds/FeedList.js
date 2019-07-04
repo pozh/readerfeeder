@@ -19,33 +19,35 @@ class FeedList extends Component {
     subscriptions: PropTypes.arrayOf(PropTypes.object),
     feeds: PropTypes.arrayOf(PropTypes.object),
     isAuthenticated: PropTypes.bool,
-    actions: PropTypes.object,
   };
 
   static defaultProps = {
     categories: [],
     subscriptions: [],
     feeds: [],
-    actions: {},
     isAuthenticated: false
   };
 
   componentWillMount() {
-    if (!this.props.categories.length > 0) {
-      this.props.actions.fetchAll('feed');
-      this.props.actions.fetchAll('category');
+    const {
+      categories,
+      actions,
+      isAuthenticated,
+      subscriptions
+    } = this.props;
+
+    if (!categories.length > 0) {
+      actions.fetchAll('feed');
+      actions.fetchAll('category');
     }
-    if (this.props.isAuthenticated && this.props.subscriptions.length === 0) {
-      this.props.actions.fetchAll('subscription');
+    if (isAuthenticated && subscriptions.length === 0) {
+      actions.fetchAll('subscription');
     }
   }
 
   render() {
-    const categories = this.props.categories;
-    const feeds = this.props.feeds;
-
+    const { categories, feeds } = this.props;
     const categorySlug = this.props.match.params.category;
-
     let order = this.props.match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
@@ -88,9 +90,9 @@ class FeedList extends Component {
           <div className="container">
             <SectionTitle>Popular feeds</SectionTitle>
             <div className="row">
-              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12).map(feed =>
+              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12).map(feed => (
                 <FeedCard feed={feed} key={feed.id} />
-              )}
+              ))}
             </div>
           </div>
         </section>

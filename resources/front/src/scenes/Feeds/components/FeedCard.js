@@ -10,14 +10,19 @@ import * as crudAction from 'actions/crudAction';
 
 class FeedCard extends Component {
   static propTypes = {
-    feed: PropTypes.object,
+    feed: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      slug: PropTypes.string,
+      period: PropTypes.string,
+    }),
     subscriptions: PropTypes.arrayOf(PropTypes.object),
     actions: PropTypes.object,
   };
 
   static defaultProps = {
     feed: {},
-    subscriptions: {},
+    subscriptions: [],
     actions: {},
   };
 
@@ -29,14 +34,14 @@ class FeedCard extends Component {
 
   handleSubscribe(event) {
     event.preventDefault();
-    const feed = this.props.feed;
-    const feedSubs = this.props.subscriptions.filter(sub => sub.feed_id === feed.id);
+    const { feed, subscriptions, actions } = this.props;
+    const feedSubs = subscriptions.filter(sub => sub.feed_id === feed.id);
 
     // unsubscribe, i.e. destroy the subscription in db by its ID
     if (feedSubs.length > 0) {
-      this.props.actions.unsubscribe(feedSubs[0].id);
+      actions.unsubscribe(feedSubs[0].id);
     } else {
-      this.props.actions.subscribe(this.props.feed.id);
+      actions.subscribe(feed.id);
     }
   }
 
@@ -45,17 +50,20 @@ class FeedCard extends Component {
   }
 
   render() {
-    const feed = this.props.feed;
-    const isSubscribed = this.props.subscriptions.filter(
-      sub => sub.feed_id === feed.id).length > 0;
+    const { feed, subscriptions, categories } = this.props;
+    const isSubscribed = subscriptions.filter(
+      sub => sub.feed_id === feed.id
+    ).length > 0;
+    const category = categories.filter(c=>c.id===feed.category_id)[0];
     const rootClassName = isSubscribed ? 'feed d-flex subscribed' : 'feed d-flex';
+
     return (
       <div className="col-md-6 col-lg-4 mb-4">
         <div className={rootClassName} key={feed.id}>
           <div className="feed__icon mr-2" />
           <div className="feed__info">
-            <Link to={`/feed/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
-            <div className="small">{ feed.period } delivery</div>
+            <Link to={`/feeds/${category.slug}/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
+            <div className="small">{ `${feed.period} delivery` }</div>
             <div className="feed__actions mt-2 text-right pt-1">
               {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</a>}
               {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</a>}
@@ -70,7 +78,8 @@ class FeedCard extends Component {
 function stateToProps(state) {
   return {
     apiState: state.api,
-    subscriptions: state.crud.items.subscriptions
+    subscriptions: state.crud.items.subscriptions,
+    categories: state.crud.items.categories,
   };
 }
 

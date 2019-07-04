@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 import { bindActionCreators } from 'redux';
@@ -16,31 +15,6 @@ dayjs.extend(relativeTime);
 
 
 class FeedInfo extends Component {
-  static propTypes = {
-    feed: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-      slug: PropTypes.string,
-    }),
-    items: PropTypes.arrayOf(PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      title: PropTypes.string.isRequired,
-      timestamp: PropTypes.number.isRequired,
-    })),
-    subscriptions: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      feed_id: PropTypes.number.isRequired,
-    })),
-    actions: PropTypes.oneOfType(PropTypes.function),
-  };
-
-  static defaultProps = {
-    feed: {},
-    items: {},
-    subscriptions: [],
-    actions: {},
-  };
-
   constructor(props) {
     super(props);
     this.onSubscribe = this.onSubscribe.bind(this);
@@ -115,7 +89,7 @@ class FeedInfo extends Component {
                 <div className="source">
                   <ul className="list-unstyled source__toc">
                     {items.map(item => (
-                      <li>
+                      <li key={item.url}>
                         <a
                           href={item.url}
                           target="_blank"
