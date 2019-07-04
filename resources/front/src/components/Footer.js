@@ -1,21 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-
-const Footer = () => (
-  <footer className="Footer">
-    <div className="container">
+export default () => (
+  <footer className="bg-light small">
+    <div className="container py-6">
       <div className="row">
-        {/*<div className="col-md-4">*/}
-          {/*<Link to="/"><img width="150" src={require("assets/images/logo-footer.png")} alt="" /></Link>*/}
-        {/*</div>*/}
         <div className="col text-center">
-          <p className="mb-1">ReaderFeeder &copy; {(new Date().getFullYear())}</p>
-          <p><Link to="/terms">Terms of Use</Link> &middot; <Link to="/privacy">Privacy Policy</Link></p>
+          <p className="mb-2">
+            ReaderFeeder &copy;
+            {(new Date().getFullYear())}
+          </p>
+          <p className="mb-0">
+            <a href="/terms" target="_blank" className="link-dark">Terms of Use</a>
+            &nbsp; &middot; &nbsp;
+            <a href="/privacy" target="_blank" className="link-dark">Privacy Policy</a>
+          </p>
         </div>
       </div>
     </div>
   </footer>
 );
-
-export default Footer;
