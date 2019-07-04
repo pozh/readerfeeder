@@ -19,11 +19,3 @@ export function apiResponse(details) {
     payload: details
   };
 }
-
-// Every time a component unmounts, this action gets called
-export function apiClearState(details) {
-  return {
-    type: ActionType.API_CLEAR_STATE,
-    payload: details
-  };
-}
