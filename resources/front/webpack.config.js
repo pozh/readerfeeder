@@ -10,7 +10,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const includePaths = [
-  path.resolve(__dirname, './resources/front/src/assets/styles'),
+  path.resolve(__dirname, './src/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
@@ -20,7 +20,7 @@ const stylesheetsLoaders = [
 ];
 
 module.exports = {
-  context: path.join(__dirname, 'resources/front/src'),
+  context: path.join(__dirname, 'src'),
   mode: 'development',
   entry: './index',
   output: {
@@ -35,7 +35,7 @@ module.exports = {
   resolve: {
     modules: [
       'node_modules',
-      path.join(__dirname, 'resources/front/src')
+      path.join(__dirname, 'src')
     ]
   },
   module: {
@@ -60,7 +60,7 @@ module.exports = {
             modules: false,
             localIdentName: '[path]-[local]-[hash:base64:3]',
             data: `
-              @import "resources/front/src/assets/styles/variables";
+              @import "src/assets/styles/variables";
               @import '~bootstrap/scss/variables';
               @import '~bootstrap/scss/functions';
               @import '~bootstrap/scss/mixins';
