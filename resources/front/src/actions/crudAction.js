@@ -241,3 +241,17 @@ export function clearSelectedItem(entity) {
     entity
   };
 }
+
+export function fetchFeedItems(slug) {
+  return dispatch => {
+    dispatch(clearList('item'));
+    dispatch(apiAction.apiRequest());
+    return apiService.fetch(Converter.getPathParam('item', 'byslug', slug)).then((response) => {
+      dispatch(apiAction.apiResponse());
+      dispatch(commonActions.list('item', response.data));
+    })
+      .catch((error) => {
+        errorHandler(dispatch, error.response, ActionType.FAILURE);
+      });
+  };
+}
