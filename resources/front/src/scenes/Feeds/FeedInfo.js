@@ -3,15 +3,16 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import DocumentTitle from 'react-document-title';
 import { bindActionCreators } from 'redux';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
 import { isEmpty } from 'utils/commonUtil';
 import { PageCaption, Loading } from 'components';
-import FeedIcon from './components/FeedIcon';
 
-// import FeedToc from './components/FeedToc';
+dayjs.extend(relativeTime);
 
 
 class FeedInfo extends Component {
@@ -19,20 +20,25 @@ class FeedInfo extends Component {
     feed: PropTypes.shape({
       id: PropTypes.number,
       title: PropTypes.string,
-      items: PropTypes.arrayOf(PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired,
-      })),
+      slug: PropTypes.string,
     }),
+    items: PropTypes.arrayOf(PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      timestamp: PropTypes.number.isRequired,
+    })),
     subscriptions: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       feed_id: PropTypes.number.isRequired,
     })),
+    actions: PropTypes.oneOfType(PropTypes.function),
   };
 
   static defaultProps = {
     feed: {},
+    items: {},
     subscriptions: [],
+    actions: {},
   };
 
   constructor(props) {
@@ -40,54 +46,66 @@ class FeedInfo extends Component {
     this.onSubscribe = this.onSubscribe.bind(this);
   }
 
-  componentWillMount() {
-    const feed = this.props.feed;
-    const slug = this.props.match.params.slug;
+  async componentWillMount() {
+    const { feed, actions } = this.props;
+    const { slug } = this.props.match.params;
 
-    if (isEmpty(feed) || feed.slug !== slug || !feed.items.length) {
-      this.props.actions.fetchBySlug('feed', slug);
+    actions.fetchFeedItems(slug);
+
+    if (isEmpty(feed) || feed.slug !== slug) {
+      actions.fetchBySlug('feed', slug);
     }
   }
 
   onSubscribe(event) {
     event.preventDefault();
-    const feed = this.props.feed;
-    const feedSubs = this.props.subscriptions.filter(sub => sub.feed_id === feed.id);
+    const { feed, actions, subscriptions } = this.props;
+    const feedSubs = subscriptions.filter(sub => sub.feed_id === feed.id);
 
     if (feedSubs.length > 0) {
-      this.props.actions.unsubscribe(feedSubs[0].id);
+      actions.unsubscribe(feedSubs[0].id);
     } else {
-      this.props.actions.subscribe(this.props.feed.id);
+      actions.subscribe(feed.id);
     }
   }
 
   render() {
-    const feed = this.props.feed;
+    const { feed, items, subscriptions } = this.props;
     const pageTitle = `${feed.title} - Kindle subscription - ReaderFeeder`;
-    const isSubscribed = (this.props.subscriptions.filter(
-      sub => sub.feed_id === feed.id).length > 0
-    );
+    const itemsCount = items.length;
+    const isSubscribed = (subscriptions.filter(
+      sub => sub.feed_id === feed.id
+    ).length > 0);
 
     if (!feed || this.props.match.params.slug !== feed.slug) {
       return (
-        <main>
-          <div className="feedinfo__pagetitle">
-            <div className="container">
-              <FeedIcon />
-              <h1>&nbsp;</h1>
-            </div>
-          </div>
-          <div className="container mt-5">
-            <div className="mt-5"><Loading /></div>
-          </div>
-        </main>
+        <DocumentTitle title="Browse Feeds - ReaderFeeder">
+          <main>
+            <PageCaption title=" " />
+            <Loading />
+          </main>
+        </DocumentTitle>
       );
     }
     return (
       <DocumentTitle title={pageTitle}>
         <main>
           <PageCaption title={feed.title} />
-          {feed.items.length > 0 && (
+          <p className="text-center mt-4">
+            {isSubscribed && (
+              <button
+                type="button"
+                href="#"
+                onClick={this.onSubscribe}
+                className="btn btn-lg btn-outline-secondary"
+              >
+                Unsubscribe
+              </button>
+            )}
+            {!isSubscribed
+            && <a href="#" onClick={this.onSubscribe} className="btn btn-lg btn-primary">Subscribe</a>}
+          </p>
+          {itemsCount > 0 && (
             <section className="section">
               <div className="container">
                 <p className="small mb-5">
@@ -95,31 +113,29 @@ class FeedInfo extends Component {
                   Subscribe to it to get updates on your Kindle.
                 </p>
                 <div className="source">
-                  {/* <h5 class="h6 border-bottom pb-1 mb-3">htmlspecialchars_
-                  decode($source['title'])</h5> */}
-                  <ul className="source__toc">
-                    { feed.items.map(item => (
+                  <ul className="list-unstyled source__toc">
+                    {items.map(item => (
                       <li>
                         <a
                           href={item.url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="font-weight-bold link-dark"
-                        >{ item.title }</a>
+                        >
+                          {item.title}
+                        </a>
                         <br />
-                        <small className="text-muted">{ item.created_at }</small>
+                        <small className="text-muted">{dayjs.unix(item.timestamp).fromNow()}</small>
                       </li>
-                    )) }
+                    ))}
                   </ul>
                 </div>
               </div>
             </section>
           )}
-
-          <p className="text-center">
-            {isSubscribed && <a href="#" onClick={this.onSubscribe} className="btn btn-lg btn-outline-secondary">Unsubscribe</a>}
-            {!isSubscribed && <a href="#" onClick={this.onSubscribe} className="btn btn-lg btn-primary">Subscribe</a>}
-          </p>
+          {!itemsCount > 0 && (
+            <Loading />
+          )}
         </main>
       </DocumentTitle>
     );
@@ -131,6 +147,7 @@ function mapStateToProps(state) {
   return {
     feed: state.crud.selectedItem.feed,
     subscriptions: state.crud.items.subscriptions,
+    items: state.crud.items.items,
     apiState: state.api
   };
 }

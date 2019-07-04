@@ -32,7 +32,6 @@
     }
   }
 
-
   &-section {
     break-inside: avoid;
     margin-bottom:50px;
@@ -180,23 +179,6 @@
   }
 }
 
-.feed-ico {
-  position: absolute;
-  left: 0;
-  bottom: -82px;
-  width: 168px;
-  height: 168px;
-  border-radius: 50%;
-  overflow: hidden;
-  background: $gray-300 url(~assets/images/rss.svg) no-repeat center center;
-  background-size: 50% auto;
-  //box-shadow: 0 8px 20px rgba(0,0,0,.15), inset 0 10px 50px rgba(0,0,0,.2);
-
-  img {
-    width: 100%;
-  }
-}
-
 .feed-toc {
   font-family: "Libre Baskerville", "Times New Roman", serif;
   li + li {
@@ -233,5 +215,25 @@
 
   & .container {
     z-index: 100;
+  }
+}
+
+.source {
+
+  & + & {
+    margin-top: 3.4rem;
+  }
+
+  &__toc {
+    @include font-size(16px);
+
+    @include media-breakpoint-up(lg) {
+      column-count: 2;
+    }
+
+    & li {
+      margin: .3rem 0 .7rem;
+      line-height: 1.2;
+    }
   }
 }

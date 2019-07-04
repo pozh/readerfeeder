@@ -17,9 +17,8 @@ const App = () => (
     <Switch>
       <Route exact path="/" component={RequireAuth(Subscriptions)} />
       <Route path="/settings" component={RequireAuth(Settings)} />
-
-      <Route path="/feeds" component={FeedsPage} />
-      <Route path="/feed" component={FeedsPage} />
+      <Route path="/feeds" component={RequireAuth(FeedsPage)} />
+      <Route path="/feed" component={RequireAuth(FeedsPage)} />
       <Route exact path="/login" component={LoginPage} />
       <Route exact path="/signup" component={SignupPage} />
     </Switch>

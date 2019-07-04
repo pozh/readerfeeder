@@ -6,6 +6,7 @@ import { pluralize } from 'utils/converter';
 const initialState = {
   items: {
     feeds: [],
+    items: [],
     categories: [],
     subscriptions: [],
   },
