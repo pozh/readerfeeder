@@ -13,7 +13,13 @@
     "development": {
       "plugins": [
         "@babel/plugin-proposal-class-properties",
-        "@babel/plugin-transform-react-jsx",
+        "@babel/plugin-transform-react-jsx"
+      ]
+    },
+    "production": {
+      "plugins": [
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-transform-react-jsx"
       ]
     }
   }

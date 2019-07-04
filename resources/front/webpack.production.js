@@ -1,62 +1,59 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
-const compressionPlugin = new CompressionPlugin();
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+
+const compressionPlugin = new CompressionPlugin();
 const definePlugin = new webpack.DefinePlugin({
   API_ROOT: JSON.stringify('/api'),
   SOCIAL_ROOT: JSON.stringify('/redirect'),
   __DEV__: JSON.stringify('false'),
-  'process.env': {NODE_ENV: JSON.stringify('production')}
+  'process.env': { NODE_ENV: JSON.stringify('production') }
 });
-const uglifyPlugin = new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } });
-const stylesheetsPlugin = new ExtractTextPlugin('assets/styles/[name].css');
+
+const stylesheetsPlugin = new MiniCssExtractPlugin({
+  filename: 'assets/styles/[name].css'
+});
 
 const includePaths = [
-  path.resolve(__dirname, './resources/front/src/main/assets/styles'),
-  path.resolve(__dirname, './resources/front/src/admin/assets/styles'),
+  path.resolve(__dirname, './src/assets/styles'),
   path.resolve(__dirname, './node_modules/bootstrap/scss'),
 ];
 
-const stylesheetsLoaders = [
-  {
-      loader: 'css-loader',
-      options: {
-          modules: false,
-          sourceMap: false,
-          minimize: true
-      }
-}];
 
 module.exports = {
-  context: path.join(__dirname, 'resources/front/src'),
-  entry: {
-    main: './main/index.js',
-    admin: './admin/index.js'
+
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
+
+  context: path.join(__dirname, 'src'),
+  entry: {
+    app: 'index.js',
+  },
+
   output: {
     publicPath: '/',
     filename: 'assets/js/[name].js',
-    path: path.join(__dirname, 'public')
+    path: path.join(__dirname, '../../public')
   },
+
   plugins: [
     stylesheetsPlugin,
-    new HtmlWebpackPlugin({ template: 'index.html', chunks: ['main'], filename: 'index.html' }),
-    new HtmlWebpackPlugin({ template: 'admin.html', chunks: ['admin'], filename: 'admin.html' }),
     definePlugin,
-    uglifyPlugin,
     compressionPlugin,
   ],
+
   resolve: {
     modules: [
       'node_modules',
-      path.join(__dirname, 'resources/front/src/shared'),
-      path.join(__dirname, 'resources/front/src/admin'),
-      path.join(__dirname, 'resources/front/src/main')
+      path.join(__dirname, 'src')
     ]
   },
+
   module: {
     rules: [
       {
@@ -68,78 +65,84 @@ module.exports = {
         loader: 'html-loader'
       }, {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({use: stylesheetsLoaders})
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }, {
         test: /\.scss$/,
-        use: ExtractTextPlugin.extract({ use: [...stylesheetsLoaders, {
+        use: [MiniCssExtractPlugin.loader, 'css-loader', {
           loader: 'sass-loader',
           options: {
-            includePaths: includePaths,
+            includePaths,
+            modules: false,
+            localIdentName: '[path]-[local]-[hash:base64:3]',
+            data: `
+              @import "src/assets/styles/variables";
+              @import '~bootstrap/scss/variables';
+              @import '~bootstrap/scss/functions';
+              @import '~bootstrap/scss/mixins';
+            `
           }
-        }]})
+        }]
       }, {
         test: /\.sass$/,
-        use: ExtractTextPlugin.extract({use: [...stylesheetsLoaders, {
-            loader: 'sass-loader',
-            options: {
-              indentedSyntax: 'sass',
-              includePaths: includePaths,
-            }
-          }]
-        })
+        use: [MiniCssExtractPlugin.loader, 'css-loader', {
+          loader: 'sass-loader',
+          options: {
+            indentedSyntax: 'sass',
+          }
+        }]
+      }, {
+        test: /\.less$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', {
+          loader: 'less-loader'
+        }]
       }, {
         test: /\.(png|jpg)$/,
         loader: 'url-loader',
-        options:  {
+        options: {
           limit: 2000,
           name: 'assets/images/[name].[ext]'
         }
       }, {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "file-loader",
+        loader: 'file-loader',
         options: {
           name: 'assets/[name].[ext]'
         }
       }, {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader",
-        options:  {
+        loader: 'url-loader',
+        options: {
           limit: 10000,
           mimetype: 'application/font-woff'
         }
       }, {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader",
-        options:  {
+        loader: 'url-loader',
+        options: {
           limit: 10000,
           mimetype: 'application/font-woff'
         }
       }, {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader",
-        options:  {
+        loader: 'url-loader',
+        options: {
           limit: 10000,
           name: 'assets/images/[name].[ext]',
           mimetype: 'application/octet-stream'
         }
-      }, { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url-loader",
-        options:  {
+      }, {
+        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+        loader: 'url-loader',
+        options: {
           limit: 10000,
           mimetype: 'image/svg+xml'
         }
-      }, {test: /\.ico$/,
-        loader: "file-loader",
+      }, {
+        test: /\.ico$/,
+        loader: 'file-loader',
         options: {
           name: 'assets/images/[name].[ext]'
         }
-      }, {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          use: [...stylesheetsLoaders, {
-            loader: 'less-loader'
-          }]
-        })
       }
     ]
   }

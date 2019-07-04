@@ -77,9 +77,9 @@ module.exports = {
           }
         }]
       }, {
-       test: /\.(png|jpg)$/,
+        test: /\.(png|jpg)$/,
         loader: 'url-loader',
-        options:  {
+        options: {
           limit: 25000,
           name: 'images/[hash]-[name].[ext]'
         }
@@ -94,11 +94,11 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    host: "rf.local",
+    host: 'rf.local',
     port: 8081,
     proxy: {
       '/assets/images/*': 'http://rf.local',
-      '/api*': "http://localhost:8181"
+      '/api*': 'http://localhost:8181'
     }
   }
 };
