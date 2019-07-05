@@ -18,14 +18,12 @@ class FeedList extends Component {
     subscriptions: PropTypes.arrayOf(PropTypes.object),
     feeds: PropTypes.arrayOf(PropTypes.object),
     isAuthenticated: PropTypes.bool,
-    actions: PropTypes.arrayOf(PropTypes.object),
   };
 
   static defaultProps = {
     categories: {},
     subscriptions: {},
     feeds: {},
-    actions: {},
     isAuthenticated: false
   };
 

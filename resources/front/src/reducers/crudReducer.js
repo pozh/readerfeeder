@@ -37,31 +37,33 @@ export default function (state = initialState, action) {
       newState.selectedItem[action.entity] = action.data.data;
       return newState;
 
-    case ActionType.SELECT_ITEM_SLUG:
+    case ActionType.SELECT_ITEM_SLUG: {
       newState = _cloneDeep(state);
       const items = newState.items[pluralize(action.entity)];
-      const item = _find(items, { slug: action.data });
-      newState.selectedItem[action.entity] = item;
+      newState.selectedItem[action.entity] = _find(items, { slug: action.data });
       return newState;
+    }
 
     case ActionType.UPDATE_SELECTED_ITEM:
       newState = _cloneDeep(state);
       newState.selectedItem[action.entity][action.key] = action.value;
       return newState;
 
-    case ActionType.DELETE:
+    case ActionType.DELETE: {
       newState = _cloneDeep(state);
       const data = newState.items[pluralize(action.entity)];
-      let index = _indexOf(data, _find(data, { id: action.id }));
+      const index = _indexOf(data, _find(data, { id: action.id }));
       data.splice(index, 1);
       return newState;
+    }
 
-    case ActionType.SUBSCRIBE:
+    case ActionType.SUBSCRIBE: {
       newState = _cloneDeep(state);
       const subs = newState.items.subscriptions;
-      index = _indexOf(subs, _find(subs, { feed_id: action.item.feed_id }));
+      const index = _indexOf(subs, _find(subs, { feed_id: action.item.feed_id }));
       if (index < 0) newState.items.subscriptions.push(action.item);
       return newState;
+    }
 
     case ActionType.CLEAR_LIST:
       newState = _cloneDeep(state);
