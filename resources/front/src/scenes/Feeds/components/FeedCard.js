@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
+import './feedcard.scss';
 
 class FeedCard extends Component {
   static propTypes = {
