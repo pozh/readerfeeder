@@ -67,6 +67,7 @@ class Header extends React.Component {
           <div className={`collapse navbar-collapse ${this.state.isOpen && 'show'}`}>
             {isAuthenticated && (
               <ul className="navbar-nav ml-auto">
+                <li className={`nav-item ${url.length < 2 ? 'active':''}`}><Link className="nav-link" to="/">Home</Link></li>
                 <li className={`nav-item ${url.indexOf('feeds') >= 0 ? 'active':''}`}><Link className="nav-link" to="/feeds">RSS Feeds</Link></li>
                 <li className={`nav-item ${url.indexOf('settings') >= 0 ? 'active':''}`}><Link className="nav-link" to="/settings">Settings</Link></li>
                 <li className="nav-item"><a href="" className="nav-link" onClick={this.logout}>Logout</a></li>
