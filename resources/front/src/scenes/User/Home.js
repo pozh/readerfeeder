@@ -13,7 +13,7 @@ import {
 import FeedCard from 'scenes/Feeds/components/FeedCard';
 
 
-class Subscriptions extends Component {
+class Home extends Component {
   static defaultProps = {
     feeds: null,
     categories: null,
@@ -72,7 +72,7 @@ class Subscriptions extends Component {
   }
 }
 
-Subscriptions.propTypes = {
+Home.propTypes = {
   feeds: PropTypes.arrayOf(PropTypes.object),
   subscriptions: PropTypes.arrayOf(PropTypes.object),
 };
@@ -101,4 +101,4 @@ function mapDispatchToProps(dispatch) {
 /**
  * Connect the component to the Redux store.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Subscriptions);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
