@@ -10,6 +10,8 @@ import RequireAuth from './utils/RequireAuth';
 import Subscriptions from './scenes/User/components/Subscriptions';
 import Settings from './scenes/User/components/Settings';
 
+import './assets/styles/app.scss';
+
 if (typeof Paddle === 'object') Paddle.Setup({ vendor: VENDOR_ID });
 
 const App = () => (
