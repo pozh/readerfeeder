@@ -91,18 +91,15 @@
       <p class="text-center mt-6">
         Our pricing is dead simple: $5 + VAT per month.
         <small class="d-block text-muted">
-          BTW, is that roughly a one cup of coffee in your area?
+          No set up costs, no hidden fees.
         </small>
       </p>
-      <p class="text-center mb-6" style="line-height: 1.7">
-        <b>You get the following: </b>
-        <br>
-        Unlimited subscriptions. <br class="d-none d-sm-inline">
-        Unlimited personal feeds. <br class="d-none d-sm-inline">
-        No restricted features. <br class="d-none d-sm-inline">
-        No set up costs. <br class="d-none d-sm-inline">
-        Unlimited support.
-      </p>
+      <ul class="list-unstyled text-center mb-6 font-weight-bold" style="line-height: 1.7">
+        <li>Unlimited subscriptions.</li>
+        <li>Unlimited personal feeds.</li>
+        <li>All features included.</li>
+        <li>Email support.</li>
+      </ul>
 
     </div>
   </div>
