@@ -65,8 +65,8 @@ class FeedCard extends Component {
             <Link to={`/feeds/${category.slug}/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
             <div className="small">{ `${feed.period} delivery` }</div>
             <div className="feed__actions mt-2 text-right pt-1">
-              {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</a>}
-              {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</a>}
+              {isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</button>}
+              {!isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</button>}
             </div>
           </div>
         </div>

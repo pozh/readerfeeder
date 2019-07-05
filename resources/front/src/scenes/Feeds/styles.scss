@@ -79,6 +79,11 @@
   &.subscribed {
     position: relative;
 
+    .feed__info a {
+      display: inline-block;
+      margin-right: 4rem;
+    }
+
     &::after {
       content: 'subscribed';
       position: absolute;
@@ -114,7 +119,11 @@
   }
 
   &__action {
-    color: #D53E2B;
+    color: $primary;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    outline: none !important;
 
     & + & {
       margin-left:15px;

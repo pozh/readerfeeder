@@ -15,7 +15,7 @@ class Subscriptions extends Component {
     feeds: null,
     categories: null,
     subscriptions: null,
-  }
+  };
 
   componentWillMount() {
     if (!this.props.feeds.length > 0) this.props.actions.fetchAll('feed');
