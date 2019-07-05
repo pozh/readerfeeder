@@ -6,20 +6,22 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
 
+import './header.scss';
 import logoImg from 'assets/images/logo.png';
 
 
 class Header extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
-    actions: PropTypes.object,
-    usermeta: PropTypes.object,
+    usermeta: PropTypes.shape({
+      plan: PropTypes.string.isRequired,
+    }),
   };
 
   static defaultProps = {
-    usermeta: {},
-    actions: {},
-    isAuthenticated: false,
+    usermeta: {
+      plan: '',
+    },
   };
 
   constructor(props) {
@@ -43,12 +45,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const usermeta = this.props.usermeta;
+    const { isAuthenticated, usermeta } = this.props;
+    const url = window.location.pathname;
 
     return (
       <nav className="Nav navbar navbar-expand-lg navbar-light bg-white">
         <div className="container">
           <Link className="navbar-brand" to="/"><img src={logoImg} alt="" /></Link>
+          {usermeta.plan === 'pro' ? '' : <Link className="btn btn-primary btn-round mr-auto" to="/pricing">Upgrade</Link>}
           <button onClick={this.toggle} className="btn btn-link d-lg-none p-0 ml-3 collapsed" type="button">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
               <path
@@ -61,12 +65,11 @@ class Header extends React.Component {
             </svg>
           </button>
           <div className={`collapse navbar-collapse ${this.state.isOpen && 'show'}`}>
-            {this.props.isAuthenticated && (
+            {isAuthenticated && (
               <ul className="navbar-nav ml-auto">
-                <li className="nav-item">{usermeta.plan === 'pro' ? '' : <Link className="btn btn-primary Nav-upgrade-btn" to="/pricing">Upgrade</Link>}</li>
-                <li className="nav-item"><Link className="nav-link" to="/feeds">RSS Feeds</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/settings">Settings</Link></li>
-                <li className="nav-item"><Link className="nav-link" onClick={this.logout} to="#">Logout</Link></li>
+                <li className={`nav-item ${url.indexOf('feeds') >= 0 ? 'active':''}`}><Link className="nav-link" to="/feeds">RSS Feeds</Link></li>
+                <li className={`nav-item ${url.indexOf('settings') >= 0 ? 'active':''}`}><Link className="nav-link" to="/settings">Settings</Link></li>
+                <li className="nav-item"><a href="" className="nav-link" onClick={this.logout}>Logout</a></li>
               </ul>
             )}
           </div>
