@@ -109,7 +109,7 @@ class FeedInfo extends Component {
             </section>
           )}
           {!itemsCount > 0 && (
-            <Loading />
+            <Loading message="Loading contents" />
           )}
         </main>
       </DocumentTitle>
