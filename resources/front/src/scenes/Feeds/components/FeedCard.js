@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import _assign from 'lodash/assign';
 import { bindActionCreators } from 'redux';
 
 import * as apiAction from 'actions/apiAction';
@@ -86,7 +87,7 @@ function stateToProps(state) {
 
 function dispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(_assign({}, crudAction, apiAction), dispatch)
   };
 }
 

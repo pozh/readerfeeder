@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import _assign from 'lodash/assign';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import * as authAction from 'actions/authAction';
@@ -86,7 +87,7 @@ function stateToProps(state) {
 
 function dispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, authAction), dispatch)
+    actions: bindActionCreators(_assign({}, authAction), dispatch)
   };
 }
 

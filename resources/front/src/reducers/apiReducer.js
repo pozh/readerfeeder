@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import _cloneDeep from 'lodash/cloneDeep';
+
 import * as ActionType from 'constants/actionType';
 
 const initialState = {
@@ -15,13 +16,13 @@ export default function (state, action) {
 
   switch (action.type) {
     case ActionType.API_REQUEST:
-      newState = _.cloneDeep(state);
+      newState = _cloneDeep(state);
       newState.isRequesting = true;
       newState.numberOfRequests++;
       return newState;
 
     case ActionType.API_RESPONSE:
-      newState = _.cloneDeep(state);
+      newState = _cloneDeep(state);
       newState.numberOfRequests--;
       if (newState.numberOfRequests <= 0) {
         newState.isRequesting = false;

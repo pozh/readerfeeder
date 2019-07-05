@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _assign from 'lodash/assign';
 
 /**
  * Import all constants as an object.
@@ -20,7 +20,7 @@ export default function (state = initialState, action) {
     case ActionType.LOG_IN_SUCCESS:
       let theMeta = action.payload.usermeta;
       if (theMeta === undefined) theMeta = {};
-      return _.assign({}, state, {
+      return _assign({}, state, {
         isAuthenticated: true,
         token: action.payload.token,
         usermeta: theMeta,
@@ -28,13 +28,13 @@ export default function (state = initialState, action) {
       });
 
     case ActionType.LOG_IN_FAILURE:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         isAuthenticated: false,
         token: null,
       });
 
     case ActionType.LOG_OUT:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         isAuthenticated: false,
         token: null,
         usermeta: {},
@@ -42,19 +42,19 @@ export default function (state = initialState, action) {
       });
 
     case ActionType.SIGNUP_SUCCESS:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         user: action.payload,
       });
 
     case ActionType.SIGNUP_FAILURE:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         isAuthenticated: false,
         token: null,
         user: null,
       });
 
     case ActionType.NOT_AUTHORIZED:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         isAuthenticated: false,
         token: null,
         usermeta: null,
@@ -62,7 +62,7 @@ export default function (state = initialState, action) {
       });
 
     case ActionType.SETTINGS_SAVED:
-      return _.assign({}, state, {
+      return _assign({}, state, {
         user: action.payload.user
       });
 

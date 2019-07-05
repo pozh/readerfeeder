@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _assign from 'lodash/assign';
 import * as authAction from 'actions/authAction';
 import { Header, PageCaption } from 'components';
 
@@ -84,7 +85,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, authAction), dispatch)
+    actions: bindActionCreators(_assign({}, authAction), dispatch)
   };
 }
 

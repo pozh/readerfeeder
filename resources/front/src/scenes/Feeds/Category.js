@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import find from 'lodash/find';
-import assign from 'lodash/assign';
+import _find from 'lodash/find';
+import _assign from 'lodash/assign';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -48,7 +48,7 @@ class FeedList extends Component {
     let order = this.props.match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
-    const category = categorySlug ? find(categories, { slug: categorySlug }) : null;
+    const category = categorySlug ? _find(categories, { slug: categorySlug }) : null;
 
     if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
       return (
@@ -95,7 +95,7 @@ function stateToProps(state) {
 
 function dispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(_assign({}, crudAction, apiAction), dispatch)
   };
 }
 
