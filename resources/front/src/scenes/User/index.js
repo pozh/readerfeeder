@@ -5,7 +5,7 @@ import RequireAuth from 'utils/RequireAuth';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import Subscriptions from './Home';
-import Settings from './components/Settings';
+import Settings from './Settings';
 
 import './styles.scss';
 

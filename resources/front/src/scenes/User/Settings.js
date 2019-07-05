@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _assign from 'lodash/assign';
 import * as authAction from 'actions/authAction';
-import { Header, PageCaption } from 'components';
+import { Header, PageCaption } from 'components/index';
 
 
 class Settings extends Component {

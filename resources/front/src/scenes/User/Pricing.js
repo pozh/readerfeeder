@@ -8,8 +8,8 @@ import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
 import { PRO_PLAN_ID } from 'constants/common';
 
-import PageCaption from '../../../components/PageCaption';
-import ButtonConfirm from '../../../components/ButtonConfirm';
+import PageCaption from '../../components/PageCaption';
+import ButtonConfirm from '../../components/ButtonConfirm';
 
 
 class Pricing extends Component {
