@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import DocumentTitle from 'react-document-title';
+import _assign from 'lodash/assign';
 import { bindActionCreators } from 'redux';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import DocumentTitle from 'react-document-title';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
@@ -108,7 +109,7 @@ class FeedInfo extends Component {
             </section>
           )}
           {!itemsCount > 0 && (
-            <Loading />
+            <Loading message="Loading contents" />
           )}
         </main>
       </DocumentTitle>
@@ -128,7 +129,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(_assign({}, crudAction, apiAction), dispatch)
   };
 }
 

@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import _assign from 'lodash/assign';
 import { bindActionCreators } from 'redux';
 
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
 
+import './feedcard.scss';
 
 class FeedCard extends Component {
   static propTypes = {
@@ -65,8 +67,8 @@ class FeedCard extends Component {
             <Link to={`/feeds/${category.slug}/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
             <div className="small">{ `${feed.period} delivery` }</div>
             <div className="feed__actions mt-2 text-right pt-1">
-              {isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</a>}
-              {!isSubscribed && <a href="#" onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</a>}
+              {isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</button>}
+              {!isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</button>}
             </div>
           </div>
         </div>
@@ -85,7 +87,7 @@ function stateToProps(state) {
 
 function dispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(_assign({}, crudAction, apiAction), dispatch)
   };
 }
 

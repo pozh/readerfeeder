@@ -192,7 +192,7 @@ export function submitForm(entity, data, id) {
 
 export function subscribe(id) {
   return dispatch => {
-    dispatch(apiAction.apiRequest());
+    dispatch(apiAction.apiRequest('Subscribe'));
     return apiService.store('subscription', { feed_id: id }).then((response) => {
       dispatch(apiAction.apiResponse(response.data));
       dispatch({

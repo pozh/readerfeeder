@@ -4,8 +4,8 @@ import DocumentTitle from 'react-document-title';
 import RequireAuth from 'utils/RequireAuth';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
-import Subscriptions from './components/Subscriptions';
-import Settings from './components/Settings';
+import Subscriptions from './Home';
+import Settings from './Settings';
 
 import './styles.scss';
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import _assign from 'lodash/assign';
 import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 
@@ -102,7 +103,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, authAction), dispatch)
+    actions: bindActionCreators(_assign({}, authAction), dispatch)
   };
 }
 

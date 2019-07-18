@@ -1,0 +1,88 @@
+.feed {
+  background: $light;
+  border-radius: $border-radius;
+  padding: 1rem;
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: $border-radius;
+    background: url(/assets/images/rss.svg) no-repeat 100%;
+  }
+
+  &__info {
+    flex: 1;
+  }
+
+  &.subscribed {
+    position: relative;
+
+    .feed__info a {
+      display: inline-block;
+      margin-right: 4rem;
+    }
+
+    &::after {
+      content: 'subscribed';
+      position: absolute;
+      display: block;
+      width: 6.7em;
+      color: white;
+      font-size: 13px;
+      height: 22px;
+      line-height: 22px;
+      background: $green;
+      right: 0;
+      top: 17px;
+      padding-left: 1em;
+      padding-right: 1em;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+
+      .subscriptions & {
+        display: none;
+      }
+    }
+    //box-shadow: 0 1px 7px rgba($green, .3);
+
+    //* { color: $white; }
+  }
+
+  &__actions {
+    border-top: 1px solid rgba(255,255,255,.3);
+    font-size:0.8rem;
+    font-weight: 500;
+    opacity: .8;
+    text-transform: uppercase;
+  }
+
+  &__action {
+    color: $primary;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    outline: none !important;
+
+    & + & {
+      margin-left:15px;
+      position: relative;
+
+      &:after {
+        content: ' ';
+        display: inline-block;
+        border-left: 1px solid $gray-400;
+        position: absolute;
+        left: -8px;
+        top: 0;
+        height: 100%;
+        width: 1px;
+        overflow: hidden;
+      }
+    }
+
+    &:hover {
+      opacity: 1;
+      text-decoration: none;
+    }
+  }
+}

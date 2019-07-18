@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import _assign from 'lodash/assign';
 import * as authAction from 'actions/authAction';
-import { Header, PageCaption } from 'components';
+import { Header, PageCaption } from 'components/index';
 
 
 class Settings extends Component {
@@ -40,20 +41,24 @@ class Settings extends Component {
               <div className="col-md-6">
                 <form method="post" id="settingsform" onSubmit={this.processForm}>
                   <div className="form-group">
+                    <label htmlFor="name">Your Name</label>
                     <input
                       type="text"
                       className="form-control"
                       name="name"
+                      id="name"
                       onChange={(val) => {
                         this.state.settings.first_name = val;
                       }}
                     />
                   </div>
                   <div className="form-group">
+                    <label htmlFor="kindle_email">Kindle Email <sup>*</sup></label>
                     <input
                       type="text"
                       className="form-control"
                       name="kindle_email"
+                      id="kindle_email"
                       placeholder="Your Kindle's e-mail"
                       onChange={(val) => {
                         this.state.settings.kindle_email = val;
@@ -84,7 +89,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, authAction), dispatch)
+    actions: bindActionCreators(_assign({}, authAction), dispatch)
   };
 }
 

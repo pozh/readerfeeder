@@ -3,19 +3,22 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import _ from 'lodash';
+import _findIndex from 'lodash/findIndex';
+import _assign from 'lodash/assign';
 import * as apiAction from 'actions/apiAction';
 import * as crudAction from 'actions/crudAction';
-import { Header, PageCaption, SectionTitle, Loading } from 'components';
+import {
+  Header, PageCaption, SectionTitle, Loading
+} from 'components';
 import FeedCard from 'scenes/Feeds/components/FeedCard';
 
 
-class Subscriptions extends Component {
+class Home extends Component {
   static defaultProps = {
     feeds: null,
     categories: null,
     subscriptions: null,
-  }
+  };
 
   componentWillMount() {
     if (!this.props.feeds.length > 0) this.props.actions.fetchAll('feed');
@@ -27,8 +30,8 @@ class Subscriptions extends Component {
     const subs = this.props.subscriptions;
     const allFeeds = this.props.feeds;
     const myFeeds = allFeeds.filter(feed => (
-      _.findIndex(subs, sub => (sub.feed_id === feed.id)) >= 0)
-    );
+      _findIndex(subs, sub => (sub.feed_id === feed.id)) >= 0
+    ));
 
     return (
       <div>
@@ -36,7 +39,7 @@ class Subscriptions extends Component {
         <PageCaption title="My ReaderFeeder" />
         <div className="container">
           <section className="section subscriptions">
-            <SectionTitle>Subscriptions</SectionTitle>
+            <SectionTitle>My subscriptions</SectionTitle>
             {!subs.length > 0 && (
               <div className="text-center">
                 {this.props.apiState.isRequesting && <Loading />}
@@ -60,8 +63,8 @@ class Subscriptions extends Component {
             )}
           </section>
           <section className="section">
-            <SectionTitle>Custom RSS Feeds</SectionTitle>
-            <Link to="/" className="btn btn-secondary">Add Feed</Link>
+            <SectionTitle>My personal feeds</SectionTitle>
+            <Link to="/" className="btn btn-secondary">Setup new Feed</Link>
           </section>
         </div>
       </div>
@@ -69,7 +72,7 @@ class Subscriptions extends Component {
   }
 }
 
-Subscriptions.propTypes = {
+Home.propTypes = {
   feeds: PropTypes.arrayOf(PropTypes.object),
   subscriptions: PropTypes.arrayOf(PropTypes.object),
 };
@@ -91,11 +94,11 @@ function mapStateToProps(state) {
  */
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(_.assign({}, crudAction, apiAction), dispatch)
+    actions: bindActionCreators(_assign({}, crudAction, apiAction), dispatch)
   };
 }
 
 /**
  * Connect the component to the Redux store.
  */
-export default connect(mapStateToProps, mapDispatchToProps)(Subscriptions);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
