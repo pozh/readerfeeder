@@ -39,7 +39,7 @@ class Home extends Component {
         <PageCaption title="My ReaderFeeder" />
         <div className="container">
           <section className="section subscriptions">
-            <SectionTitle>Subscriptions</SectionTitle>
+            <SectionTitle>My subscriptions</SectionTitle>
             {!subs.length > 0 && (
               <div className="text-center">
                 {this.props.apiState.isRequesting && <Loading />}
@@ -63,8 +63,8 @@ class Home extends Component {
             )}
           </section>
           <section className="section">
-            <SectionTitle>Custom RSS Feeds</SectionTitle>
-            <Link to="/" className="btn btn-secondary">Add Feed</Link>
+            <SectionTitle>My personal feeds</SectionTitle>
+            <Link to="/" className="btn btn-secondary">Setup new Feed</Link>
           </section>
         </div>
       </div>
