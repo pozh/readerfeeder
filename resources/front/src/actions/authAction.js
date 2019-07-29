@@ -124,7 +124,7 @@ export function logout() {
     clearToken();
     localStorage.removeItem('user');
     localStorage.removeItem('usermeta');
-    history.push('/');
+    window.location.assign('/');
   };
 }
 
