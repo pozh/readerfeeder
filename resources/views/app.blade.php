@@ -7,8 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Open+Sans:300,400,600" rel="stylesheet">
   <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
-  <link href="/assets/styles/main.css" rel="stylesheet"></head>
+  <link href="/assets/styles/app.css" rel="stylesheet"></head>
 <body id="body">
 <div id="app"></div>
-<script type="text/javascript" src="/assets/js/main.js"></script></body>
+<script type="text/javascript" src="/assets/js/app.js"></script></body>
 </html>

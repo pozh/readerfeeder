@@ -33,3 +33,6 @@ Route::group(['prefix'=> 'tests'], function(){
 
 Route::get('/redirect/{social}','Api\V1\Auth\LoginController@socialLogin')->where('social','twitter|facebook|linkedin|google');
 
+// Everything else is handled in Frontend app
+Route::view('{path}', 'app')->where('path', '(.*)');
+
