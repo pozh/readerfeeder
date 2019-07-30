@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers\API\V1\Auth;
 
-use App\Http\Controllers\Controller;
+//use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use JWTAuth;
+use Illuminate\Http\Response;
+//use JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
 use Socialite;
 
-class AuthController extends Controller
+
+class AuthController extends BaseController
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login']]);
+    }
 
     public function login(Request $request)
     {
@@ -83,5 +86,27 @@ class AuthController extends Controller
             'userSocial' => $userSocial,
             'token' => $token,
         ], 200);
+    }
+
+    /**
+     * Refresh a token.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function refreshToken()
+    {
+        return $this->response->respondWithToken(auth()->refresh());
+    }
+
+    public function checkToken()
+    {
+        if (!$user = JWTAuth::parseToken()->toUser())
+        {
+            $this->response->errorForbidden(trans('auth.incorrect'));
+        }
+        else
+        {
+            return $this->response->array(compact('token'));
+        }
     }
 }
