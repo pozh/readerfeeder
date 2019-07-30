@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\Log as LogResource;
 use Auth;
 use Spatie\Activitylog\Models\Activity;
 
 
-class LogController extends BaseController
+class LogController extends Controller
 {
     /**
      * Display a listing of the resource.

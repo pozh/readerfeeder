@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Feed;
 use Feeds;
@@ -9,7 +10,7 @@ use Response;
 use App\Http\Resources\Feed as FeedResource;
 
 
-class FeedController extends BaseController
+class FeedController extends Controller
 {
 
     /**

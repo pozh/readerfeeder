@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Resources\User as UserResource;
@@ -9,7 +10,7 @@ use Auth;
 use Validator;
 
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.

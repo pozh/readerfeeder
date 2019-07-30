@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Resources\Category as CategoryResource;
 use App\Transformers\CategoryTransformer;
 
 
-class CategoryController extends BaseController
+class CategoryController extends Controller
 {
     protected $cat;
 

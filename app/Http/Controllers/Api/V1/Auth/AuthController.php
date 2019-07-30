@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API\V1\Auth;
 
-//use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -13,7 +13,7 @@ use App\Models\User;
 use Socialite;
 
 
-class AuthController extends BaseController
+class AuthController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -22,12 +22,13 @@ class AuthController extends BaseController
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+//        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        \Log::debug('login attempt', $credentials);
 
         try {
             // attempt to verify the credentials and create a token for the user

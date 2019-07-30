@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Subscription;
 use App\Http\Resources\Subscription as SubscriptionResource;
 use Auth;
 
-class SubController extends BaseController
+class SubController extends Controller
 {
     private $sub;
     public function __construct(Subscription $sub){
