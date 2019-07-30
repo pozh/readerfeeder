@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 Route::namespace('Api\V1')->group(function () {
 
     Route::group(['prefix'=> 'auth'],function(){
-        Route::post('/register','Auth\RegisterController@register');
+        Route::post('/register','Auth\AuthController@register');
         Route::post("/login",'Auth\AuthController@login');
         Route::get('/login/{social}/callback','Auth\AuthController@handleProviderCallback')->where('social','twitter|facebook|linkedin|google|');
     });

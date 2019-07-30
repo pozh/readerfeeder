@@ -4,10 +4,13 @@ namespace App\Http\Controllers\API\V1\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
+use Mockery\Exception;
 use Socialite;
+use Validator;
 
 
 class AuthController extends Controller
@@ -20,6 +23,34 @@ class AuthController extends Controller
     public function __construct()
     {
 //        $this->middleware('auth:api', ['except' => ['login']]);
+    }
+
+    public function register(Request $request)
+    {
+        \Log::debug('register', $request->toArray());
+        $validator =  Validator::make($request->all(),[
+            'first_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                "message" => $validator->errors(),
+            ], 422);
+        }
+
+        $request->merge(['password' => Hash::make($request->password)]);
+        try {
+            $user = User::create($request->all());
+            return response()->json([
+                'user' => $user,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                "message" => "Unable to register user"
+            ], 400);
+        }
     }
 
     public function login(Request $request)
