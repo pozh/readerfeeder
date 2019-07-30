@@ -9,7 +9,7 @@ use Tymon\JWTAuth\Exceptions\JWTException;
 use App\Models\User;
 use Socialite;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
