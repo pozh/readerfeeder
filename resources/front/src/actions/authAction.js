@@ -9,7 +9,6 @@ import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 
 
-
 /**
  * Actions that are dispatched from authAction
  */
@@ -72,7 +71,9 @@ export function login({ email, password }) {
   };
 }
 
-export function signup({ first_name, email, password, password_confirmation }) {
+export function signup({
+  fName, email, password, passwordCopy
+}) {
   return (dispatch) => {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
@@ -82,13 +83,18 @@ export function signup({ first_name, email, password, password_confirmation }) {
       notify.error(message.SIGNUP_SHORT_PASSWORD);
       return;
     }
-    if (password !== password_confirmation) {
+    if (password !== passwordCopy) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
       return;
     }
 
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_SIGNUP, { first_name, email, password, password_confirmation })
+    axios.post(api.API_SIGNUP, {
+      first_name: fName,
+      email,
+      password,
+      password_confirmation: passwordCopy
+    })
       .then((response) => {
         dispatch(apiAction.apiResponse());
         dispatch(authActions.signupSuccess(response.data.user));
@@ -128,14 +134,14 @@ export function logout() {
   };
 }
 
-export function updateSettings({ id, first_name, kindle_email }) {
+export function updateSettings({ id, fName, kindleEmail }) {
   return (dispatch) => {
-    if (!first_name || !kindle_email) {
+    if (!fName || !kindleEmail) {
       notify.error(message.SETTINGS_MISSING_VALUE);
       return;
     }
-    dispatch(apiAction.apiRequest({ first_name, kindle_email }));
-    axios.post(`${api.API_USER}/${id}`, { first_name, kindle_email })
+    dispatch(apiAction.apiRequest({ fName, kindleEmail }));
+    axios.post(`${api.API_USER}/${id}`, { fName, kindleEmail })
       .then((response) => {
         dispatch(apiAction.apiResponse());
         dispatch(authActions.settingsSaved(response.data));
@@ -143,8 +149,9 @@ export function updateSettings({ id, first_name, kindle_email }) {
       })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
-        notify.error(error && error.response.data.message ? error.response.data.message : message.ERROR);
+        notify.error(
+          error && error.response.data.message ? error.response.data.message : message.ERROR
+        );
       });
   };
 }
-
