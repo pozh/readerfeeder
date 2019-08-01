@@ -11,7 +11,7 @@ import Settings from './scenes/User/Settings';
 
 import './assets/styles/app.scss';
 
-if (typeof Paddle === 'object') Paddle.Setup({ vendor: VENDOR_ID });
+if (typeof Paddle === 'object') Paddle.Setup({ vendor: parseInt(VENDOR_ID, 10) });
 
 const App = () => (
   <div>
