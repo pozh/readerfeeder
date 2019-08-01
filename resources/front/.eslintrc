@@ -14,7 +14,10 @@
   "globals": {
     "__DEV__": true,
     "API_ROOT": true,
-    "SOCIAL_ROOT": true,
+    "GOOGLE_APP_ID": true,
+    "PRO_PLAN_ID": true,
+    "VENDOR_ID": true,
+    "TOKEN": true,
     "expect": true,
     "window": true,
     "document": true

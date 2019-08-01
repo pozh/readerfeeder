@@ -9,7 +9,10 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const compressionPlugin = new CompressionPlugin();
 const definePlugin = new webpack.DefinePlugin({
   API_ROOT: JSON.stringify('/api'),
-  SOCIAL_ROOT: JSON.stringify('/redirect'),
+  GOOGLE_APP_ID: JSON.stringify('218868329575-r8ou1d3et0a2k5rrmairq691oqir8tf9.apps.googleusercontent.com'),
+  PRO_PLAN_ID: JSON.stringify('530517'),
+  VENDOR_ID: JSON.stringify('19002'),
+  TOKEN: JSON.stringify('token'),
   __DEV__: JSON.stringify('false'),
   'process.env': { NODE_ENV: JSON.stringify('production') }
 });
