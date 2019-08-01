@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import DocumentTitle from 'react-document-title';
 import * as apiAction from 'actions/apiAction';
 import * as authAction from 'actions/authAction';
-import { PRO_PLAN_ID } from 'constants/common';
 
 import PageCaption from '../../components/PageCaption';
 import ButtonConfirm from '../../components/ButtonConfirm';
@@ -21,9 +20,7 @@ class Pricing extends Component {
 
   handleBtnClick(event) {
     event.preventDefault();
-    const isAuthenticated = this.props.isAuthenticated;
-    const user = this.props.user;
-    const usermeta = this.props.usermeta;
+    const { isAuthenticated, user, usermeta } = this.props;
     const isPro = isAuthenticated && (usermeta.plan === 'pro');
     if (isPro) {
       // cancell pro plan
@@ -43,8 +40,7 @@ class Pricing extends Component {
   }
 
   render() {
-    const isAuthenticated = this.props.isAuthenticated;
-    const usermeta = this.props.usermeta;
+    const { isAuthenticated, usermeta, location } = this.props;
     const isPro = isAuthenticated && (usermeta.plan === 'pro');
     let freeBtn;
     let proBtn;
@@ -56,13 +52,18 @@ class Pricing extends Component {
       freeBtn = <span>Current plan</span>;
     }
 
-    if (this.props.location.hash === '#purchase-complete') {
+    if (location.hash === '#purchase-complete') {
       return (
         <DocumentTitle title="Pricing - ReaderFeeder">
-          <div className="section text-center my-6 py-6"><h1>Purchase complete. Please <Link to="#" onClick={this.logout}>relogin</Link></h1></div>
+          <div className="section text-center my-6 py-6">
+            <h1>
+Purchase complete. Please
+              <Link to="#" onClick={this.logout}>relogin</Link>
+            </h1>
+          </div>
         </DocumentTitle>
       );
-    } else return (
+    } return (
       <DocumentTitle title="Pricing - ReaderFeeder">
         <main>
           <PageCaption>
@@ -142,4 +143,3 @@ function mapDispatchToProps(dispatch) {
  * Connect the component to the Redux store.
  */
 export default connect(mapStateToProps, mapDispatchToProps)(Pricing);
-

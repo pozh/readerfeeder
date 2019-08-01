@@ -31,7 +31,7 @@ class SocialAuth extends Component {
           callback={this.responseFacebook}
         />
         <GoogleLogin
-          clientId="218868329575-r8ou1d3et0a2k5rrmairq691oqir8tf9.apps.googleusercontent.com"
+          clientId={GOOGLE_APP_ID}
           render={renderProps => (
             <button
               type="button"

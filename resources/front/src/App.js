@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
-import { VENDOR_ID } from 'constants/common';
 
 import LoginPage from './scenes/Auth/Login';
 import SignupPage from './scenes/Auth/Signup';
