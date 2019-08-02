@@ -7,7 +7,7 @@
       Also, you can easily subscribe to custom feeds, using our easy-to-use user console.
     </p>
     <p class="mt-4">
-      <a class="btn btn-lg btn-lg-cta" href="/app/">Create an account</a>
+      <a class="btn btn-lg btn-lg-cta" href="/signup">Create an account</a>
     </p>
   </div>
 </div>
