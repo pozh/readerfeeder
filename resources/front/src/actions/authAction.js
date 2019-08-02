@@ -9,7 +9,6 @@ import * as ActionType from '../constants/actionType';
 import * as apiAction from './apiAction';
 
 
-
 /**
  * Actions that are dispatched from authAction
  */
@@ -72,7 +71,38 @@ export function login({ email, password }) {
   };
 }
 
-export function signup({ first_name, email, password, password_confirmation }) {
+export function loginSocial({ provider, data }) {
+  return (dispatch) => {
+    const { tokenId, profileObj } = data;
+    const { email, name } = profileObj;
+    // const tokenDecoded = jwt_decode(tokenId);
+
+    dispatch(apiAction.apiRequest({
+      provider, token: tokenId, name, email
+    }));
+    axios.post(api.API_LOGIN_SOCIAL, {
+      provider, token: tokenId, name, email
+    })
+      .then(response => {
+        dispatch(apiAction.apiResponse(response.data));
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        setToken(response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
+        dispatch(authActions.loginSuccess(response.data));
+        history.push('/');
+      })
+      .catch(error => {
+        authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
+        notify.error(message.INVALID_LOGIN_DATA);
+      });
+  };
+}
+
+
+export function signup({
+  fName, email, password, passwordCopy
+}) {
   return (dispatch) => {
     if (!password) {
       notify.error(message.SIGNUP_NO_PASSWORD);
@@ -82,13 +112,18 @@ export function signup({ first_name, email, password, password_confirmation }) {
       notify.error(message.SIGNUP_SHORT_PASSWORD);
       return;
     }
-    if (password !== password_confirmation) {
+    if (password !== passwordCopy) {
       notify.error(message.SIGNUP_PASSWORD_MATCH);
       return;
     }
 
     dispatch(apiAction.apiRequest());
-    axios.post(api.API_SIGNUP, { first_name, email, password, password_confirmation })
+    axios.post(api.API_SIGNUP, {
+      first_name: fName,
+      email,
+      password,
+      password_confirmation: passwordCopy
+    })
       .then((response) => {
         dispatch(apiAction.apiResponse());
         dispatch(authActions.signupSuccess(response.data.user));
@@ -106,7 +141,9 @@ export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
     const user = JSON.parse(localStorage.getItem('user'));
-    const usermeta = JSON.parse(localStorage.getItem('usermeta'));
+    let localUserMeta = localStorage.getItem('usermeta');
+    if (localUserMeta === 'undefined') localUserMeta = '{}';
+    const usermeta = JSON.parse(localUserMeta);
     if (token) {
       const tokenDecoded = jwt_decode(token);
       if (tokenDecoded.exp > Math.floor(Date.now() / 1000)) {
@@ -124,18 +161,18 @@ export function logout() {
     clearToken();
     localStorage.removeItem('user');
     localStorage.removeItem('usermeta');
-    history.push('/');
+    window.location.assign('/');
   };
 }
 
-export function updateSettings({ id, first_name, kindle_email }) {
+export function updateSettings({ id, fName, kindleEmail }) {
   return (dispatch) => {
-    if (!first_name || !kindle_email) {
+    if (!fName || !kindleEmail) {
       notify.error(message.SETTINGS_MISSING_VALUE);
       return;
     }
-    dispatch(apiAction.apiRequest({ first_name, kindle_email }));
-    axios.post(`${api.API_USER}/${id}`, { first_name, kindle_email })
+    dispatch(apiAction.apiRequest({ fName, kindleEmail }));
+    axios.post(`${api.API_USER}/${id}`, { fName, kindleEmail })
       .then((response) => {
         dispatch(apiAction.apiResponse());
         dispatch(authActions.settingsSaved(response.data));
@@ -143,8 +180,9 @@ export function updateSettings({ id, first_name, kindle_email }) {
       })
       .catch((error) => {
         authErrorHandler(dispatch, error.response, ActionType.SIGNUP_FAILURE);
-        notify.error(error && error.response.data.message ? error.response.data.message : message.ERROR);
+        notify.error(
+          error && error.response.data.message ? error.response.data.message : message.ERROR
+        );
       });
   };
 }
-

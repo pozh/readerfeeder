@@ -5,7 +5,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const htmlWebpackPlugin = new HtmlWebpackPlugin({ template: 'app.html' });
 const definePlugin = new webpack.DefinePlugin({
   API_ROOT: JSON.stringify('http://rf.local/api'),
-  SOCIAL_ROOT: JSON.stringify('http://rf.local/redirect'),
+  GOOGLE_APP_ID: JSON.stringify('218868329575-r8ou1d3et0a2k5rrmairq691oqir8tf9.apps.googleusercontent.com'),
+  FACEBOOK_APP_ID: JSON.stringify('2340051056323088'),
+  PRO_PLAN_ID: JSON.stringify('530517'),
+  VENDOR_ID: JSON.stringify('19002'),
+  TOKEN: JSON.stringify('token'),
   __DEV__: JSON.stringify('true')
 });
 
@@ -24,7 +28,7 @@ module.exports = {
   mode: 'development',
   entry: './index',
   output: {
-    publicPath:    "/",
+    publicPath: '/',
     filename: '[hash].js',
   },
   devtool: 'source-map',
@@ -56,7 +60,7 @@ module.exports = {
           loader: 'sass-loader',
           options: {
             sourceMap: true,
-            includePaths: includePaths,
+            includePaths,
             modules: false,
             localIdentName: '[path]-[local]-[hash:base64:3]',
             data: `
@@ -94,11 +98,10 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    host: 'rf.local',
+    host: 'localhost',
     port: 8081,
     proxy: {
       '/assets/images/*': 'http://rf.local',
-      '/api*': 'http://localhost:8181'
     }
   }
 };

@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 
 import * as authAction from 'actions/authAction';
+import TextInput from 'components/ui/TextInput';
 import SocialAuth from './components/SocialAuth';
 import './styles.scss';
 
@@ -20,6 +21,7 @@ class LoginPage extends Component {
       },
     };
 
+    this.handleChange = this.handleChange.bind(this);
     this.processForm = this.processForm.bind(this);
   }
 
@@ -29,6 +31,14 @@ class LoginPage extends Component {
 
   componentWillUnmount() {
     document.getElementById('body').className = '';
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState(prevState => {
+      const user = { ...prevState.user, [name]: value };
+      return { ...prevState, user };
+    });
   }
 
   processForm(event) {
@@ -44,32 +54,24 @@ class LoginPage extends Component {
           <div className="auth-dialog">
             <form className="auth-form" onSubmit={this.processForm} autoComplete="on">
 
-              <Link className="auth-logo" to="/">
+              <a className="auth-logo" href="/">
                 <img src={require('assets/images/logo.png')} alt="" />
-              </Link>
+              </a>
               <p className="mt-4 mb-0 h4 font-weight-normal">Welcome back!</p>
               <p className="mb-4 small text-muted">Sign in to continue to ReaderFeeder.</p>
 
-              <div className="form-group">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Email address"
-                  onChange={(e) => {
-                    this.state.user.email = e.target.value;
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <input
-                  className="form-control"
-                  type="password"
-                  onChange={(e) => {
-                    this.state.user.password = e.target.value;
-                  }}
-                  autoComplete="off"
-                />
-              </div>
+              <TextInput
+                label="Email"
+                name="email"
+                onChange={this.handleChange}
+              />
+              <TextInput
+                label="First Name"
+                name="password"
+                type="password"
+                onChange={this.handleChange}
+              />
+
               <div className="form-group">
                 <button type="submit" className="btn btn-primary">LOGIN</button>
                 <SocialAuth />
@@ -79,12 +81,7 @@ class LoginPage extends Component {
                 <br />
                 Don’t have an account?
                 {' '}
-                <strong>
-                  <Link to="/signup" className="">
-                    Sign
-                    Up
-                  </Link>
-                </strong>
+                <Link to="/signup" className="font-weight-bold">Sign Up</Link>
               </p>
             </form>
           </div>

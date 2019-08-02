@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { NotificationContainer } from 'react-notifications';
-import { VENDOR_ID } from 'constants/common';
 
 import LoginPage from './scenes/Auth/Login';
 import SignupPage from './scenes/Auth/Signup';
@@ -12,7 +11,7 @@ import Settings from './scenes/User/Settings';
 
 import './assets/styles/app.scss';
 
-if (typeof Paddle === 'object') Paddle.Setup({ vendor: VENDOR_ID });
+if (typeof Paddle === 'object') Paddle.Setup({ vendor: parseInt(VENDOR_ID, 10) });
 
 const App = () => (
   <div>
