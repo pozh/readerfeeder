@@ -84,37 +84,31 @@ class AuthController extends Controller
 
     }
 
-    public function socialLogin($social)
+    public function handleSocial(Request $request)
     {
-        if ($social == "facebook" || $social == "google" || $social == "linkedin") {
-            return Socialite::driver($social)->stateless()->redirect();
-        } else {
-            return Socialite::driver($social)->redirect();
+        $credentials = $request->only('provider', 'token', 'name', 'email');
+        \Log::debug('social login: ' . $request->get('provider'), $credentials);
+
+        try {
+            $user = User::firstOrNew(['email' => $request->get('email')]);
+            if (!$user->id) {
+                $user->fill([
+                    "first_name" => $request->get('name'),
+                    "password" => bcrypt(str_random(6))
+                ]);
+                $user->save();
+            }
+            $token = JWTAuth::fromUser($user);
+            \Log::debug('jwt token', [$token]);
+            return response()->json([
+                'user' => [$user],
+                'token' => $token,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => __('auth.socialfailed')
+            ], 400);
         }
-    }
-
-    public function handleProviderCallback($social)
-    {
-        if ($social == "facebook" || $social == "google" || $social == "linkedin") {
-            $userSocial = Socialite::driver($social)->stateless()->user();
-        } else {
-            $userSocial = Socialite::driver($social)->user();
-        }
-
-        $token = $userSocial->token;
-
-        $user = User::firstOrNew(['email' => $userSocial->getEmail()]);
-
-        if (!$user->id) {
-            $user->fill(["first_name" => $userSocial->getName(), "password" => bcrypt(str_random(6))]);
-            $user->save();
-        }
-
-        return response()->json([
-            'user' => [$user],
-            'userSocial' => $userSocial,
-            'token' => $token,
-        ], 200);
     }
 
     /**
