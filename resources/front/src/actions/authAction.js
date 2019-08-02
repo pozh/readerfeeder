@@ -71,6 +71,35 @@ export function login({ email, password }) {
   };
 }
 
+export function loginSocial({ provider, data }) {
+  return (dispatch) => {
+    const { tokenId, profileObj } = data;
+    const { email, name } = profileObj;
+    // const tokenDecoded = jwt_decode(tokenId);
+
+    dispatch(apiAction.apiRequest({
+      provider, token: tokenId, name, email
+    }));
+    axios.post(api.API_LOGIN_SOCIAL, {
+      provider, token: tokenId, name, email
+    })
+      .then(response => {
+        dispatch(apiAction.apiResponse(response.data));
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+        setToken(response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('usermeta', JSON.stringify(response.data.usermeta));
+        dispatch(authActions.loginSuccess(response.data));
+        history.push('/');
+      })
+      .catch(error => {
+        authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
+        notify.error(message.INVALID_LOGIN_DATA);
+      });
+  };
+}
+
+
 export function signup({
   fName, email, password, passwordCopy
 }) {
@@ -112,7 +141,9 @@ export function checkAuth() {
   return (dispatch) => {
     const token = getToken();
     const user = JSON.parse(localStorage.getItem('user'));
-    const usermeta = JSON.parse(localStorage.getItem('usermeta'));
+    let localUserMeta = localStorage.getItem('usermeta');
+    if (localUserMeta === 'undefined') localUserMeta = '{}';
+    const usermeta = JSON.parse(localUserMeta);
     if (token) {
       const tokenDecoded = jwt_decode(token);
       if (tokenDecoded.exp > Math.floor(Date.now() / 1000)) {

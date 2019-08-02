@@ -15,6 +15,7 @@
     "__DEV__": true,
     "API_ROOT": true,
     "GOOGLE_APP_ID": true,
+    "FACEBOOK_APP_ID": true,
     "PRO_PLAN_ID": true,
     "VENDOR_ID": true,
     "TOKEN": true,
