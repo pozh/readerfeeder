@@ -101,7 +101,8 @@ class AuthController extends Controller
             $token = JWTAuth::fromUser($user);
             \Log::debug('jwt token', [$token]);
             return response()->json([
-                'user' => [$user],
+                'user' => $user,
+                'usermeta' => $user->meta(),
                 'token' => $token,
             ], 200);
         } catch (Exception $e) {
