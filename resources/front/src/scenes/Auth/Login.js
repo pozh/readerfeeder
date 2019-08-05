@@ -66,7 +66,7 @@ class LoginPage extends Component {
                 onChange={this.handleChange}
               />
               <TextInput
-                label="First Name"
+                label="Password"
                 name="password"
                 type="password"
                 onChange={this.handleChange}

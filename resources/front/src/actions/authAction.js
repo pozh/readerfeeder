@@ -44,7 +44,7 @@ export function authErrorHandler(dispatch, error, type) {
   if (error) errorMessage = (error.data.message) ? error.data.message : error.data;
 
   // NOT AUTHENTICATED ERROR
-  if (error && error.status === 401) {
+  if (error && error.status === 401 && !errorMessage) {
     errorMessage = message.NOT_AUTHORIZED;
   }
 
@@ -94,7 +94,7 @@ export function loginSocial({ provider, data }) {
       })
       .catch(error => {
         authErrorHandler(dispatch, error.response, ActionType.LOG_IN_FAILURE);
-        notify.error(message.INVALID_LOGIN_DATA);
+        notify.error(message.SOCIAL_AUTH_ERROR);
       });
   };
 }
