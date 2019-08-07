@@ -68,25 +68,29 @@ class SignupPage extends Component {
               <p className="mb-4 small text-muted">Sign up here to start using ReaderFeeder.</p>
 
               <TextInput
-                label="First Name"
+                label="Name"
                 name="fName"
+                required
                 onChange={this.handleChange}
               />
               <TextInput
                 label="Email"
                 name="email"
+                required
                 onChange={this.handleChange}
               />
               <TextInput
                 label="Password"
                 type="password"
                 name="password"
+                required
                 onChange={this.handleChange}
               />
               <TextInput
                 label="Password (again)"
                 type="password"
                 name="passwordCopy"
+                required
                 onChange={this.handleChange}
               />
 
