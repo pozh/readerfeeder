@@ -27,7 +27,7 @@ class ItemsFeedRef extends Migration
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->foreign('feed_id')->references('id')->on('sources');
+            $table->dropForeign(['feed_id']);
         });
     }
 }
