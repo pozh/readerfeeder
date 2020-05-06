@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
  * @package App\Models
  * @author  Sergey Pozhilov <pozhilov@gmail.com>
  */
-class Feed extends Model {
+class Feed extends Model
+{
   public const ACTIVE = 'active';
   public const INACTIVE = 'inactive';
   public const PROCESSING = 'processing';
@@ -39,18 +40,22 @@ class Feed extends Model {
    * Get the sources for the feed.
    */
   public function sources() {
-    return $this->hasMany( 'App\Models\Source' );
+    return $this->hasMany('App\Models\Source');
   }
 
   public function items() {
-    return $this->hasMany( 'App\Models\Item' );
+    return $this->hasMany('App\Models\Item');
   }
 
   public function subscribers() {
-    return $this->belongsToMany( 'App\Models\User', 'subscriptions', 'feed_id', 'user_id' );
+    return $this->belongsToMany('App\Models\User', 'subscriptions', 'feed_id', 'user_id');
   }
 
   public function category() {
-    return $this->belongsTo( 'App\Models\Category' )->first();
+    return $this->belongsTo('App\Models\Category')->first();
+  }
+
+  public function location() {
+    return $this->belongsTo('App\Models\Location')->first();
   }
 }
