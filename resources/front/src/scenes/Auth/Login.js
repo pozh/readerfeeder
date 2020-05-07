@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 
 import * as authAction from 'actions/authAction';
-import TextInput from 'components/ui/TextInput';
+import TextInput from 'components/TextInput';
 import SocialAuth from './components/SocialAuth';
 import './styles.scss';
 
