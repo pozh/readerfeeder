@@ -10,6 +10,7 @@ const compressionPlugin = new CompressionPlugin();
 const definePlugin = new webpack.DefinePlugin({
   API_ROOT: JSON.stringify('/api'),
   GOOGLE_APP_ID: JSON.stringify('218868329575-r8ou1d3et0a2k5rrmairq691oqir8tf9.apps.googleusercontent.com'),
+  FACEBOOK_APP_ID: JSON.stringify('2340051056323088'),
   PRO_PLAN_ID: JSON.stringify('530517'),
   VENDOR_ID: JSON.stringify('19002'),
   TOKEN: JSON.stringify('token'),
