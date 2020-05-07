@@ -4,8 +4,6 @@
 /public/app.html*
 /public/admin.html*
 /public/storage
-/public/assets/styles
-/public/assets/js
 /storage/*.key
 /vendor
 /.idea
