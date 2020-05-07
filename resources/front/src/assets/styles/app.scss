@@ -82,22 +82,3 @@ img { max-width: 100%; }
 .text-serif {
   font-family: $font-family-serif;
 }
-
-
-// Footer
-.Footer {
-  background: $white;
-  font-size: .9rem;
-  padding: 30px 0 50px 0;
-
-  .navbar-brand img {
-    height: 30px;
-  }
-
-  &-nav .container { padding-left: 15px; }
-
-  &-copyright {
-    text-align: center;
-    margin: 1rem 0 0 0;
-  }
-}

@@ -1,4 +1,5 @@
 import React from 'react';
+import 'assets/styles/footer.scss';
 
 export default () => (
   <footer className="bg-light small">

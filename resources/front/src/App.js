@@ -11,7 +11,7 @@ import RequireAuth from './utils/RequireAuth';
 import Subscriptions from './scenes/User/Home';
 import Settings from './scenes/User/Settings';
 
-import './assets/styles/app.scss';
+import 'assets/styles/app.scss';
 
 if (typeof Paddle === 'object') Paddle.Setup({ vendor: parseInt(VENDOR_ID, 10) });
 
