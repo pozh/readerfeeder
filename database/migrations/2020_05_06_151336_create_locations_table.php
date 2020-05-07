@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ItemsFeedRef extends Migration
+class CreateLocationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class ItemsFeedRef extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropForeign(['source_id']);
-            $table->foreign('feed_id')->references('id')->on('feeds');
+        Schema::create('locations', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('title', 255);
+            $table->string('slug', 255);
+            $table->timestamps();
         });
     }
 
@@ -26,8 +28,6 @@ class ItemsFeedRef extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropForeign(['feed_id']);
-        });
+        Schema::dropIfExists('locations');
     }
 }

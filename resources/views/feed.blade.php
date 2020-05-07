@@ -34,7 +34,7 @@
   <div class="section section-cta text-center mb-7">
     <div class="container">
       <p class="mt-4">
-        <a class="btn btn-lg-cta" href="/app/">Sign in or Register to subscribe</a>
+        <a class="btn btn-lg-cta" href="/signup">Sign in or Register to subscribe</a>
       </p>
     </div>
   </div>

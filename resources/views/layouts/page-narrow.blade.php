@@ -19,7 +19,7 @@
 
 <div class="page-title">
   <div class="container">
-    <h1 class="page-title__title">@yield('page-title')</h1>
+    <h1 class="text-center my-6 text-serif">@yield('page-title')</h1>
   </div>
 </div>
 

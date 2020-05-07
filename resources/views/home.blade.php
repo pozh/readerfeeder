@@ -22,7 +22,7 @@
               so you can read them anywhere, even in the sun,
               thanks to Kindle&rsquo;s E-Ink screen!
           </span>
-            <a class="btn btn-lg btn-primary btn-lg-cta" href="/app/">Try it free</a>
+            <a class="btn btn-lg btn-primary btn-lg-cta" href="/signup">Try it free</a>
           </h2>
         </div>
         <div class="col">
@@ -112,7 +112,7 @@
         for an unlimited period of time, with a single RSS subscription.
       </p>
       <p class="mt-4">
-        <a class="btn btn-lg btn-lg-cta" href="/app/">Try it free</a>
+        <a class="btn btn-lg btn-lg-cta" href="/signup">Try it free</a>
         <br>
         <small class="text-muted">No credit card required</small>
       </p>
