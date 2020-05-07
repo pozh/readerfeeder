@@ -14,7 +14,7 @@ class Header extends React.Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     usermeta: PropTypes.shape({
-      plan: PropTypes.string.isRequired,
+      plan: PropTypes.string,
     }),
   };
 

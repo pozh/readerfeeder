@@ -62,7 +62,7 @@ class SocialAuth extends Component {
           onSuccess={this.responseGoogle}
           onFailure={() => {
             this.setState({ googleDisabled: true });
-            notify.error(message.GOOGLE_AUTH_ERROR);
+            notify.error(message.SOCIAL_AUTH_ERROR);
           }}
         />
       </span>

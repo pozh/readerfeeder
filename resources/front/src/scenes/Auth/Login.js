@@ -63,12 +63,14 @@ class LoginPage extends Component {
               <TextInput
                 label="Email"
                 name="email"
+                required
                 onChange={this.handleChange}
               />
               <TextInput
-                label="First Name"
+                label="Password"
                 name="password"
                 type="password"
+                required
                 onChange={this.handleChange}
               />
 
