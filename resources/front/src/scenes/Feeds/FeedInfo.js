@@ -45,14 +45,14 @@ class FeedInfo extends Component {
   }
 
   render() {
-    const { feed, items, subscriptions } = this.props;
+    const { feed, items, subscriptions, match } = this.props;
     const pageTitle = `${feed.title} - Kindle subscription - ReaderFeeder`;
     const itemsCount = items.length;
     const isSubscribed = (subscriptions.filter(
       sub => sub.feed_id === feed.id
     ).length > 0);
 
-    if (!feed || this.props.match.params.slug !== feed.slug) {
+    if (!feed || match.params.slug !== feed.slug) {
       return (
         <DocumentTitle title="Browse Feeds - ReaderFeeder">
           <main>

@@ -7,6 +7,7 @@
     "react/jsx-filename-extension": 0,
     "react/prop-types": 0,
     "arrow-parens": 0,
+    "max-len": ["error", { "code": 140 }],
     "linebreak-style": "off",
     "jsx-a11y/label-has-for": "off",
     "jsx-a11y/href-no-hash": "off"
@@ -25,7 +26,7 @@
   },
   "env": {
     "mocha": true,
-    "browser": true,
+    "browser": true
   },
   "settings": {
     "import/resolver": {

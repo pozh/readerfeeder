@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import DocumentTitle from 'react-document-title';
 import _find from 'lodash/find';
 import _assign from 'lodash/assign';
 
@@ -11,6 +12,19 @@ import * as crudAction from 'actions/crudAction';
 import { PageCaption, SectionTitle, Loading } from 'components';
 
 import FeedCard from './components/FeedCard';
+// import SearchFeeds from './components/SearchFeeds';
+
+const Caption = () => (
+  <PageCaption
+    title="RSS Feeds"
+    caption="Full text feeds for Kindle, Kindle Touch, Paperwhite, Oasis &amp; Voyage"
+  >
+    <p className="text-center lead mt-2">
+      Subscribe to any of the RSS Feeds listed below,
+      and ReaderFeeder will start delivering them right to your Kindle.
+    </p>
+  </PageCaption>
+);
 
 
 class FeedList extends Component {
@@ -28,7 +42,7 @@ class FeedList extends Component {
     isAuthenticated: false
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       categories,
       actions,
@@ -46,57 +60,55 @@ class FeedList extends Component {
   }
 
   render() {
-    const { categories, feeds } = this.props;
-    const categorySlug = this.props.match.params.category;
-    let order = this.props.match.params.order || 'categories';
+    const { categories, feeds, match } = this.props;
+    const categorySlug = match.params.category;
+    let order = match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
     const category = categorySlug ? _find(categories, { slug: categorySlug }) : null;
+    const showLoader = !feeds.length > 0 || !categories.length > 0 || (order === 'category' && !category);
 
-    if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
-      return (
+    return (
+      <DocumentTitle title="RSS Feeds to read on Kindle Touch, Paperwhite and Oasis - ReaderFeeder">
         <main>
-          <Loading />
-        </main>
-      );
-    } return (
-      <main>
-        <PageCaption
-          title="RSS Feeds"
-          caption="Full text feeds for Kindle, Kindle Touch, Paperwhite, Oasis &amp; Voyage"
-        >
-          <p className="text-center lead mt-2">
-            Subscribe to any of the RSS Feeds listed below,
-            and ReaderFeeder will start delivering them right to your Kindle.
-          </p>
-        </PageCaption>
-        <section className="section">
-          <div className="container">
-            <SectionTitle>Categories</SectionTitle>
-            <div className="row">
-              {categories.map(cat => (
-                <div className="col-md-6 col-lg-3 mb-5" key={cat.id}>
-                  <Link to={`/feeds/${cat.slug}`} className="link-dark">
-                    <div className="cat-img" style={{ backgroundImage: `url(/assets/images/cat-${cat.slug}.jpg)` }} />
-                    <h6 className="mt-2 mb-0 text-uppercase">{cat.title}</h6>
-                  </Link>
+          <Caption />
+          { showLoader && <Loading /> }
+          { !showLoader && (
+            <section className="section">
+              <div className="container">
+                { /* <div className="row justify-content-center mb-5">
+                  <div className="col-lg-6">
+                    <SearchFeeds />
+                  </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="section">
-          <div className="container">
-            <SectionTitle>Popular feeds</SectionTitle>
-            <div className="row">
-              {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12).map(feed => (
-                <FeedCard feed={feed} key={feed.id} />
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
+                <SectionTitle>Categories</SectionTitle> */ }
+                <div className="row">
+                  {categories.map(cat => (
+                    <div className="col-md-6 col-lg-3 mb-5" key={cat.id}>
+                      <Link to={`/browse/${cat.slug}`} className="link-dark">
+                        <div className="cat-img" style={{ backgroundImage: `url(/assets/images/cat-${cat.slug}.jpg)` }} />
+                        <h6 className="mt-2 mb-0 text-uppercase">{cat.title}</h6>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+          { !showLoader && (
+            <section className="section">
+              <div className="container">
+                <SectionTitle>Popular feeds</SectionTitle>
+                <div className="row">
+                  {feeds.sort((a, b) => b.subscribers - a.subscribers).slice(0, 12).map(feed => (
+                    <FeedCard feed={feed} key={feed.id} />
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+        </main>
+      </DocumentTitle>
     );
   }
 }

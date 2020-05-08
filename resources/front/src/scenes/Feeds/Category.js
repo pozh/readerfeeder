@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import DocumentTitle from 'react-document-title';
 import _find from 'lodash/find';
 import _assign from 'lodash/assign';
 
@@ -27,55 +27,69 @@ class FeedList extends Component {
     isAuthenticated: false
   };
 
-  componentWillMount() {
-    if (!this.props.categories.length > 0) {
-      this.props.actions.fetchAll('feed');
-      this.props.actions.fetchAll('category');
+  componentDidMount() {
+    const {
+      categories,
+      actions,
+      subscriptions,
+      isAuthenticated
+    } = this.props;
+
+    if (!categories.length > 0) {
+      actions.fetchAll('feed');
+      actions.fetchAll('category');
     }
-    if (this.props.isAuthenticated && this.props.subscriptions.length === 0) {
-      this.props.actions.fetchAll('subscription');
+    if (isAuthenticated && subscriptions.length === 0) {
+      actions.fetchAll('subscription');
     }
   }
 
   render() {
-    const categories = this.props.categories;
-    const feeds = this.props.feeds;
+    const {
+      categories,
+      feeds,
+      match
+    } = this.props;
 
-    const categorySlug = this.props.match.params.category;
+    const categorySlug = match.params.category;
 
-    let order = this.props.match.params.order || 'categories';
+    let order = match.params.order || 'categories';
     order = categorySlug ? 'category' : order;
 
     const category = categorySlug ? _find(categories, { slug: categorySlug }) : null;
+    const needLoader = !feeds.length > 0 || !categories.length > 0 || (order === 'category' && !category);
+    const categoryTitle = category ? `${category.title} - browse RSS Feeds to read on Kindle - ReaderFeeder`
+      : 'Browse RSS Feeds to read on Kindle - ReaderFeeder';
 
-    if (!feeds.length > 0 || !categories.length > 0 || (order === 'category') && !category) {
-      return (
+    return (
+      <DocumentTitle title={categoryTitle}>
         <main>
-          <Loading />
-        </main>
-      );
-    } return (
-      <main>
-        <div
-          className="section hero-cat d-flex"
-          style={{ backgroundImage: `url(/assets/images/cat-lg-${category.slug}.jpg)` }}
-        >
-          <div className="container align-self-end">
-            <h2 className="text-white mb-4 font-weight-normal">{ category.title }</h2>
-          </div>
-        </div>
+          {needLoader && <Loading />}
+          {!needLoader && (
+            <div>
+              <div
+                className="section hero-cat d-flex"
+                style={{ backgroundImage: `url(/assets/images/cat-lg-${category.slug}.jpg)` }}
+              >
+                <div className="container align-self-end">
+                  <h2 className="text-white mb-4 font-weight-normal">{category.title}</h2>
+                </div>
+              </div>
 
-        <section className="section">
-          <div className="container">
-            <SectionTitle>Top feeds</SectionTitle>
-            <div className="row">
-              {feeds.filter(feed => feed.category_id === category.id).map(feed =>
-                <FeedCard feed={feed} key={feed.id} />
-              )}
+              <section className="section">
+                <div className="container">
+                  <SectionTitle>Top feeds</SectionTitle>
+                  <div className="row">
+                    {feeds.filter(feed => feed.category_id === category.id).map(
+                      feed => <FeedCard feed={feed} key={feed.id} />
+                    )}
+                  </div>
+                </div>
+              </section>
             </div>
-          </div>
-        </section>
-      </main>
+          )}
+        </main>
+      </DocumentTitle>
     );
   }
 }

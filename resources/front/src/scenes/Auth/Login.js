@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import DocumentTitle from 'react-document-title';
 
 import * as authAction from 'actions/authAction';
-import TextInput from 'components/ui/TextInput';
+import TextInput from 'components/TextInput';
 import SocialAuth from './components/SocialAuth';
 import './styles.scss';
 
@@ -54,9 +54,9 @@ class LoginPage extends Component {
           <div className="auth-dialog">
             <form className="auth-form" onSubmit={this.processForm} autoComplete="on">
 
-              <a className="auth-logo" href="/">
+              <Link className="auth-logo" to="/">
                 <img src={require('assets/images/logo.png')} alt="" />
-              </a>
+              </Link>
               <p className="mt-4 mb-0 h4 font-weight-normal">Welcome back!</p>
               <p className="mb-4 small text-muted">Sign in to continue to ReaderFeeder.</p>
 

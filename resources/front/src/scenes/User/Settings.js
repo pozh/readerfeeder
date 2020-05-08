@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _assign from 'lodash/assign';
 import * as authAction from 'actions/authAction';
-import TextInput from 'components/ui/TextInput';
+import TextInput from 'components/TextInput';
 import { Header, PageCaption } from 'components/index';
 
 
