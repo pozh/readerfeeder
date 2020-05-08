@@ -19,7 +19,10 @@ class FeedCard extends Component {
       period: PropTypes.string,
     }),
     subscriptions: PropTypes.arrayOf(PropTypes.object),
-    actions: PropTypes.object,
+    actions: PropTypes.shape({
+      subscribe: PropTypes.string,
+      unsubscribe: PropTypes.string,
+    }),
   };
 
   static defaultProps = {
@@ -31,7 +34,6 @@ class FeedCard extends Component {
   constructor(props) {
     super(props);
     this.handleSubscribe = this.handleSubscribe.bind(this);
-    this.handleSend = this.handleSend.bind(this);
   }
 
   handleSubscribe(event) {
@@ -47,16 +49,12 @@ class FeedCard extends Component {
     }
   }
 
-  handleSend(event) {
-    event.preventDefault();
-  }
-
   render() {
     const { feed, subscriptions, categories } = this.props;
     const isSubscribed = subscriptions.filter(
       sub => sub.feed_id === feed.id
     ).length > 0;
-    const category = categories.filter(c=>c.id===feed.category_id)[0];
+    const category = categories.filter(c => c.id === feed.category_id)[0];
     const rootClassName = isSubscribed ? 'feed d-flex subscribed' : 'feed d-flex';
 
     return (
@@ -64,11 +62,27 @@ class FeedCard extends Component {
         <div className={rootClassName} key={feed.id}>
           <div className="feed__icon mr-2" />
           <div className="feed__info">
-            <Link to={`/feeds/${category.slug}/${feed.slug}`} className="link-dark font-weight-bold">{ feed.title }</Link>
-            <div className="small">{ `${feed.period} delivery` }</div>
+            <Link to={`/feeds/${category.slug}/${feed.slug}`} className="link-dark font-weight-bold">{feed.title}</Link>
+            <div className="small">{`${feed.period} delivery`}</div>
             <div className="feed__actions mt-2 text-right pt-1">
-              {isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-subscribe">Unsubscribe</button>}
-              {!isSubscribed && <button onClick={this.handleSubscribe} className="feed__action feed__action-unsubscribe">Subscribe</button>}
+              {isSubscribed && (
+                <button
+                  type="button"
+                  onClick={this.handleSubscribe}
+                  className="feed__action feed__action-subscribe"
+                >
+                  Unsubscribe
+                </button>
+              )}
+              {!isSubscribed && (
+                <button
+                  type="button"
+                  onClick={this.handleSubscribe}
+                  className="feed__action feed__action-unsubscribe"
+                >
+                  Subscribe
+                </button>
+              )}
             </div>
           </div>
         </div>

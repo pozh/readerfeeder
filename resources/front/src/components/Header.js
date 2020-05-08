@@ -70,8 +70,8 @@ class Header extends React.Component {
               <li className={`nav-item ${url.length < 2 ? 'active' : ''}`}>
                 <Link className="nav-link" to="/">Home</Link>
               </li>
-              <li className={`nav-item ${url.indexOf('feeds') >= 0 ? 'active' : ''}`}>
-                <Link className="nav-link" to="/feeds">RSS Feeds</Link>
+              <li className={`nav-item ${url.indexOf('browse') >= 0 ? 'active' : ''}`}>
+                <Link className="nav-link" to="/browse">RSS Feeds</Link>
               </li>
               {isAuthenticated && (
               <li className={`nav-item ${url.indexOf('settings') >= 0 ? 'active' : ''}`}>
