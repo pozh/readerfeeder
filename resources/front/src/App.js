@@ -6,6 +6,7 @@ import { NotificationContainer } from 'react-notifications';
 import LoginPage from './scenes/Auth/Login';
 import SignupPage from './scenes/Auth/Signup';
 import HomePage from './scenes/MainPages/HomePage';
+import NotFoundPage from './scenes/MainPages/NotFoundPage';
 import FeedsPage from './scenes/Feeds/FeedsPage';
 import RequireAuth from './utils/RequireAuth';
 import Subscriptions from './scenes/User/Home';
@@ -28,6 +29,7 @@ class App extends Component {
           <Route path="/settings" component={RequireAuth(Settings)} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/signup" component={SignupPage} />
+          <Route component={NotFoundPage} />
         </Switch>
         <NotificationContainer />
       </div>
