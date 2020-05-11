@@ -5,7 +5,7 @@
   <title>ReaderFeeder</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Open+Sans:300,400,600" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Gentium+Basic:700|Open+Sans:300,400,600,700">
   <script src="https://cdn.paddle.com/paddle/paddle.js"></script>
   <link href="/assets/styles/app.css" rel="stylesheet"></head>
 <body id="body">
