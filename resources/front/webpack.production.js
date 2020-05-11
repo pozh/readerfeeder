@@ -19,7 +19,7 @@ const definePlugin = new webpack.DefinePlugin({
 });
 
 const stylesheetsPlugin = new MiniCssExtractPlugin({
-  filename: 'assets/styles/[name].css'
+  filename: 'styles/[name].css'
 });
 
 const includePaths = [
@@ -40,9 +40,9 @@ module.exports = {
   },
 
   output: {
-    publicPath: '/',
-    filename: 'assets/js/[name].js',
-    path: path.join(__dirname, '../../public')
+    publicPath: '/assets/',
+    filename: 'js/[name].js',
+    path: path.join(__dirname, '../../public/assets')
   },
 
   plugins: [
@@ -76,6 +76,7 @@ module.exports = {
           loader: 'sass-loader',
           options: {
             includePaths,
+            outputPath: 'styles',
             modules: false,
             localIdentName: '[path]-[local]-[hash:base64:3]',
             data: `
@@ -91,31 +92,39 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, 'css-loader', {
           loader: 'sass-loader',
           options: {
+            outputPath: 'styles',
             indentedSyntax: 'sass',
           }
         }]
       }, {
         test: /\.less$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', {
-          loader: 'less-loader'
+          loader: 'less-loader',
+          options: {
+            outputPath: 'styles'
+          }
         }]
       }, {
         test: /\.(png|jpg)$/,
         loader: 'url-loader',
         options: {
+          outputPath: 'images',
+          name: '[name].[ext]',
           limit: 2000,
-          name: 'assets/images/[name].[ext]'
         }
       }, {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'file-loader',
         options: {
-          name: 'assets/[name].[ext]'
+          name: '[name].[ext]',
+          outputPath: 'fonts',
         }
       }, {
         test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
+          outputPath: 'fonts',
+          name: '[name].[ext]',
           limit: 10000,
           mimetype: 'application/font-woff'
         }
@@ -123,6 +132,8 @@ module.exports = {
         test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
+          outputPath: 'fonts',
+          name: '[name].[ext]',
           limit: 10000,
           mimetype: 'application/font-woff'
         }
@@ -130,14 +141,17 @@ module.exports = {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
+          outputPath: 'fonts',
+          name: '[name].[ext]',
           limit: 10000,
-          name: 'assets/images/[name].[ext]',
           mimetype: 'application/octet-stream'
         }
       }, {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url-loader',
         options: {
+          outputPath: 'images',
+          name: '[name].[ext]',
           limit: 10000,
           mimetype: 'image/svg+xml'
         }
@@ -145,7 +159,8 @@ module.exports = {
         test: /\.ico$/,
         loader: 'file-loader',
         options: {
-          name: 'assets/images/[name].[ext]'
+          name: '[name].[ext]',
+          outputPath: 'images'
         }
       }
     ]

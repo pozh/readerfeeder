@@ -80,7 +80,7 @@ class Header extends React.Component {
               )}
               {!isAuthenticated && (
                 <li className="nav-item">
-                  <Link className="btn navbar__btn btn-outline-primary" to="/login">Sign In</Link>
+                  <Link className="btn navbar__btn btn-outline-dark" to="/login">Sign In</Link>
                 </li>
               )}
               {isAuthenticated && (

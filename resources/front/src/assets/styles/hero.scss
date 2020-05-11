@@ -25,6 +25,7 @@
     @include media-breakpoint-up(lg) {
       width: 52vw;
       display: block;
+      opacity: .38;
     }
     @include media-breakpoint-up(xl) {
       margin-top: -9vw;

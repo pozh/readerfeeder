@@ -12,7 +12,7 @@ function Hero() {
             <h1 className="hero__title">
               Read RSS feeds offline, on eInk Kindle!
               <span className="d-block d-lg-none">
-                <img width="65%" src={require('assets/images/hero.svg')} alt="" className="mt-3" />
+                <img width="65%" src={require('assets/images/reading.png')} alt="" className="mt-3" />
               </span>
             </h1>
 
@@ -26,7 +26,7 @@ function Hero() {
 
           </div>
           <div className="col">
-            <img src={require('assets/images/hero.svg')} alt="" className="hero__img" />
+            <img src={require('assets/images/reading.png')} alt="" className="hero__img" />
           </div>
         </div>
       </div>

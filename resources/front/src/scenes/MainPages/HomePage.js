@@ -64,7 +64,7 @@ const HomePage = () => (
 
           <p className="text-center">
             <img
-              src="/assets/images/price.png"
+              src={require('assets/images/price.png')}
               alt="only $5/mo"
               className="img-fluid"
               style={{ marginLeft: '-10px' }}
