@@ -15,4 +15,5 @@ Route::group([
     $router->get('/charts', 'ChartjsController@index')->name('admin.charts');
     $router->resource('users', UserController::class);
     $router->resource('feeds', FeedController::class);
+    $router->resource('categories', CategoryController::class);
 });
