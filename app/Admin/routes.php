@@ -12,5 +12,7 @@ Route::group([
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('admin.home');
-
+    $router->get('/charts', 'ChartjsController@index')->name('admin.charts');
+    $router->resource('users', UserController::class);
+    $router->resource('feeds', FeedController::class);
 });
