@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "10d093975e2ac248713af72e9ba78b83",
+    "content-hash": "a86684e415580695b102403b74015106",
     "packages": [
         {
             "name": "anahkiasen/underscore-php",
@@ -1171,6 +1171,59 @@
             ],
             "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "laravel-admin-ext/chartjs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel-admin-extensions/chartjs.git",
+                "reference": "1c38d2756683d91fe382e9af0bae7dc1088dbeea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel-admin-extensions/chartjs/zipball/1c38d2756683d91fe382e9af0bae7dc1088dbeea",
+                "reference": "1c38d2756683d91fe382e9af0bae7dc1088dbeea",
+                "shasum": ""
+            },
+            "require": {
+                "encore/laravel-admin": "*",
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Encore\\Chartjs\\ChartjsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Encore\\Chartjs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "song",
+                    "email": "zosong@126.com"
+                }
+            ],
+            "description": "Use Chartjs in laravel-admin",
+            "homepage": "https://github.com/laravel-admin-ext/chartjs",
+            "keywords": [
+                "chartjs",
+                "extension",
+                "laravel-admin"
+            ],
+            "time": "2019-01-23T02:16:40+00:00"
         },
         {
             "name": "laravel/framework",
@@ -6353,6 +6406,7 @@
         "doctrine/dbal": 20,
         "encore/laravel-admin": 20,
         "fzaninotto/faker": 20,
+        "laravel-admin-ext/chartjs": 20,
         "laravel/socialite": 20,
         "spatie/eloquent-sortable": 20,
         "spatie/laravel-activitylog": 20,
