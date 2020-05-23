@@ -8,6 +8,7 @@
         "php": ">=7.1.0",
         "barryvdh/laravel-cors": "^0.11.0@dev",
         "doctrine/dbal": "^2.9@dev",
+        "encore/laravel-admin": "dev-master",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.9@dev",
         "laravel/framework": "5.6.*",
