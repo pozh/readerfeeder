@@ -28,8 +28,9 @@ class CategoryController extends AdminController
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
-        $grid->column('description', __('Description'));
         $grid->column('slug', __('Slug'));
+        $grid->column('small_image')->image('/storage/', 70, 70);
+        $grid->column('large_image')->image('/storage/', 100, 70);
         $grid->column('created_at', __('Created at'));
         $grid->column('updated_at', __('Updated at'));
 
@@ -68,6 +69,8 @@ class CategoryController extends AdminController
         $form->text('title', __('Title'));
         $form->textarea('description', __('Description'));
         $form->text('slug', __('Slug'));
+        $form->image('small_image');
+        $form->image('large_image');
 
         return $form;
     }
