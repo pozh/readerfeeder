@@ -19,6 +19,8 @@ class Category extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'slug' => $this->slug,
+            'small_image' => empty($this->small_image) ? '' : asset('storage/' . $this->small_image),
+            'large_image' => empty($this->large_image) ? '' : asset('storage/' . $this->large_image),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
