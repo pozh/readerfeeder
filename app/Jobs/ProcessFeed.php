@@ -25,7 +25,7 @@ class ProcessFeed implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param App\Models\Feed $feed
+     * @param Feed $feed
      * @return void
      */
     public function __construct(Feed $feed)
@@ -40,17 +40,17 @@ class ProcessFeed implements ShouldQueue
      */
     public function handle()
     {
-        $this->feed->status = Feed::PROCESSING;
+        $this->feed->status = config('enums.status.processing');
         $this->feed->save();
 
         activity('processing')
             ->on($this->feed)
+            // TODO: who run this? ->causedBy(???)
             ->log('Started');
 
-        $doc = new SDocument(0);
+        $doc = new SDocument($this->feed->user_id);
         $doc->keep_images = true;
-
-        $result_doc = new SDocument(0,'periodical');
+        $result_doc = new SDocument($this->feed->user_id, 'periodical');
         $result_doc->send_as_book = false;
         $result_doc->setTitle($this->feed->title);
         $result_doc->keep_images = true;
@@ -82,7 +82,9 @@ class ProcessFeed implements ShouldQueue
             }
 
             $lang = $feed->get_language();
-            if ($lang && $lang != 'en') $result_doc->language = $lang;
+            if ($lang && $lang != 'en') {
+                $result_doc->language = $lang;
+            }
 
             $items_in_source = 0;
 
@@ -96,7 +98,9 @@ class ProcessFeed implements ShouldQueue
 
                 // make sure this item was not processed previously. Skip if it was.
                 $item_sent = FeedItem::where('url', $article_url)->first();
-                if ($item_sent) continue;
+                if ($item_sent) {
+                    continue;
+                }
 
                 $doc->setTitle($article->get_title());
                 if (!$doc->setUrl($article_url)) {
@@ -117,8 +121,9 @@ class ProcessFeed implements ShouldQueue
                 if (!$feed_title_placed) {
                     // source title -> section title in the result doc
                     $feed_title = $feed->get_title();
-                    if (strpos($feed_title, 'The Economist: ') !== FALSE)
+                    if (strpos($feed_title, 'The Economist: ') !== false) {
                         $feed_title = str_replace('The Economist: ', '', $feed_title);
+                    }
                     $result_doc->addEntry($feed_title);
                     $feed_title_placed = true;
                 }
@@ -165,30 +170,41 @@ class ProcessFeed implements ShouldQueue
 
         // Generate mobi file only if there is at least one subscriber for this feed
         if ($this->feed->subscribers()->count() > 0) {
+
             // Write mobi file
             $result_doc->addHtml(env('FEED_FOOTER_HTML') . '</body></html>');
             if (!$result_doc->writeTempHtml(false, false)) {
+                activity('errors')->on($this->feed)->log('processing failed')
+                    ->withProperties(['message' => 'Can not write temp file']);
                 $this->failed(new \Exception('Can not write temp file'));
             }
             $mobi_filename = $result_doc->saveMobi();
             $result_doc->deleteTempFiles();
             if ($mobi_filename === false) {
+                activity('errors')->on($this->feed)->log('processing failed')
+                    ->withProperties(['message' => 'saveMobi returned false']);
                 $this->failed(new \Exception('saveMobi returned false'));
-            } else Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
+            } else {
+                Log::info('Mobi file is ready', ['filename' => $mobi_filename]);
+            }
 
             $file_size = filesize($mobi_filename);
             if ($file_size > env('MAX_FILESIZE')) {
+                activity('errors')->on($this->feed)->log('processing failed')
+                    ->withProperties([
+                        'message' => 'Mobi file too large',
+                        'filename' => $mobi_filename,
+                        'filesize' => floor($file_size / 1048576)
+                    ]);
                 $this->failed(new \Exception(
                     sprintf('Mobi file %s is too large (%sM)',
                         $mobi_filename, floor($file_size / 1048576))
                 ));
             }
 
+            activity('processing')->on($this->feed)->log('Finished')->withProperties(['filename' => $mobi_filename]);
+
             // Send mobi to subscribers
-            activity('sender')
-                ->on($this->feed)
-                ->withProperties(['file' => $mobi_filename])
-                ->log('Send Job dispatched');
             dispatch(new SendFeed($this->feed, $mobi_filename));
         }
 
@@ -209,9 +225,6 @@ class ProcessFeed implements ShouldQueue
 
     public function failed($exception)
     {
-        $msg = $exception->getMessage();
-        activity('processing')
-            ->on($this->feed)
-            ->log('Process failed. ' . $msg);
+        activity('processing')->on($this->feed)->log('Failed');
     }
 }

@@ -47,21 +47,22 @@ class processFeeds extends Command
      */
     public function handle()
     {
-        $feeds = Feed::where('status', Feed::ACTIVE)->get();
-        Log::debug('Run handle in ProcessFeeds', ['feeds_count' => $feeds->count()]);
+        $feeds = Feed::where('status', config('enums.status.ready'))->get();
+        Log::info('ProcessFeeds started', ['feeds_count' => $feeds->count()]);
+
         foreach ($feeds as $feed) {
             // If already sent today, skip
             if ($feed->last_sent && date('d') == date("d", strtotime($feed->last_sent))) continue;
 
             // It's not time yet, skip
-            if ($feed->period == Feed::DAILY) {
-                if ($feed->schedule_time != date('G')) continue;
-            } else if ($feed->period == Feed::WEEKLY) {
-                if ($feed->schedule_day != date('w') || $feed->schedule_time != date('G')) continue;
+            if ($feed->period === Feed::DAILY) {
+                if ($feed->schedule_time !== date('G')) continue;
+            } else if ($feed->period === Feed::WEEKLY) {
+                if ($feed->schedule_day !== date('w') || $feed->schedule_time !== date('G')) continue;
             }
 
-            Log::debug('Time to process feed ' . $feed->title);
-            ProcessFeed::dispatch($feed);
+            Log::info('Feed to process: ' . $feed->id . ' - ' . $feed->title);
+//            ProcessFeed::dispatch($feed);
         }
     }
 }
