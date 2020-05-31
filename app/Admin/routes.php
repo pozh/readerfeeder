@@ -16,4 +16,5 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('feeds', FeedController::class);
     $router->resource('categories', CategoryController::class);
+    $router->resource('locations', LocationController::class);
 });

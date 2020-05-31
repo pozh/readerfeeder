@@ -2,20 +2,20 @@
 
 namespace App\Admin\Controllers;
 
-use App\Models\Category;
+use App\Models\Location;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 
-class CategoryController extends AdminController
+class LocationController extends AdminController
 {
     /**
      * Title for current resource.
      *
      * @var string
      */
-    protected $title = 'Category';
+    protected $title = 'Location';
 
     /**
      * Make a grid builder.
@@ -24,15 +24,13 @@ class CategoryController extends AdminController
      */
     protected function grid()
     {
-        $grid = new Grid(new Category());
+        $grid = new Grid(new Location());
 
         $grid->column('id', __('Id'));
         $grid->column('title', __('Title'));
         $grid->column('slug', __('Slug'));
-        $grid->column('small_image')->image('/storage/', 70, 70);
-        $grid->column('large_image')->image('/storage/', 100, 70);
-//        $grid->column('created_at', __('Created at'));
-//        $grid->column('updated_at', __('Updated at'));
+        $grid->column('created_at', __('Created at'));
+        $grid->column('updated_at', __('Updated at'));
 
         return $grid;
     }
@@ -45,14 +43,11 @@ class CategoryController extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(Category::findOrFail($id));
+        $show = new Show(Location::findOrFail($id));
 
         $show->field('id', __('Id'));
         $show->field('title', __('Title'));
-        $show->field('description', __('Description'));
         $show->field('slug', __('Slug'));
-        $show->field('small_image')->image('/storage/', 150, 70);
-        $show->field('large_image')->image('/storage/', 300, 100);
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -66,13 +61,10 @@ class CategoryController extends AdminController
      */
     protected function form()
     {
-        $form = new Form(new Category());
+        $form = new Form(new Location());
 
         $form->text('title', __('Title'));
-        $form->textarea('description', __('Description'));
         $form->text('slug', __('Slug'));
-        $form->image('small_image');
-        $form->image('large_image');
 
         return $form;
     }
