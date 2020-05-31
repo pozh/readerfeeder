@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('feeds:process')
-            ->hourly()
+            ->everyMinute()
             ->withoutOverlapping(10)
             ->appendOutputTo(storage_path('logs/feeds-process.log'));
     }

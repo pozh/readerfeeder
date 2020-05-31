@@ -339,7 +339,7 @@ return [
     |
     | Whether enable default breadcrumb for every page content.
     */
-    'enable_default_breadcrumb' => false,
+    'enable_default_breadcrumb' => true,
 
     /*
     |--------------------------------------------------------------------------

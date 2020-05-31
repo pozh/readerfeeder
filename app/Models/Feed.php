@@ -12,9 +12,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Feed extends Model
 {
-  public const ACTIVE = 'active';
-  public const INACTIVE = 'inactive';
-  public const PROCESSING = 'processing';
   public const DAILY = 'daily';
   public const WEEKLY = 'weekly';
 
