@@ -11,6 +11,7 @@
         "encore/laravel-admin": "dev-master",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.9@dev",
+        "imelgrat/opml-parser": "dev-master",
         "laravel-admin-ext/chartjs": "dev-master",
         "laravel/framework": "5.6.*",
         "laravel/socialite": "^3.0@dev",
