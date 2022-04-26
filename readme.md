@@ -4,8 +4,9 @@ ReaderFeeder is a content delivery application designed for those who hate readi
 
 ## Current state of development
 
-Frontend is almost ready. Backend needs some extra work and testing.
+Frontend is 90% ready. Backend needs some extra work and testing.
 
 ## Estimated launch date
 
-Spring, 2019
+~~Spring, 2019~~
+Never. Cancelled
